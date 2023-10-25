@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Roles } from './enum';
-import { WalletReport } from 'src/wallet-report/wallet-report.entity';
+import { WalletReport } from 'src/core/wallet-report/wallet-report.entity';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Entity()
 export class User {
@@ -16,8 +16,13 @@ export class User {
   @Column({ nullable: true })
   email: string;
 
-  @Column()
-  role: Roles;
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.User,
+    nullable: true,
+  })
+  role: UserRole;
 
   @OneToMany(() => WalletReport, (report) => report.user)
   reports: WalletReport[];

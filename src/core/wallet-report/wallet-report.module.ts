@@ -3,7 +3,7 @@ import { WalletReportController } from './wallet-report.controller';
 import { WalletReportService } from './wallet-report.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WalletReport } from './wallet-report.entity';
-import { User } from 'src/users/users.entity';
+import { User } from 'src/core/users/users.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([WalletReport, User])],

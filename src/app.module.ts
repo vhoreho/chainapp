@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { User } from './users/users.entity';
+import { AuthModule } from './core/auth/auth.module';
+import { UsersModule } from './core/users/users.module';
+import { User } from './core/users/users.entity';
 import { AppController } from './app.controller';
-import { BlockchainModule } from './blockchain/blockchain.module';
-import { BlockChain } from './blockchain/blockchain.entity';
-import { WalletReportModule } from './wallet-report/wallet-report.module';
+import { BlockchainModule } from './core/blockchain/blockchain.module';
+import { BlockChain } from './core/blockchain/blockchain.entity';
+import { WalletReportModule } from './core/wallet-report/wallet-report.module';
 
 @Module({
   imports: [

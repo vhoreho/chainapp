@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WalletReport } from './wallet-report.entity';
-import { User } from 'src/users/users.entity';
+import { User } from 'src/core/users/users.entity';
 import { CreateWalletReportDto } from './dto/wallet-report.dto';
 import WalletCrimes from './enum/wallet-crimes';
 

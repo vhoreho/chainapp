@@ -1,5 +1,5 @@
 // wallet-report.entity.ts
-import { User } from 'src/users/users.entity';
+import { User } from 'src/core/users/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

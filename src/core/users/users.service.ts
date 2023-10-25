@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
-import { Roles } from './enum';
+import { UserRole } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class UsersService {
@@ -27,7 +31,17 @@ export class UsersService {
       username,
       password,
       email,
-      role: Roles.User,
+      role: UserRole.User,
     });
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    await this.usersRepository.remove(user);
   }
 }
