@@ -13,8 +13,8 @@ export const BLOCKCHAIN_DROPDOWN_LINKS = [
     title: "Проверка репутации",
     route: ROUTES.BLOCKCHAIN_REPUTATION,
   },
-  {
-    title: "Аналайзер",
-    route: ROUTES.BLOCKCHAIN_ANALYSER,
-  },
+  // {
+  //   title: "Аналайзер",
+  //   route: ROUTES.BLOCKCHAIN_ANALYSER,
+  // },
 ];

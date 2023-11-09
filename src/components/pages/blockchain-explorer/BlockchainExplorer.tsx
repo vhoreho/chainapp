@@ -41,7 +41,8 @@ export const BlockchainExplorer = () => {
     };
 
     fetchUSDPrice();
-  }, [loading, transactions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   const fetchTransactions = async () => {
     setLoading(true);
@@ -84,6 +85,7 @@ export const BlockchainExplorer = () => {
     event.preventDefault();
     fetchTransactions();
   };
+
   const handleClear = () => {
     setTransactions([]);
   };
@@ -106,7 +108,7 @@ export const BlockchainExplorer = () => {
 
   return (
     <CommonLayout>
-      <div className="w-[1240px] grow py-7">
+      <div className="grow py-7">
         <div className="layout relative flex w-full animate-scale flex-col items-center">
           {transactions.length > 1 && (
             <div className="absolute right-8 flex gap-4">

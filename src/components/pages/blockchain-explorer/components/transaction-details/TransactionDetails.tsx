@@ -61,6 +61,8 @@ export const TransactionDetails: FC<
                   src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   alt="Sender Avatar"
                   className="mr-2 h-6 w-6 rounded-full"
+                  width={24}
+                  height={24}
                 />
                 <span className="font-semibold">Неизвестен</span>
               </div>
@@ -97,6 +99,8 @@ export const TransactionDetails: FC<
                   src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   alt="Sender Avatar"
                   className="mr-2 h-6 w-6 rounded-full"
+                  width={24}
+                  height={24}
                 />
                 <span className="font-semibold">Неизвестен</span>
               </div>

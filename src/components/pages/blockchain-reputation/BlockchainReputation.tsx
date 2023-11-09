@@ -145,7 +145,7 @@ export const BlockchainReputation = () => {
             </h1>
             <button
               onClick={handleOpenReportModal}
-              className="absolute right-0 rounded-lg bg-blue-500 px-4 py-1 font-bold text-white hover:bg-blue-700"
+              className="absolute right-0 rounded-md bg-blue-500 px-4 py-1 text-white hover:bg-blue-700"
             >
               Ввести отчет
             </button>
@@ -160,7 +160,7 @@ export const BlockchainReputation = () => {
                 name="walletAddress"
                 value={filterOptions.walletAddress}
                 onChange={handleFilterChange}
-                className="rounded-md border px-3 py-1 shadow-sm focus:outline-blue-600 lg:w-2/6"
+                className="rounded-md border px-3 py-1 shadow-sm focus:outline-blue-600 lg:w-3/6"
               />
               <CrimeTypeSelect
                 options={crimeTypes}
@@ -168,7 +168,7 @@ export const BlockchainReputation = () => {
                 onSelect={handleSelectChange}
                 className="h-full !border bg-white !shadow-sm"
                 dropdownClassName="left-0"
-                wrapperClassName="lg:!w-2/6"
+                wrapperClassName="lg:!w-3/6"
               />
 
               <button
@@ -190,7 +190,7 @@ export const BlockchainReputation = () => {
               ? filteredReports.map((report) => (
                   <div
                     key={report.id}
-                    className=" flex cursor-pointer flex-col gap-4 rounded-md bg-platinum-500 p-4 transition-all hover:shadow-lg"
+                    className=" flex cursor-pointer flex-col gap-4 rounded-md bg-white p-4 shadow-xl transition-all hover:shadow-2xl"
                   >
                     <div className="flex justify-between">
                       <h3 className="text-lg font-medium">{report.crimeType}</h3>
@@ -215,7 +215,7 @@ export const BlockchainReputation = () => {
               : reports.map((report) => (
                   <div
                     key={report.id}
-                    className=" flex cursor-pointer flex-col gap-4 rounded-md bg-platinum-500 p-4 transition-all hover:shadow-lg"
+                    className=" flex cursor-pointer flex-col gap-4 rounded-md bg-white p-4 shadow-xl transition-all hover:shadow-2xl"
                   >
                     <div className="flex justify-between">
                       <h3 className="text-lg font-medium">{report.crimeType}</h3>

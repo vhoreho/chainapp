@@ -25,8 +25,14 @@ export const ReportReputationModal: React.FC<ReportReputationProps> = ({
     crimeDescription: "",
     walletAddress: "",
   });
-
   const [crimeTypes, setCrimeTypes] = useState<string[]>([]);
+  const [isFormDisabled, setIsFormDisabled] = useState(true);
+
+  useEffect(() => {
+    reportData.crimeDescription && reportData.walletAddress
+      ? setIsFormDisabled(false)
+      : setIsFormDisabled(true);
+  }, [reportData]);
 
   useEffect(() => {
     axios
@@ -118,7 +124,8 @@ export const ReportReputationModal: React.FC<ReportReputationProps> = ({
         <div className="text-center">
           <button
             type="submit"
-            className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-700 focus:outline-none"
+            disabled={isFormDisabled}
+            className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-700 focus:outline-none disabled:bg-blue-300"
           >
             Отправить отчет
           </button>

@@ -1,10 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import classNames from "classnames";
 import { Spinner } from "@/components/common";
 import { signUpAsync } from "@/features";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { RootState } from "@/store";
 import { LOADING_STATUS, SignUp } from "@/types";
+import { REQUEST_STATUS } from "@/types/request-status";
 
 type Props = {
   onSignIn: () => void;
@@ -19,16 +21,18 @@ export const SignUpPage = ({ onSignIn }: Props) => {
   const [isFormDisabled, setIsFormDisabled] = useState(true);
   const { error, status, userData } = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isFormDisabled) {
-      dispatch(signUpAsync(formState));
+      dispatch(signUpAsync(formState)).then(
+        (data) => data.meta.requestStatus === REQUEST_STATUS.FULFILLED && router.push("/home"),
+      );
     }
   };
 
   useEffect(() => {
-    // if (userData.authData.username) navigate('/home');
     formState.email && formState.password && formState.username
       ? setIsFormDisabled(false)
       : setIsFormDisabled(true);
