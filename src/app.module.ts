@@ -23,7 +23,7 @@ import { WalletReportModule } from './core/wallet-report/wallet-report.module';
       entities: [User, BlockChain],
       autoLoadEntities: true,
       synchronize: true,
-      ssl: true,
+      ssl: { rejectUnauthorized: false },
     }),
     BlockchainModule,
     WalletReportModule,
