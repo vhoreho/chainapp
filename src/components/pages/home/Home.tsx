@@ -7,7 +7,7 @@ export const Home = () => (
     <div className="grow py-7">
       <div className="layout flex w-full animate-scale flex-col items-center">
         <div className="flex flex-col items-center">
-          <h2 className="md:text-2xl font-semibold text-center">
+          <h2 className="text-center font-semibold md:text-2xl">
             Обучающие ресурсы о функционировании технологии блокчейн:
           </h2>
           <div className="py-4 flex gap-2 flex-wrap justify-center">
