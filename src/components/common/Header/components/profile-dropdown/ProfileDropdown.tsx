@@ -1,18 +1,17 @@
 import { Fragment } from "react";
+import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
-import { useModal } from "../../../../../hooks/context";
-import { SettingsModal } from "../../../../ui/modals/settings-modal/SettingsModal";
-import { ProfileSettings } from "../../../../ui/modals/profile-settings/ProfileSettings";
-import { RolesEnum } from "../../../../../types/Roles";
-import { ADMIN_ROLES } from "../../../../../constants/vars";
-import { RequestsRole } from "../../../../ui/modals/requests-role/RequestsRole";
+import { ProfileSettings, SettingsModal } from "@/components/ui";
+import { RequestsRole } from "@/components/ui/modals/requests-role/RequestsRole";
+import { ROUTES } from "@/constants/routes";
+import { ADMIN_ROLES } from "@/constants/vars";
+import { logout } from "@/features";
+import { useModal } from "@/hooks/context";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { RootState } from "@/store";
-import Link from "next/link";
-import { ROUTES } from "@/constants/routes";
-import { logout } from "@/features";
+import { RolesEnum } from "@/types";
 
 export const ProfileDropdown = () => {
   const {
@@ -22,19 +21,14 @@ export const ProfileDropdown = () => {
   const { openModal } = useModal();
   const dispatch = useAppDispatch();
 
-  const usersRolesRequests = users.filter(
-    (user) => user.isConfirmedUpdateRoleRequest === false
-  );
+  const usersRolesRequests = users.filter((user) => user.isConfirmedUpdateRoleRequest === false);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="group inline-flex items-center w-full justify-center gap-x-1.5 text-white hover:text-blue-200">
+        <Menu.Button className="group inline-flex w-full items-center justify-center gap-x-1.5 text-white hover:text-blue-200">
           {userData.authData.username}
-          <ChevronDownIcon
-            className="-mr-1 h-5 w-5 text-white"
-            aria-hidden="true"
-          />
+          <ChevronDownIcon className="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
         </Menu.Button>
       </div>
 
@@ -47,7 +41,7 @@ export const ProfileDropdown = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg focus:outline-none">
           {ADMIN_ROLES.includes(userData.authData.role ?? RolesEnum.USER) && (
             <div className="py-1">
               <Menu.Item>
@@ -55,10 +49,8 @@ export const ProfileDropdown = () => {
                   <span
                     onClick={() => openModal(<SettingsModal />)}
                     className={classNames(
-                      active
-                        ? "bg-gray-100 text-gray-900 cursor-pointer"
-                        : "text-gray-700",
-                      "block px-4 py-2 text-sm"
+                      active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700",
+                      "block px-4 py-2 text-sm",
                     )}
                   >
                     Настройки
@@ -75,9 +67,7 @@ export const ProfileDropdown = () => {
                   <div
                     className={classNames(
                       "flex items-center justify-between",
-                      active
-                        ? "bg-gray-100 text-gray-900 cursor-pointer"
-                        : "text-gray-700"
+                      active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700",
                     )}
                   >
                     <span
@@ -86,7 +76,7 @@ export const ProfileDropdown = () => {
                     >
                       Запросы роли
                     </span>
-                    <div className="mr-2 bg-red-500 w-5 h-5 flex items-center justify-center rounded-full text-white">
+                    <div className="mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white">
                       {usersRolesRequests.length}
                     </div>
                   </div>
@@ -99,14 +89,10 @@ export const ProfileDropdown = () => {
             <Menu.Item>
               {({ active }) => (
                 <span
-                  onClick={() =>
-                    openModal(<ProfileSettings user={userData.authData} />)
-                  }
+                  onClick={() => openModal(<ProfileSettings user={userData.authData} />)}
                   className={classNames(
-                    active
-                      ? "bg-gray-100 text-gray-900 cursor-pointer"
-                      : "text-gray-700",
-                    "block px-4 py-2 text-sm"
+                    active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700",
+                    "block px-4 py-2 text-sm",
                   )}
                 >
                   Настройки профиля
@@ -122,7 +108,7 @@ export const ProfileDropdown = () => {
                   onClick={() => dispatch(logout())}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
+                    "block px-4 py-2 text-sm",
                   )}
                 >
                   Выйти

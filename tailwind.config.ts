@@ -57,7 +57,7 @@ const config: Config = {
           500: "#6d8bea",
         },
         platinum: {
-          500: "#E7E5E1",
+          500: "#F3F7F0",
         },
         davy: {
           500: "#5B5B5B",

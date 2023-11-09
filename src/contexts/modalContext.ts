@@ -1,5 +1,3 @@
-"use client";
-
 import { createContext, ReactNode } from "react";
 
 interface ModalContextType {
@@ -8,6 +6,4 @@ interface ModalContextType {
   closeModal: () => void;
 }
 
-export const ModalContext = createContext<ModalContextType | undefined>(
-  undefined
-);
+export const ModalContext = createContext<ModalContextType | undefined>(undefined);

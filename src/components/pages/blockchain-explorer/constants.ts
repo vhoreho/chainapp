@@ -1,0 +1,1 @@
+export const NUM_FOR_CONVERT_AMOUNT = 0.00000001;

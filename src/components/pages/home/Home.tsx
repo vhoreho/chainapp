@@ -10,28 +10,28 @@ export const Home = () => (
           <h2 className="text-center font-semibold md:text-2xl">
             Обучающие ресурсы о функционировании технологии блокчейн:
           </h2>
-          <div className="py-4 flex gap-2 flex-wrap justify-center">
-            <Link
-              href={ROUTES.DOCS.WHAT_IS_BLOCKCHAIN}
-              className="px-4 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          <div className="flex flex-wrap justify-center gap-2 py-4">
+            {/* <Link
+              href={ROUTES.DOCS.INDEX}
+              className="rounded-lg bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none"
             >
               Общие положения
-            </Link>
+            </Link> */}
             <Link
               href={ROUTES.BLOCKCHAIN}
-              className="px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+              className="rounded-lg bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 focus:outline-none"
             >
               Тренажер
             </Link>
             <Link
               href={ROUTES.BLOCKCHAIN_EXPLORER}
-              className="px-4 py-2 bg-indigo-500 text-white font-bold rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+              className="rounded-lg bg-indigo-500 px-4 py-2 font-bold text-white hover:bg-indigo-600 focus:outline-none"
             >
               Обозреватель транзакций
             </Link>
             <Link
               href={ROUTES.BLOCKCHAIN_REPUTATION}
-              className="px-4 py-2 bg-indigo-500 text-white font-bold rounded-lg hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
+              className="rounded-lg bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none"
             >
               Проверка репутации
             </Link>

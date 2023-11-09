@@ -1,5 +1,3 @@
-"use client";
-
 import { createContext } from "react";
 
 interface SpinnerContextType {
@@ -7,6 +5,4 @@ interface SpinnerContextType {
   hideSpinner: () => void;
 }
 
-export const SpinnerContext = createContext<SpinnerContextType | undefined>(
-  undefined
-);
+export const SpinnerContext = createContext<SpinnerContextType | undefined>(undefined);
