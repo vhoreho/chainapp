@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { logInAsync, signUpAsync, updateRole } from "./thunks";
-import { STORAGE } from "../../constants/storage";
 import { LOADING_STATUS, UserData } from "@/types";
+import { STORAGE } from "../../constants/storage";
+import { logInAsync, signUpAsync, updateRole } from "./thunks";
 
 type State = {
   status: LOADING_STATUS | null;

@@ -1,4 +1,4 @@
-import React, { useRef, ReactNode } from 'react';
+import React, { ReactNode, useRef } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,12 +13,10 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <>
       {isOpen && (
         <div
-          className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
           ref={modalRef}
         >
-          <div className="bg-white rounded-md p-4  animate-rollout">
-            {children}
-          </div>
+          <div className="animate-rollout rounded-md bg-white  p-4">{children}</div>
         </div>
       )}
     </>

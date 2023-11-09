@@ -41,7 +41,7 @@ export const BlockchainExplorer = () => {
     };
 
     fetchUSDPrice();
-  }, [loading]);
+  }, [loading, transactions]);
 
   const fetchTransactions = async () => {
     setLoading(true);

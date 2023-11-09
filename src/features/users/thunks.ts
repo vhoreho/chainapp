@@ -1,14 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import { RootState } from "@/store";
+import { RolesEnum, User } from "@/types";
 import {
   APPROVE_UPDATE_ROLE_BY_ID_ROUTE,
   DELETE_USER_ROUTE,
   GET_USERS_ROUTE,
   REJECT_UPDATE_ROLE_BY_ID_ROUTE,
-  UPDATE_ROLE_BY_ID_ROUTE,
 } from "../../constants/API";
-import { RolesEnum, User } from "@/types";
-import { RootState } from "@/store";
 
 export const getUsersAsync = createAsyncThunk(
   "users",

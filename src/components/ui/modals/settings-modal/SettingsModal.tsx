@@ -1,10 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { getUsersAsync } from "@/features";
 import { useModal } from "@/hooks/context";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { RootState } from "@/store";
-import { useEffect } from "react";
 import CloseIcon from "../../icons/Close";
 import UserList from "./components/UserList";
 
@@ -18,11 +18,11 @@ export const SettingsModal = () => {
   }, []);
 
   return (
-    <div className="w-[600px] font-play">
-      <div className="flex justify-between mb-4">
+    <div className="w-[600px]">
+      <div className="mb-4 flex justify-between">
         <h2>Настройки</h2>
         <button onClick={closeModal} className="">
-          <CloseIcon className="fill-black/50 w-5 h-5 hover:fill-black/100" />
+          <CloseIcon className="h-5 w-5 fill-black/50 hover:fill-black/100" />
         </button>
       </div>
       <UserList users={users} />

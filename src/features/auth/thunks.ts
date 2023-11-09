@@ -1,20 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import { RootState } from "@/store";
+import { LogIn, RolesEnum, SignUp, UpdateProfileState, User, UserDataPayload } from "@/types";
 import {
   AUTHORIZATION_ROUTE,
   REGISTER_ROUTE,
   UPDATE_PROFILE_BY_ID_ROUTE,
   UPDATE_ROLE_BY_ID_ROUTE,
 } from "../../constants/API";
-import {
-  LogIn,
-  RolesEnum,
-  SignUp,
-  UpdateProfileState,
-  User,
-  UserDataPayload,
-} from "@/types";
-import { RootState } from "@/store";
 
 export const logInAsync = createAsyncThunk(
   "auth/login",

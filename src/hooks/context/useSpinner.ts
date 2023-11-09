@@ -1,5 +1,5 @@
-import { SpinnerContext } from "@/contexts/spinnerContext";
 import { useContext } from "react";
+import { SpinnerContext } from "@/contexts/spinnerContext";
 
 export const useSpinner = () => {
   const context = useContext(SpinnerContext);

@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Transaction } from '../../types';
-import { NUM_FOR_CONVERT_AMOUNT } from '../../constants';
-import classNames from 'classnames';
+import Image from "next/image";
+import classNames from "classnames";
+import { NUM_FOR_CONVERT_AMOUNT } from "../../constants";
+import { Transaction } from "../../types";
 
 export const TransactionDetails: FC<
   Transaction & {
@@ -23,14 +24,9 @@ export const TransactionDetails: FC<
   onChangeAddress,
 }) => {
   return (
-    <div
-      className={classNames(
-        'bg-white rounded-md shadow-md p-6 w-full',
-        classname
-      )}
-    >
-      <div className="flex justify-between mb-4">
-        <h2 className="font-bold text-lg">Детали транзакции</h2>
+    <div className={classNames("bg-white rounded-md shadow-md p-6 w-full", classname)}>
+      <div className="mb-4 flex justify-between">
+        <h2 className="text-lg font-bold">Детали транзакции</h2>
         {/* <span className="text-gray-500">{`${new Date(
           time * 1000
         ).toLocaleString('ru', {
@@ -42,14 +38,14 @@ export const TransactionDetails: FC<
         })}`}</span> */}
         <span>{time}</span>
       </div>
-      <div className="border-b border-gray-300 mb-4 pb-4">
-        <div className="flex justify-between mb-2">
+      <div className="mb-4 border-b border-gray-300 pb-4">
+        <div className="mb-2 flex justify-between">
           <span className="text-gray-500">Хэш транзакции</span>
-          <span className="text-gray-700 font-semibold break-all">{hash}</span>
+          <span className="break-all font-semibold text-gray-700">{hash}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-500">Сумма</span>
-          <span className="text-gray-700 font-semibold">
+          <span className="font-semibold text-gray-700">
             {(amount * NUM_FOR_CONVERT_AMOUNT).toFixed(8)} BTC (
             {amountInUSD && `$${amountInUSD.toFixed(2)}`})
           </span>
@@ -61,23 +57,23 @@ export const TransactionDetails: FC<
           {from.map((item) => (
             <>
               <div className="mt-3 flex items-center">
-                <img
+                <Image
                   src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   alt="Sender Avatar"
-                  className="rounded-full w-6 h-6 mr-2"
+                  className="mr-2 h-6 w-6 rounded-full"
                 />
                 <span className="font-semibold">Неизвестен</span>
               </div>
               <div
                 className={classNames(
-                  'text-gray-700 break-all mt-1 p-2 rounded-lg',
-                  item.prev_out.addr === address && 'bg-blue-500 text-white'
+                  "text-gray-700 break-all mt-1 p-2 rounded-lg",
+                  item.prev_out.addr === address && "bg-blue-500 text-white",
                 )}
               >
                 <div>
-                  Адрес кошелька:{' '}
+                  Адрес кошелька:{" "}
                   <span
-                    className="hover:underline cursor-pointer"
+                    className="cursor-pointer hover:underline"
                     onClick={() => onChangeAddress(item.prev_out.addr)}
                   >
                     {item.prev_out.addr}
@@ -97,23 +93,23 @@ export const TransactionDetails: FC<
           {to.map((item) => (
             <>
               <div className="mt-3 flex items-center">
-                <img
+                <Image
                   src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   alt="Sender Avatar"
-                  className="rounded-full w-6 h-6 mr-2"
+                  className="mr-2 h-6 w-6 rounded-full"
                 />
                 <span className="font-semibold">Неизвестен</span>
               </div>
               <div
                 className={classNames(
-                  'text-gray-700 break-all mt-1 p-2 rounded-lg',
-                  item.addr === address && 'bg-blue-500 text-white'
+                  "text-gray-700 break-all mt-1 p-2 rounded-lg",
+                  item.addr === address && "bg-blue-500 text-white",
                 )}
               >
                 <div>
-                  Адрес кошелька:{' '}
+                  Адрес кошелька:{" "}
                   <span
-                    className="hover:underline cursor-pointer"
+                    className="cursor-pointer hover:underline"
                     onClick={() => onChangeAddress(item.addr)}
                   >
                     {item.addr}

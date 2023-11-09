@@ -7,9 +7,7 @@ type WalletInfoProps = {
 const WalletInfo: FunctionComponent<WalletInfoProps> = ({ walletData }) => {
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4 text-indigo-700">
-        Информация о кошельках
-      </h1>
+      <h1 className="mb-4 text-2xl font-bold text-indigo-700">Информация о кошельках</h1>
       <ul className="list-disc pl-6">
         {Object.entries(walletData).map(([address, data]) => (
           <li key={address} className="mb-2">

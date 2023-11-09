@@ -1,17 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  approveChangeRoleRequest,
-  deleteUser,
-  filterUsers,
-  getUsersAsync,
-  searchUsers,
-} from "./thunks";
-import { User } from "../../types/auth";
-import { ROLES } from "../../types/Roles";
+import { RolesEnum, User } from "@/types";
+import { deleteUser, filterUsers, getUsersAsync, searchUsers } from "./thunks";
 
 type State = {
   users: User[];
-  roles: ROLES[];
+  roles: RolesEnum[];
   filteredUsers: User[];
 };
 

@@ -1,5 +1,5 @@
-import { RolesEnum } from "@/types";
 import React, { useState } from "react";
+import { RolesEnum } from "@/types";
 
 interface FiltersProps {
   roles: RolesEnum[];
@@ -7,11 +7,7 @@ interface FiltersProps {
   onSearchChange: (searchText: string) => void;
 }
 
-const Filters: React.FC<FiltersProps> = ({
-  roles,
-  onFilterChange,
-  onSearchChange,
-}) => {
+const Filters: React.FC<FiltersProps> = ({ roles, onFilterChange, onSearchChange }) => {
   const [selectedRoles, setSelectedRoles] = useState<RolesEnum[]>([]);
   const [searchText, setSearchText] = useState("");
 
@@ -32,26 +28,26 @@ const Filters: React.FC<FiltersProps> = ({
   };
 
   return (
-    <div className="p-4 border border-gray-300 rounded-lg shadow-md">
-      <h3 className="text-lg font-semibold mb-2">Фильтры и поиск</h3>
-      <div className="flex mb-4">
+    <div className="rounded-lg border border-gray-300 p-4 shadow-md">
+      <h3 className="mb-2 text-lg font-semibold">Фильтры и поиск</h3>
+      <div className="mb-4 flex">
         <input
           type="text"
           placeholder="Поиск по имени"
           value={searchText}
           onChange={handleSearchChange}
-          className="border p-2 flex-grow"
+          className="grow border p-2"
         />
         <button
           onClick={handleApplyFilters}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          className="rounded-md bg-blue-500 px-4 py-2 text-white"
         >
           Применить фильтры
         </button>
       </div>
       <div>
         {roles.map((role) => (
-          <label key={role} className="block mb-2">
+          <label key={role} className="mb-2 block">
             <input
               type="checkbox"
               value={role}
