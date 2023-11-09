@@ -1,11 +1,11 @@
+import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 import { CommonLayout } from "@/layouts/commonLayout";
-import Link from "next/link";
 
 export const Home = () => (
   <CommonLayout>
-    <div className="grow py-7 font-play">
-      <div className="layout w-full flex flex-col items-center animate-scale">
+    <div className="grow py-7">
+      <div className="layout flex w-full animate-scale flex-col items-center">
         <div className="flex flex-col items-center">
           <h2 className="md:text-2xl font-semibold text-center">
             Обучающие ресурсы о функционировании технологии блокчейн:
