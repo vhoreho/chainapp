@@ -1,0 +1,5 @@
+export enum LOADING_STATUS {
+  LOADING = "LOADING",
+  SUCCESS = "SUCCESS",
+  REJECT = "REJECT",
+}
