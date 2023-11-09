@@ -6,13 +6,7 @@ async function bootstrap() {
   console.log('Bootstrap start');
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug', 'verbose'],
-  });
-
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true,
+    cors: true,
   });
 
   console.log('localhost:' + process.env.PORT);
