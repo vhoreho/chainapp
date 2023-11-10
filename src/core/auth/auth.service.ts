@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  BadRequestException,
-  BadGatewayException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/core/users/users.entity';
 import { UsersService } from 'src/core/users/users.service';
@@ -19,24 +15,24 @@ export class AuthService {
     const user = await this.usersService.findUser(userData.username);
 
     if (!user) {
-      throw new BadRequestException('Пользователь не найден');
+      throw new BadRequestException('authorization.user-not-found');
     }
 
     const validatePass = await bcrypt.compare(userData.password, user.password);
 
     if (user && !validatePass) {
-      throw new BadRequestException('Неверный пароль');
+      throw new BadRequestException('authorization.wrong-password');
     }
 
-    const payload = {
+    const authData = {
       id: user.id,
       username: user.username,
       role: user.role,
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
-      payload,
+      access_token: this.jwtService.sign(authData),
+      authData,
     };
   }
 
@@ -50,12 +46,12 @@ export class AuthService {
       email,
     );
 
-    const payload = { username: user.username, role: user.role, id: user.id };
-    const access_token = this.jwtService.sign(payload);
+    const authData = { username: user.username, role: user.role, id: user.id };
+    const access_token = this.jwtService.sign(authData);
 
     return {
       access_token: access_token,
-      payload,
+      authData,
     };
   }
 
@@ -63,13 +59,13 @@ export class AuthService {
     const foundUser = await this.usersService.findUser(username);
 
     if (!foundUser) {
-      throw new BadRequestException('Пользователь не найден');
+      throw new BadRequestException('authorization.user-not-found');
     }
 
     const validatePass = await bcrypt.compare(password, foundUser.password);
 
     if (foundUser && !validatePass) {
-      throw new BadRequestException('Неверный пароль');
+      throw new BadRequestException('authorization.wrong-password');
     }
 
     if (foundUser && validatePass) {
