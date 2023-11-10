@@ -79,7 +79,7 @@ export const BlockchainReputation = () => {
       .catch((error) => {
         console.error("Ошибка при получении списка типов преступлений:", error);
       });
-  }, [reports]);
+  }, []);
 
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

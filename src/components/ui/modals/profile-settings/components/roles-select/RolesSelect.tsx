@@ -25,8 +25,6 @@ export const RolesSelect = () => {
     );
   };
 
-  console.log(userData);
-
   return (
     <Listbox
       value={selectedOption}

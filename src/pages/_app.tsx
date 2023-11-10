@@ -3,6 +3,7 @@ import { Play } from "next/font/google";
 import { PersistGate } from "redux-persist/integration/react";
 import { ModalProvider } from "@/providers/modalProvider";
 import { ReduxProvider } from "@/providers/reduxProvider";
+import { SpinnerProvider } from "@/providers/SpinnerProvider";
 import { persistor } from "@/store";
 import "@/styles/globals.css";
 
@@ -13,9 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <ReduxProvider>
       <PersistGate loading={null} persistor={persistor}>
         <div className={`${play.className} flex min-h-screen flex-col`}>
-          <ModalProvider>
-            <Component {...pageProps} />
-          </ModalProvider>
+          <SpinnerProvider>
+            <ModalProvider>
+              <Component {...pageProps} />
+            </ModalProvider>
+          </SpinnerProvider>
         </div>
       </PersistGate>
     </ReduxProvider>

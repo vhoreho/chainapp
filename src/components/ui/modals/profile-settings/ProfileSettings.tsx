@@ -1,5 +1,3 @@
-"use client";
-
 import { FunctionComponent, useEffect, useState } from "react";
 import { updateProfile } from "@/features";
 import { useModal } from "@/hooks/context";
