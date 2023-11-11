@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/core/users/users.entity';
 import { UsersService } from 'src/core/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 
 @Injectable()
 export class AuthService {
@@ -15,13 +16,13 @@ export class AuthService {
     const user = await this.usersService.findUser(userData.username);
 
     if (!user) {
-      throw new BadRequestException('authorization.user-not-found');
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
     const validatePass = await bcrypt.compare(userData.password, user.password);
 
     if (user && !validatePass) {
-      throw new BadRequestException('authorization.wrong-password');
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.WRONG_PASSWORD);
     }
 
     const authData = {
@@ -37,6 +38,20 @@ export class AuthService {
   }
 
   async register(username: string, password: string, email: string) {
+    const existingUser = await this.usersService.findUser(username);
+    if (existingUser) {
+      throw new BadRequestException(
+        AUTHORIZATION_ERRORS.SIGN_UP.USER_ALREADY_TAKEN,
+      );
+    }
+
+    const existingEmail = await this.usersService.findByEmail(email);
+    if (existingEmail) {
+      throw new BadRequestException(
+        AUTHORIZATION_ERRORS.SIGN_UP.EMAIL_ALREADY_TAKEN,
+      );
+    }
+
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
@@ -46,11 +61,17 @@ export class AuthService {
       email,
     );
 
+    if (!user) {
+      throw new BadRequestException(
+        AUTHORIZATION_ERRORS.SIGN_UP.FAILED_REGISTER,
+      );
+    }
+
     const authData = { username: user.username, role: user.role, id: user.id };
     const access_token = this.jwtService.sign(authData);
 
     return {
-      access_token: access_token,
+      access_token,
       authData,
     };
   }
@@ -59,13 +80,13 @@ export class AuthService {
     const foundUser = await this.usersService.findUser(username);
 
     if (!foundUser) {
-      throw new BadRequestException('authorization.user-not-found');
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
     const validatePass = await bcrypt.compare(password, foundUser.password);
 
     if (foundUser && !validatePass) {
-      throw new BadRequestException('authorization.wrong-password');
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.WRONG_PASSWORD);
     }
 
     if (foundUser && validatePass) {
