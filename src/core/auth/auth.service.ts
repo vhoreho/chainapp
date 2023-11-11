@@ -29,6 +29,7 @@ export class AuthService {
       id: user.id,
       username: user.username,
       role: user.role,
+      email: user.email,
     };
 
     return {
@@ -67,7 +68,12 @@ export class AuthService {
       );
     }
 
-    const authData = { username: user.username, role: user.role, id: user.id };
+    const authData = {
+      username: user.username,
+      role: user.role,
+      id: user.id,
+      email: user.email,
+    };
     const access_token = this.jwtService.sign(authData);
 
     return {
