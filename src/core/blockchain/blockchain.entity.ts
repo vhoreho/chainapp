@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from '../users/users.entity';
 
 @Entity()
 export class BlockChain {
@@ -19,4 +26,8 @@ export class BlockChain {
 
   @Column()
   data: string;
+
+  @ManyToOne(() => User, (user) => user)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

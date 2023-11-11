@@ -1,15 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlockChain } from './blockchain.entity';
 import { Repository } from 'typeorm';
 import { CreateBlockDto } from './dto/blochchain.dto';
 import { calculateHash } from './helpers';
+import { User } from '../users/users.entity';
+import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 
 @Injectable()
 export class BlockchainService {
   constructor(
     @InjectRepository(BlockChain)
     private blockChainRepository: Repository<BlockChain>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   async getBlockchain() {
@@ -17,14 +21,26 @@ export class BlockchainService {
   }
 
   async createBlock(block: CreateBlockDto): Promise<any> {
+    const user = await this.usersRepository.findOne({
+      where: { id: block.userId },
+      select: ['username', 'id'],
+    });
+
+    if (!user) {
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
+    }
+
     const newBlock = new BlockChain();
+    newBlock.user = user;
     newBlock.created_date = block.created_date;
     newBlock.data = block.data;
     newBlock.hash = block.hash;
     newBlock.prevHash = block.prevHash;
     newBlock.nonce = block.nonce;
 
-    return await this.blockChainRepository.save(newBlock);
+    await this.blockChainRepository.save(newBlock);
+
+    return await this.blockChainRepository.find();
   }
 
   async clearBlockchain() {
