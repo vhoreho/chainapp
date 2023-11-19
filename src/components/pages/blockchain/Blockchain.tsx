@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { resetBlockchain, useCreateChainMutation } from "@/api/blockchain";
 import { CreateBlockReqM } from "@/api/blockchain/types";
+import { useGetProfileQuery } from "@/api/profile";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext, useGlobalSpinner, useModal } from "@/hooks/context";
 import { CommonLayout } from "@/layouts/commonLayout";
@@ -13,7 +14,7 @@ import { BlockFormData } from "./types";
 export const Blockchain = () => {
   const { t } = useTranslation();
   const { closeModal, openModal } = useModal();
-  const { authData } = useAuthContext();
+  const { data: profile, isLoading } = useGetProfileQuery();
   const { showSpinner, hideSpinner } = useGlobalSpinner();
   const createChainMutation = useCreateChainMutation();
   const queryClient = useQueryClient();
@@ -21,7 +22,7 @@ export const Blockchain = () => {
   const handleAddBlock = async (blockData: BlockFormData) => {
     try {
       const reqModel: CreateBlockReqM = {
-        userId: authData?.authData.id!,
+        userId: profile?.id!,
         data: JSON.stringify(blockData),
       };
       await createChainMutation.mutateAsync(reqModel, {
@@ -41,12 +42,12 @@ export const Blockchain = () => {
 
   const handleResetBlockchain = () => {
     showSpinner();
-    resetBlockchain(authData?.token!)
-      .then((data) => {
-        if (data)
-          queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET] });
-      })
-      .finally(() => hideSpinner());
+    // resetBlockchain(authData?.token!)
+    //   .then((data) => {
+    //     if (data)
+    //       queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET] });
+    //   })
+    //   .finally(() => hideSpinner());
   };
 
   return (
@@ -58,7 +59,7 @@ export const Blockchain = () => {
               {t("pages.blockchain.title")}
             </h2>
             <div className="flex flex-wrap gap-3 md:flex-row md:flex-nowrap">
-              {authData?.authData.role !== ROLES.MINER && (
+              {profile?.role !== ROLES.MINER && (
                 <button
                   className="w-full whitespace-nowrap rounded-lg bg-blue-500 px-4 py-1 font-semibold text-white hover:bg-blue-600 focus:outline-none"
                   onClick={handleOpenModal}
@@ -67,8 +68,8 @@ export const Blockchain = () => {
                 </button>
               )}
 
-              {authData?.authData.role === ROLES.ADMIN ||
-                (authData?.authData.role === ROLES.SUPERADMIN && (
+              {profile?.role === ROLES.ADMIN ||
+                (profile?.role === ROLES.SUPERADMIN && (
                   <button
                     className="w-full whitespace-nowrap rounded-lg bg-red-500 px-4 py-1 font-semibold text-white hover:bg-red-600 focus:outline-none"
                     onClick={handleResetBlockchain}

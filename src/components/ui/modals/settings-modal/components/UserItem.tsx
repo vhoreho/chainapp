@@ -1,6 +1,5 @@
 import React from "react";
 import { useGlobalSpinner } from "@/hooks/context";
-import { useAppDispatch } from "@/hooks/store";
 import { UserResM } from "@/types";
 import Delete from "../../../icons/Close";
 
@@ -9,7 +8,6 @@ interface UserItemProps {
 }
 
 export const UserItem: React.FC<UserItemProps> = ({ user }) => {
-  const dispatch = useAppDispatch();
   const { hideSpinner, showSpinner } = useGlobalSpinner();
 
   const handleDelete = () => {

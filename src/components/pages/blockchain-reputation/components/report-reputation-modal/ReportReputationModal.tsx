@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CloseIcon from "@/components/ui/icons/Close";
 import { GET_CRIME_TYPES_ROUTE } from "@/constants/API";
-import { useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
 import { CrimeTypeSelect } from "./components/crimes-select/CrimesSelect";
 
 interface ReportReputationProps {
@@ -15,11 +13,11 @@ export const ReportReputationModal: React.FC<ReportReputationProps> = ({
   onSubmit,
   closeModal,
 }) => {
-  const {
-    userData: { authData },
-  } = useAppSelector((state: RootState) => state.auth);
+  // const {
+  //   userData: { authData },
+  // } = useAppSelector((state: RootState) => state.auth);
   const [reportData, setReportData] = useState({
-    userId: authData.id,
+    userId: 1,
     wasInvolvedInIllegalActivity: true,
     crimeType: "Другое",
     crimeDescription: "",

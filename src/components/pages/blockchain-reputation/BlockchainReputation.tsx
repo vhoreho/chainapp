@@ -63,7 +63,7 @@ export const BlockchainReputation = () => {
   };
 
   const handleOpenReportModal = () => {
-    openModal(<ReportReputationModal onSubmit={handleSubmitReportModal} closeModal={closeModal} />);
+    // openModal(<ReportReputationModal onSubmit={handleSubmitReportModal} closeModal={closeModal} />);
   };
 
   useEffect(() => {

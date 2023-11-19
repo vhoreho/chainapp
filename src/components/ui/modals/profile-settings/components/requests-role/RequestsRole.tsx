@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useModal } from "@/hooks/context";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import CloseIcon from "../../../../icons/Close";
 
 export const RequestsRole = () => {

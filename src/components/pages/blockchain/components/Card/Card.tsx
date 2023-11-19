@@ -2,6 +2,7 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import moment from "moment";
+import { useGetProfileQuery } from "@/api/profile";
 import { Spinner } from "@/components/common";
 import { ZERO_BLOCK_IDENTIFIER } from "@/constants/vars";
 import { useAuthContext } from "@/hooks/context";
@@ -16,7 +17,7 @@ type Props = {
 
 export const Card = memo(function Card({ chain, wallet, isZeroBlock }: Props) {
   const { t } = useTranslation();
-  const { authData } = useAuthContext();
+  const { data: profile, isLoading } = useGetProfileQuery();
   const { created_date, data, prevHash, hash, nonce, id } = chain;
 
   const parsedData = typeof data === "string" ? JSON.parse(data) : data;
@@ -31,10 +32,10 @@ export const Card = memo(function Card({ chain, wallet, isZeroBlock }: Props) {
     >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">{t("pages.blockchain.card.title")}</h2>
-        {authData?.authData.role === ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
+        {profile?.role === ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
           <div className="mx-2">|</div>
         )}
-        {authData?.authData.role !== ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
+        {profile?.role !== ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
           <div className="mx-2">|</div>
         )}
         <span className="text-gray-500">
@@ -42,27 +43,23 @@ export const Card = memo(function Card({ chain, wallet, isZeroBlock }: Props) {
             ? t("pages.blockchain.card.created")
             : `${moment(created_date).format("MMMM Do YYYY, h:mm:ss a")}`}
         </span>
-        {authData?.authData.role === ROLES.MINER &&
-          prevHash !== ZERO_BLOCK_IDENTIFIER &&
-          nonce === 0 && (
-            <button
-              onClick={handleMine}
-              className=" ml-auto flex min-w-[120px] items-center justify-center rounded-lg bg-green-500 px-4 py-1 font-semibold text-white hover:bg-green-600 focus:outline-none"
-            >
-              {status === REQUEST_STATUS.LOADING ? (
-                <Spinner />
-              ) : (
-                t("pages.blockchain.card.mine-block")
-              )}
-            </button>
-          )}
-        {authData?.authData.role === ROLES.MINER &&
-          prevHash !== ZERO_BLOCK_IDENTIFIER &&
-          nonce !== 0 && (
-            <span className="ml-auto text-green-500">{t("pages.blockchain.card.verified")}</span>
-          )}
-        {authData?.authData.role === ROLES.MINER ||
-        prevHash === ZERO_BLOCK_IDENTIFIER ? null : nonce === 0 ? (
+        {/* {profile?.role === ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && nonce === 0 && (
+          <button
+            onClick={handleMine}
+            className=" ml-auto flex min-w-[120px] items-center justify-center rounded-lg bg-green-500 px-4 py-1 font-semibold text-white hover:bg-green-600 focus:outline-none"
+          >
+            {status === REQUEST_STATUS.LOADING ? (
+              <Spinner />
+            ) : (
+              t("pages.blockchain.card.mine-block")
+            )}
+          </button>
+        )} */}
+        {profile?.role === ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && nonce !== 0 && (
+          <span className="ml-auto text-green-500">{t("pages.blockchain.card.verified")}</span>
+        )}
+        {profile?.role === ROLES.MINER || prevHash === ZERO_BLOCK_IDENTIFIER ? null : nonce ===
+          0 ? (
           <span className="ml-auto text-red-500">{t("pages.blockchain.card.not-verified")}</span>
         ) : (
           <span className="ml-auto text-green-500">{t("pages.blockchain.card.verified")}</span>
