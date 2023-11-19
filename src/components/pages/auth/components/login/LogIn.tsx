@@ -1,54 +1,55 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import classNames from "classnames";
 import { Spinner } from "@/components/common";
-import { logInAsync } from "@/features";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
-import { LOADING_STATUS } from "@/types";
-import { REQUEST_STATUS } from "@/types/request-status";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher/LanguageSwitcher";
+import { ROUTES } from "@/constants/routes";
+import { useAuthContext } from "@/hooks/context";
+import { REQUEST_STATUS } from "@/types";
 
 type Props = {
   onSignUp: () => void;
 };
 
 export const LogIn = ({ onSignUp }: Props) => {
+  const { t } = useTranslation();
+
   const [formState, setFormState] = useState({ username: "", password: "" });
   const [isFormDisabled, setIsFormDisabled] = useState(true);
-  const { error, status, userData } = useAppSelector((state: RootState) => state.auth);
-  const router = useRouter();
-
-  const dispatch = useAppDispatch();
+  const { isLoading, logIn, error } = useAuthContext();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isFormDisabled) {
-      dispatch(logInAsync(formState)).then((data) => {
-        if (data.meta.requestStatus === REQUEST_STATUS.FULFILLED) {
-          router.push("/home");
-        }
-      });
+      logIn(formState);
     }
   };
 
   useEffect(() => {
     formState.username && formState.password ? setIsFormDisabled(false) : setIsFormDisabled(true);
-  }, [formState, userData]);
+  }, [formState]);
 
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-md flex-col rounded-md bg-white p-6 text-davy-500 shadow-2xl">
-      <h1 className="mb-6 text-3xl font-semibold">Авторизация</h1>
+    <div className="relative z-10 mx-4 flex w-full max-w-md flex-col rounded-md bg-white p-6 text-davy-500 shadow-2xl">
+      <h1 className="mb-6 text-3xl font-semibold">{t("authorization.login.title")}</h1>
+      <LanguageSwitcher
+        buttonClassnames="!text-davy-500 uppercase"
+        menuClassnames="!absolute !top-6 !right-6"
+        itemsClassnames="w-fit"
+        itemClassnames="cursor-pointer hover:bg-platinum-500 uppercase"
+      />
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Введите логин"
+          placeholder={t("authorization.login.placeholders.username")}
           value={formState.username}
           onChange={(e) => setFormState((prev) => ({ ...prev, username: e.target.value }))}
           className="mb-6 w-full rounded-md border-2 border-davy-500 bg-transparent px-4 py-3 placeholder:text-davy-500 focus:border-cornflower-500 focus:outline-none"
         />
         <input
           type="password"
-          placeholder="Введите пароль"
+          placeholder={t("authorization.login.placeholders.password")}
           value={formState.password}
           onChange={(e) => setFormState((prev) => ({ ...prev, password: e.target.value }))}
           className="mb-6 w-full rounded-md border-2 border-davy-500 bg-transparent px-4 py-3 placeholder:text-davy-500 focus:border-cornflower-500 focus:outline-none"
@@ -62,12 +63,12 @@ export const LogIn = ({ onSignUp }: Props) => {
           )}
           disabled={isFormDisabled}
         >
-          {status === LOADING_STATUS.LOADING ? <Spinner /> : "Войти"}
+          {isLoading ? <Spinner size="xs" /> : t("authorization.login.login")}
         </button>
-        {error && <p className="mt-2 text-center text-red-500">{error}</p>}
+        {error && <p className="mt-2 text-center text-red-500">{t(error)}</p>}
       </form>
       <button className="ml-auto mt-6 text-davy-500/80 hover:text-davy-500/100" onClick={onSignUp}>
-        Зарегистрироваться
+        {t("authorization.login.register")}
       </button>
     </div>
   );

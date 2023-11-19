@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { enc, SHA256 } from "crypto-js";
 import { Spinner } from "@/components/common";
 import { RandomIcon } from "@/components/ui";
@@ -26,10 +26,14 @@ const NewBlockModal: React.FC<NewBlockModalProps> = ({ onClose, onAddBlock }) =>
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    setIsLoading(true);
     e.preventDefault();
     onAddBlock(formData);
-    onClose();
   };
+
+  useEffect(() => {
+    return () => setIsLoading(false);
+  }, []);
 
   const generateAddress = () => {
     setFormData((prev) => ({
@@ -88,14 +92,14 @@ const NewBlockModal: React.FC<NewBlockModalProps> = ({ onClose, onAddBlock }) =>
         <div className="mt-4 grid grid-cols-2">
           <button
             type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus:outline-none"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-[10px] text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus:outline-none"
           >
-            {isLoading ? <Spinner variant="white" /> : <>Создать блок</>}
+            {isLoading ? <Spinner variant="white" size="xs" /> : <>Создать блок</>}
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="ml-3 inline-flex justify-center rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-red-700 focus:outline-none"
+            className="ml-3 inline-flex items-center justify-center rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-red-700 focus:outline-none"
           >
             Закрыть
           </button>

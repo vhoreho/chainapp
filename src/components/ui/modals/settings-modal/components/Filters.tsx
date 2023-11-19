@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { RolesEnum } from "@/types";
+import { ROLES } from "@/types";
 
 interface FiltersProps {
-  roles: RolesEnum[];
-  onFilterChange: (selectedRoles: RolesEnum[]) => void;
+  roles: ROLES[];
+  onFilterChange: (selectedRoles: ROLES[]) => void;
   onSearchChange: (searchText: string) => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({ roles, onFilterChange, onSearchChange }) => {
-  const [selectedRoles, setSelectedRoles] = useState<RolesEnum[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<ROLES[]>([]);
   const [searchText, setSearchText] = useState("");
 
-  const handleRoleChange = (role: RolesEnum) => {
+  const handleRoleChange = (role: ROLES) => {
     if (selectedRoles.includes(role)) {
       setSelectedRoles(selectedRoles.filter((r) => r !== role));
     } else {

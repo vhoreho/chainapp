@@ -1,52 +1,53 @@
-import { RolesEnum } from "./roles";
+import { ROLES } from "./roles";
 
-export type LogIn = {
+export type LogInReqM = {
   username: string;
   password: string;
 };
 
-export type SignUp = {
+export type SignUpReqM = {
   username: string;
   email: string;
   password: string;
 };
 
-export type UserDataPayload = {
+export type UserDataResM = {
   access_token: string;
-  payload: {
-    id: number;
-    username: string;
-    role: RolesEnum;
-    email: string;
-    isConfirmedUpdateRoleRequest: boolean | null;
-    requestedRole: RolesEnum | null;
-  };
 };
 
-export type UserData = {
-  token: string;
-  authData: {
-    id: number | null;
-    username: string;
-    role: RolesEnum | null;
-    email: string;
-    isConfirmedUpdateRoleRequest: boolean | null;
-    requestedRole: RolesEnum | null;
-  };
-};
-
-export type User = {
+export type UserResM = {
   id: number | null;
   username: string;
-  role: RolesEnum | null;
+  role: ROLES | null;
   email: string;
   isConfirmedUpdateRoleRequest: boolean | null;
-  requestedRole: RolesEnum | null;
+  requestedRole: ROLES | null;
 };
 
-export type UpdateProfileState = {
+export type UpdateProfileReqM = {
   id: number;
   username: string;
   email: string;
   password: string;
 };
+
+export class AuthData {
+  public token!: string;
+  public authData!: {
+    id: number;
+    username: string;
+    role: ROLES;
+    email: string;
+  };
+
+  public constructor(init?: AuthData) {
+    Object.assign(this, init);
+  }
+
+  static mapFromReqM({ access_token }: UserDataResM) {
+    const authData = new AuthData();
+    authData.token = access_token;
+
+    return authData;
+  }
+}

@@ -1,33 +1,36 @@
 import { Fragment } from "react";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
+import { useGetProfileQuery } from "@/api/profile";
 import { ProfileSettings, SettingsModal } from "@/components/ui";
-import { RequestsRole } from "@/components/ui/modals/requests-role/RequestsRole";
 import { ROUTES } from "@/constants/routes";
 import { ADMIN_ROLES } from "@/constants/vars";
-import { logout } from "@/features";
-import { useModal } from "@/hooks/context";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
-import { RolesEnum } from "@/types";
+import { useAuthContext, useModal } from "@/hooks/context";
+import { ROLES } from "@/types";
 
 export const ProfileDropdown = () => {
-  const {
-    auth: { userData },
-    users: { users },
-  } = useAppSelector((state: RootState) => state);
+  const { logout } = useAuthContext();
+  const { data: profile, isLoading } = useGetProfileQuery();
   const { openModal } = useModal();
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
-  const usersRolesRequests = users.filter((user) => user.isConfirmedUpdateRoleRequest === false);
+  if (isLoading) {
+    return <div className="h-6 w-16 animate-pulse rounded-full bg-gray-300"></div>;
+  }
 
+  if (!profile) {
+    return null;
+  }
+
+  // const usersRolesRequests = users.filter((user) => user.isConfirmedUpdateRoleRequest === false);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="group inline-flex w-full items-center justify-center gap-x-1.5 text-white hover:text-blue-200">
-          {userData.authData.username}
+          {profile?.username}
           <ChevronDownIcon className="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
         </Menu.Button>
       </div>
@@ -42,7 +45,7 @@ export const ProfileDropdown = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg focus:outline-none">
-          {ADMIN_ROLES.includes(userData.authData.role ?? RolesEnum.USER) && (
+          {ADMIN_ROLES.includes(profile?.role ?? ROLES.USER) && (
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (
@@ -53,14 +56,14 @@ export const ProfileDropdown = () => {
                       "block px-4 py-2 text-sm",
                     )}
                   >
-                    Настройки
+                    {t("header.nav.profile.user-management")}
                   </span>
                 )}
               </Menu.Item>
             </div>
           )}
 
-          {ADMIN_ROLES.includes(userData.authData.role ?? RolesEnum.USER) && (
+          {/* {ADMIN_ROLES.includes(profile?.role ?? ROLES.USER) && (
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (
@@ -83,19 +86,19 @@ export const ProfileDropdown = () => {
                 )}
               </Menu.Item>
             </div>
-          )}
+          )} */}
 
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
                 <span
-                  onClick={() => openModal(<ProfileSettings user={userData.authData} />)}
+                  onClick={() => openModal(<ProfileSettings profile={profile} />)}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700",
                     "block px-4 py-2 text-sm",
                   )}
                 >
-                  Настройки профиля
+                  {t("header.nav.profile.settings")}
                 </span>
               )}
             </Menu.Item>
@@ -105,13 +108,13 @@ export const ProfileDropdown = () => {
               {({ active }) => (
                 <Link
                   href={ROUTES.AUTH}
-                  onClick={() => dispatch(logout())}
+                  onClick={logout}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm",
                   )}
                 >
-                  Выйти
+                  {t("header.nav.profile.logout")}
                 </Link>
               )}
             </Menu.Item>

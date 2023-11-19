@@ -1,8 +1,8 @@
-import { RolesEnum } from "@/types";
+import { ROLES } from "@/types";
 
 export const listOfRoles = () => {
-  return Object.values(RolesEnum).map((role) => ({
+  return Object.values(ROLES).map((role) => ({
     title: role,
-    value: RolesEnum[role],
+    value: ROLES[role],
   }));
 };

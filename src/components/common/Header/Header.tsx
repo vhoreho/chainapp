@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 import { Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
@@ -8,6 +9,7 @@ import { BlockchainDropdown } from "./components/blockchain-dropdown/BlockchainD
 import { ProfileDropdown } from "./components/profile-dropdown/ProfileDropdown";
 
 export const Header = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -19,7 +21,7 @@ export const Header = () => {
           </Link>
           <nav className="ml-6 hidden flex-wrap gap-2 md:flex md:gap-4">
             <Link href={ROUTES.HOME} className="text-white hover:text-platinum-500">
-              Главная
+              {t("header.nav.main")}
             </Link>
             <BlockchainDropdown />
             <ProfileDropdown />
@@ -53,7 +55,7 @@ export const Header = () => {
           )}
         >
           <Link href={ROUTES.HOME} className="text-white hover:text-platinum-500">
-            Главная
+            {t("header.nav.main")}
           </Link>
           <BlockchainDropdown />
           <ProfileDropdown />

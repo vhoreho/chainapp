@@ -1,25 +1,24 @@
 import React from "react";
-import { deleteUser, getUsersAsync } from "@/features";
-import { useSpinner } from "@/hooks/context";
+import { useGlobalSpinner } from "@/hooks/context";
 import { useAppDispatch } from "@/hooks/store";
-import { User } from "@/types";
+import { UserResM } from "@/types";
 import Delete from "../../../icons/Close";
 
 interface UserItemProps {
-  user: User;
+  user: UserResM;
 }
 
 export const UserItem: React.FC<UserItemProps> = ({ user }) => {
   const dispatch = useAppDispatch();
-  const { hideSpinner, showSpinner } = useSpinner();
+  const { hideSpinner, showSpinner } = useGlobalSpinner();
 
   const handleDelete = () => {
     new Promise((resolve) => {
       showSpinner();
       resolve(true);
     })
-      .then(() => dispatch(deleteUser(user.id!)))
-      .then(() => dispatch(getUsersAsync()))
+      // .then(() => dispatch(deleteUser(user.id!)))
+      // .then(() => dispatch(getUsersAsync()))
       .finally(() => hideSpinner());
   };
 

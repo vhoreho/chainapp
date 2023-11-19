@@ -1,28 +1,24 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { updateProfile } from "@/features";
-import { useModal } from "@/hooks/context";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
-import { RolesEnum, User } from "@/types";
+import { useGetProfileQuery } from "@/api/profile";
+import { ProfileResM } from "@/api/profile/type";
+import { useAuthContext, useModal } from "@/hooks/context";
+import { UserResM } from "@/types";
 import CloseIcon from "../../icons/Close";
 import { RolesSelect } from "./components/roles-select/RolesSelect";
 
 type Props = {
-  user: User;
+  profile: ProfileResM;
 };
 
-export const ProfileSettings: FunctionComponent<Props> = ({ user }) => {
-  const { authData } = useAppSelector((state: RootState) => state.auth.userData);
+export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
   const [formState, setFormState] = useState({
-    id: authData.id ?? 0,
-    username: authData.username,
-    email: authData.email,
+    id: profile.id,
+    username: profile.username,
+    email: profile.email,
     password: "",
   });
   const [isFormDisabled, setIsFormDisabled] = useState(true);
   const { closeModal } = useModal();
-
-  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -31,7 +27,7 @@ export const ProfileSettings: FunctionComponent<Props> = ({ user }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateProfile(formState));
+    // dispatch(updateProfile(formState));
     closeModal();
   };
 
@@ -81,12 +77,7 @@ export const ProfileSettings: FunctionComponent<Props> = ({ user }) => {
             className="w-full rounded-md border p-2"
           />
         </div>
-        {authData.role !== RolesEnum.SUPERADMIN && (
-          <div className="mb-4">
-            <label className="mb-1 block">Запросить роль</label>
-            <RolesSelect />
-          </div>
-        )}
+        <RolesSelect role={profile.role} />
         <div className="flex justify-end">
           <button
             type="submit"

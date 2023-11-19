@@ -2,8 +2,8 @@ export const KEY = '1aKcZP8pHLa1XwuIfwOTjKeijZ0zWMl0LpUFxoSK';
 export const CRYPTO_API_KEY = 'c78ab0934b3063ccfb71da2f71d700a6a3f4a8ee';
 export const ABUSE_KEY = 'q9AcAGfA1VPW8udL0guO6Bt4NYRAG2f7vlPCj8KH';
 
-export const BASE_API_URL = 'http://chainapp-uh-c9c2ecac19f5.herokuapp.com';
-// export const BASE_API_URL = 'http://localhost:3333';
+// export const BASE_API_URL = 'http://chainapp-uh-c9c2ecac19f5.herokuapp.com';
+export const BASE_API_URL = 'http://localhost:3333';
 
 //Auth API Routes
 export const REGISTER_ROUTE = `${BASE_API_URL}/auth/register`;
@@ -26,8 +26,10 @@ export const APPROVE_UPDATE_ROLE_BY_ID_ROUTE = (id: number) =>
   `${BASE_API_URL}/users/approve-change-role/${id}`;
 export const REJECT_UPDATE_ROLE_BY_ID_ROUTE = (id: number) =>
   `${BASE_API_URL}/users/reject-change-role/${id}`;
-  export const DELETE_USER_ROUTE = (id: number) =>
-    `${BASE_API_URL}/users/delete/${id}`;;
+  export const DELETE_USER_ROUTE = (id: number) => `${BASE_API_URL}/users/delete/${id}`;
+
+  // Profile
+  export const GET_PROFILE_ROUTE = `${BASE_API_URL}/profile`;
 
 //Wallet Reputation Routes
 

@@ -4,16 +4,20 @@ import classNames from "classnames";
 type Props = {
   className?: string;
   variant?: "white" | "blue";
+  size?: "xs" | "md" | "lg";
 };
 
-export const Spinner: FC<Props> = ({ variant = "white", className }) => {
+export const Spinner: FC<Props> = ({ variant = "white", className, size = "md" }) => {
   return (
     <>
       <svg
         aria-hidden="true"
-        className={classNames("h-6 w-6 animate-spin", className, {
+        className={classNames("animate-spin", className, {
           "fill-white text-white/50": variant === "white",
           "fill-cornflower-500 text-blue-200": variant === "blue",
+          "h-6 w-6": size === "xs",
+          "h-10 w-6": size === "md",
+          "h-12 w-12": size === "lg",
         })}
         viewBox="0 0 100 101"
         fill="none"

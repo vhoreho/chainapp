@@ -1,8 +1,8 @@
-import { User } from "@/types";
+import { UserResM } from "@/types";
 import { UserItem } from "./UserItem";
 
 interface UserListProps {
-  users: User[];
+  users: UserResM[];
 }
 
 const UserList: React.FC<UserListProps> = ({ users }) => {

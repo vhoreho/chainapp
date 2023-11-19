@@ -2,15 +2,15 @@ import { ROUTES } from '../../../constants/routes';
 
 export const BLOCKCHAIN_DROPDOWN_LINKS = [
   {
-    title: "Тренажер",
+    tid: "header.nav.blockchain.emulator",
     route: ROUTES.BLOCKCHAIN,
   },
   {
-    title: "Обозреватель",
+    tid: "header.nav.blockchain.explorer",
     route: ROUTES.BLOCKCHAIN_EXPLORER,
   },
   {
-    title: "Проверка репутации",
+    tid: "header.nav.blockchain.reputation",
     route: ROUTES.BLOCKCHAIN_REPUTATION,
   },
   // {

@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
+import { useState } from "react";
 import { LogIn } from "./components/login/LogIn";
-import { SignUpPage } from "./components/signup/SignUp";
+import { SignUpPage } from "./components/sign-up/SignUp";
 
 export const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-  const { authData } = useAppSelector((state: RootState) => state.auth.userData);
-  const router = useRouter();
 
   const handleShowSignUp = () => {
     setIsSignUp(true);
@@ -17,12 +12,6 @@ export const Auth = () => {
   const handleShowSignIn = () => {
     setIsSignUp(false);
   };
-
-  useEffect(() => {
-    if (authData.username) {
-      router.push("/home");
-    }
-  }, []);
 
   return (
     <div className="relative flex h-screen items-center justify-center bg-cornflower-500 text-platinum-500">

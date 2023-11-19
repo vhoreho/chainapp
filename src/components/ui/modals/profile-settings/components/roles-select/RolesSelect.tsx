@@ -1,105 +1,54 @@
-import React, { Fragment, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { FC, Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
-import { Spinner } from "@/components/common";
-import { updateRole } from "@/features";
-import { useAppDispatch, useAppSelector } from "@/hooks/store";
-import { RootState } from "@/store";
-import { RolesEnum } from "@/types";
+import { v4 } from "uuid";
+import { ROLES } from "@/types";
+import { listOfRoles } from "./helpers";
 
-export const RolesSelect = () => {
-  const userData = useAppSelector((state: RootState) => state.auth.userData);
-  const roleState = userData.authData.role;
-  const [selectedOption, setSelectedOption] = useState(roleState);
-  const options = Object.values(RolesEnum);
+type Props = {
+  role: ROLES;
+};
 
-  const dispatch = useAppDispatch();
-
-  const handleRoleChange = () => {
-    dispatch(
-      updateRole({
-        id: userData.authData.id!,
-        role: selectedOption!,
-      }),
-    );
-  };
+export const RolesSelect: FC<Props> = ({ role }) => {
+  const roles = listOfRoles();
 
   return (
-    <Listbox
-      value={selectedOption}
-      disabled={userData.authData.isConfirmedUpdateRoleRequest === false}
-      onChange={setSelectedOption}
-    >
-      <div className="relative mt-1">
-        <div className="flex ">
-          <Listbox.Button
-            className={classNames(
-              {
-                "bg-slate-100": userData.authData.isConfirmedUpdateRoleRequest === false,
-              },
-              "capitalize relative w-full cursor-pointer rounded-l-lg bg-white py-2 pl-3 pr-10 text-left border  ",
-              "sm:text-sm",
-              "focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300",
-            )}
-          >
-            <span className="block truncate">{selectedOption?.toLowerCase()}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-            </span>
-          </Listbox.Button>
-          <button
-            type="button"
-            onClick={handleRoleChange}
-            disabled={userData.authData.isConfirmedUpdateRoleRequest === false}
-            className="rounded-r-md bg-blue-500 px-4 py-2 text-white"
-          >
-            {userData.authData.isConfirmedUpdateRoleRequest === false ? <Spinner /> : "Запросить"}
-          </button>
-        </div>
-        {userData.authData.isConfirmedUpdateRoleRequest === false && (
-          <span className="text-sm italic">
-            После запроса новой роли необходимо подождать пока заявку одобрит администратор
-          </span>
-        )}
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <Listbox.Options className="sm:text-sm absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg focus:outline-none">
-            {options.map((role, roleIdx) => (
-              <Listbox.Option
-                key={roleIdx}
-                className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 capitalize ${
-                    role === roleState ? "bg-green-100 text-green-600" : "text-gray-900"
-                  }`
-                }
-                value={role}
-              >
-                {({ selected }) => (
-                  <>
-                    <span
-                      className={`block truncate capitalize ${
-                        selected ? "font-medium" : "font-normal"
-                      }`}
-                    >
-                      {role.toLowerCase()}
-                    </span>
-                    {role === roleState ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
-                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    ) : null}
-                  </>
-                )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="group inline-flex w-full items-center justify-center gap-x-1.5 text-white hover:text-blue-200">
+          {role}
+          <ChevronDownIcon className="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
+        </Menu.Button>
       </div>
-    </Listbox>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg focus:outline-none">
+          {roles.map((role) => (
+            <div className="py-1" key={v4()}>
+              <Menu.Item>
+                {({ active }) => (
+                  <span
+                    onClick={() => {}}
+                    className={classNames(
+                      active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700",
+                      "block px-4 py-2 text-sm",
+                    )}
+                  ></span>
+                )}
+              </Menu.Item>
+            </div>
+          ))}
+        </Menu.Items>
+      </Transition>
+    </Menu>
   );
 };

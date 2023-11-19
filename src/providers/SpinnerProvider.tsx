@@ -4,9 +4,11 @@ import { SpinnerContext } from "../contexts/spinnerContext";
 
 interface SpinnerProviderProps {
   children: ReactNode;
+  variant?: "white" | "blue";
+  size?: "xs" | "md" | "lg";
 }
 
-export const SpinnerProvider: React.FC<SpinnerProviderProps> = ({ children }) => {
+export const SpinnerProvider: React.FC<SpinnerProviderProps> = ({ children, size, variant }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const showSpinner = () => {
@@ -22,7 +24,7 @@ export const SpinnerProvider: React.FC<SpinnerProviderProps> = ({ children }) =>
       {children}
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <Spinner variant="white" />
+          <Spinner variant={variant} size="lg" />
         </div>
       )}
     </SpinnerContext.Provider>
