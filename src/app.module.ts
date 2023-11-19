@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { BlockchainModule } from './core/blockchain/blockchain.module';
 import { BlockChain } from './core/blockchain/blockchain.entity';
 import { WalletReportModule } from './core/wallet-report/wallet-report.module';
+import { ProfileModule } from './core/profile/profile.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WalletReportModule } from './core/wallet-report/wallet-report.module';
     }),
     BlockchainModule,
     WalletReportModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [],

@@ -44,4 +44,8 @@ export class UsersService {
 
     await this.usersRepository.remove(user);
   }
+
+  async changeRole(username: string) {
+    return;
+  }
 }

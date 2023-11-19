@@ -6,6 +6,8 @@ import { CreateBlockDto } from './dto/blochchain.dto';
 import { calculateHash } from './helpers';
 import { User } from '../users/users.entity';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
+import * as moment from 'moment';
+import { MD5 } from 'crypto-js';
 
 @Injectable()
 export class BlockchainService {
@@ -20,7 +22,7 @@ export class BlockchainService {
     return await this.blockChainRepository.find();
   }
 
-  async createBlock(block: CreateBlockDto): Promise<any> {
+  async createBlock(block: CreateBlockDto): Promise<BlockChain> {
     const user = await this.usersRepository.findOne({
       where: { id: block.userId },
       select: ['username', 'id'],
@@ -30,17 +32,38 @@ export class BlockchainService {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
-    const newBlock = new BlockChain();
-    newBlock.user = user;
-    newBlock.created_date = block.created_date;
-    newBlock.data = block.data;
-    newBlock.hash = block.hash;
-    newBlock.prevHash = block.prevHash;
-    newBlock.nonce = block.nonce;
+    const lastChainRecord = await this.blockChainRepository
+      .createQueryBuilder('block_chain')
+      .select()
+      .orderBy('block_chain.id', 'DESC')
+      .getOne();
 
-    await this.blockChainRepository.save(newBlock);
+    try {
+      const newBlock = new BlockChain();
+      newBlock.user = user;
+      newBlock.created_date = moment(new Date()).format();
+      newBlock.data = block.data;
+      newBlock.nonce = 0;
+      newBlock.hash = lastChainRecord
+        ? MD5(
+            lastChainRecord.prevHash +
+              newBlock.created_date +
+              JSON.stringify(newBlock.data) +
+              newBlock.nonce,
+          ).toString()
+        : MD5(
+            newBlock.created_date +
+              JSON.stringify(newBlock.data) +
+              newBlock.nonce,
+          ).toString();
+      newBlock.prevHash = lastChainRecord
+        ? lastChainRecord.hash
+        : '7252f2453b7a9cd4703e362cbe7dae48';
 
-    return await this.blockChainRepository.find();
+      return await this.blockChainRepository.save(newBlock);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async clearBlockchain() {

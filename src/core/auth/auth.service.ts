@@ -4,6 +4,8 @@ import { User } from 'src/core/users/users.entity';
 import { UsersService } from 'src/core/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
+import { SignUpDto } from './dto/sign-up-dto';
+import { LogInDto } from './dto/login-dto';
 
 @Injectable()
 export class AuthService {
@@ -12,14 +14,15 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(userData: User) {
-    const user = await this.usersService.findUser(userData.username);
+  async login(logInDto: LogInDto) {
+    const { username, password } = logInDto;
+    const user = await this.usersService.findUser(username);
 
     if (!user) {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
-    const validatePass = await bcrypt.compare(userData.password, user.password);
+    const validatePass = await bcrypt.compare(password, user.password);
 
     if (user && !validatePass) {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.WRONG_PASSWORD);
@@ -32,13 +35,13 @@ export class AuthService {
       email: user.email,
     };
 
-    return {
-      access_token: this.jwtService.sign(authData),
-      authData,
-    };
+    const access_token = this.jwtService.sign(authData);
+
+    return { access_token };
   }
 
-  async register(username: string, password: string, email: string) {
+  async register(createUserDto: SignUpDto) {
+    const { username, password, email } = createUserDto;
     const existingUser = await this.usersService.findUser(username);
     if (existingUser) {
       throw new BadRequestException(
@@ -74,12 +77,10 @@ export class AuthService {
       id: user.id,
       email: user.email,
     };
+
     const access_token = this.jwtService.sign(authData);
 
-    return {
-      access_token,
-      authData,
-    };
+    return { access_token };
   }
 
   async validateUser(username: string, password: string): Promise<User> {
@@ -100,5 +101,10 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  private generateRefreshToken() {
+    const refreshToken = crypto.randomUUID();
+    return refreshToken;
   }
 }
