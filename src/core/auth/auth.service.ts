@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 import { SignUpDto } from './dto/sign-up-dto';
 import { LogInDto } from './dto/login-dto';
+import { JWT_CONSTANTS } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -101,10 +102,5 @@ export class AuthService {
     }
 
     return null;
-  }
-
-  private generateRefreshToken() {
-    const refreshToken = crypto.randomUUID();
-    return refreshToken;
   }
 }
