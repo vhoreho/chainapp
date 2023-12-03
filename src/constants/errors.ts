@@ -9,3 +9,7 @@ export const AUTHORIZATION_ERRORS = {
     FAILED_REGISTER: 'authorization.sign-up.failed-registered-user',
   },
 };
+
+export const USERS_ERRORS = {
+  USER_HAS_NOT_PUBLIC_KEY: 'user.public-key.user-has-not-public-key',
+};

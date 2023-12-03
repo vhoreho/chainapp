@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   NotFoundException,
@@ -36,5 +37,33 @@ export class UsersController {
     }
 
     return await this.usersService.deleteUser(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('generate-keys')
+  async generateKeys(@Req() request) {
+    const { username } = request.user;
+
+    return this.usersService.generateAndReturnKeys(username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('validate-key')
+  async validatePrivateKey(
+    @Req() request,
+    @Body() body: { privateKey: string },
+  ) {
+    const { username } = request.user;
+    const { privateKey } = body;
+
+    return this.usersService.validatePrivateKey(username, privateKey);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('get-keys')
+  async getPublicKeyFromPrivate(@Body() body) {
+    const { privateKey } = body;
+
+    return this.usersService.getPublicKeyFromPrivateKey(privateKey);
   }
 }

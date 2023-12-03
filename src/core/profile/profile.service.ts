@@ -12,7 +12,7 @@ export class ProfileService {
   async getProfile(username: string) {
     return this.usersRepository.findOne({
       where: { username },
-      select: ['id', 'username', 'role', 'email'],
+      select: ['id', 'username', 'role', 'email', 'publicKey'],
     });
   }
 }

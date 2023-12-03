@@ -17,6 +17,9 @@ export class User {
   @Column({ nullable: true })
   email: string;
 
+  @Column({ nullable: true })
+  publicKey: string;
+
   @Column({
     type: 'enum',
     enum: UserRole,

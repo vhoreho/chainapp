@@ -6,7 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 import { SignUpDto } from './dto/sign-up-dto';
 import { LogInDto } from './dto/login-dto';
-import { JWT_CONSTANTS } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +33,7 @@ export class AuthService {
       username: user.username,
       role: user.role,
       email: user.email,
+      publicKey: user.publicKey,
     };
 
     const access_token = this.jwtService.sign(authData);
@@ -77,6 +77,7 @@ export class AuthService {
       role: user.role,
       id: user.id,
       email: user.email,
+      publicKey: user.publicKey,
     };
 
     const access_token = this.jwtService.sign(authData);

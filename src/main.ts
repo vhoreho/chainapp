@@ -10,6 +10,7 @@ async function bootstrap() {
   });
 
   console.log('localhost:' + process.env.PORT);
+  console.log('URI:' + process.env.DATABASE_URL);
 
   const config = new DocumentBuilder()
     .setTitle('Mall')
