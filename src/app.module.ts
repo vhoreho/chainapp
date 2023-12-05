@@ -5,9 +5,11 @@ import { UsersModule } from './core/users/users.module';
 import { User } from './core/users/users.entity';
 import { AppController } from './app.controller';
 import { BlockchainModule } from './core/blockchain/blockchain.module';
-import { BlockChain } from './core/blockchain/blockchain.entity';
+import { Transaction } from './core/blockchain/transaction.entity';
 import { WalletReportModule } from './core/wallet-report/wallet-report.module';
 import { ProfileModule } from './core/profile/profile.module';
+import { NewTransaction } from './core/blockchain/new-transaction.entity';
+import { SignedTransaction } from './core/blockchain/signed-transactions.entity';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { ProfileModule } from './core/profile/profile.module';
       password:
         '445983d32512ee0ab5ac69ad76e488edd89d90ecdf7636623e6e661281a23a27',
       database: 'da4toggk9aph9b',
-      entities: [User, BlockChain],
+      entities: [User, Transaction, NewTransaction, SignedTransaction],
       autoLoadEntities: true,
       synchronize: true,
       ssl: { rejectUnauthorized: false },

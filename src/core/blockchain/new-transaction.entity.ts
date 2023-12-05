@@ -8,7 +8,7 @@ import {
 import { User } from '../users/users.entity';
 
 @Entity()
-export class BlockChain {
+export class NewTransaction {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,7 +21,7 @@ export class BlockChain {
   @Column()
   created_date: string;
 
-  @Column()
+  @Column({ nullable: true })
   nonce: number;
 
   @Column()

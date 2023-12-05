@@ -12,4 +12,11 @@ export const AUTHORIZATION_ERRORS = {
 
 export const USERS_ERRORS = {
   USER_HAS_NOT_PUBLIC_KEY: 'user.public-key.user-has-not-public-key',
+  USER_NOT_FOUND: 'user.user-not-found',
+};
+
+export const BLOCKCHAIN_ERRORS = {
+  TRANSACTION_NOT_FOUND: 'blockchain.transaction.not-found',
+  TRANSACTION_HAS_NOT_HASH: 'blockchain.transaction.has-not-hash',
+  WRONG_PRIVATE_KEY: 'blockchain.transaction.wrong-private-key',
 };

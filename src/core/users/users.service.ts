@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { UserRole } from 'src/enums/user-role.enum';
 import { ec } from 'elliptic';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
+import * as bitcoin from 'bitcoinjs-lib';
 
 @Injectable()
 export class UsersService {
@@ -54,23 +55,24 @@ export class UsersService {
 
   async generateAndReturnKeys(
     username: string,
-  ): Promise<{ publicKey: string; privateKey: string }> {
+  ): Promise<{ privateKey: string; publicKey: string }> {
     const user = await this.usersRepository.findOne({ where: { username } });
 
     if (!user) {
-      throw new NotFoundException('Пользователь не найден');
+      throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
     }
 
     const keyPair = await this.generateKeyPair();
 
     user.publicKey = keyPair.publicKey;
+    user.walletAddress = this.generateWalletAddress(keyPair.publicKey);
     this.usersRepository.save(user);
 
-    return { publicKey: keyPair.publicKey, privateKey: keyPair.privateKey };
+    return { privateKey: keyPair.privateKey, publicKey: keyPair.publicKey };
   }
 
   async generateKeyPair(): Promise<{ publicKey: string; privateKey: string }> {
-    const keyPair = this.elliptic.genKeyPair(); // Генерация ключевой пары elliptic
+    const keyPair = this.elliptic.genKeyPair();
     const publicKey = keyPair.getPublic('hex');
     const privateKey = keyPair.getPrivate('hex');
     return { publicKey, privateKey };
@@ -103,5 +105,11 @@ export class UsersService {
   async getPublicKeyFromPrivateKey(privateKey: string): Promise<string> {
     const keyPair = this.elliptic.keyFromPrivate(privateKey, 'hex');
     return keyPair.getPublic('hex');
+  }
+
+  private generateWalletAddress(publicKey: string): string {
+    return bitcoin.payments
+      .p2pkh({ pubkey: Buffer.from(publicKey, 'hex') })
+      .address?.toString();
   }
 }
