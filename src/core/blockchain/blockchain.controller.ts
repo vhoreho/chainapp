@@ -30,15 +30,15 @@ export class BlockchainController {
   @Get('get-unsigned-transactions')
   @UseGuards(JwtAuthGuard)
   async getUnsignedTransaction(@Req() request) {
-    const { id } = request;
-    return await this.blockchainService.getUnsignedTransactions(id);
+    const { username } = request.user;
+    return await this.blockchainService.getUnsignedTransactions(username);
   }
 
   @Get('get-signed-transactions')
   @UseGuards(JwtAuthGuard)
   async getSignedTransaction(@Req() request) {
-    const { id } = request;
-    return await this.blockchainService.getSignedTransactions(id);
+    const { username } = request.user;
+    return await this.blockchainService.getSignedTransactions(username);
   }
 
   @Post('sign-transaction/:id')

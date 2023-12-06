@@ -40,15 +40,15 @@ export class BlockchainService {
     return await this.transactionRepository.find();
   }
 
-  async getUnsignedTransactions(id: number) {
+  async getUnsignedTransactions(username: string) {
     return await this.newTransactionRepository.find({
-      where: { user: { id } },
+      where: { user: { username } },
     });
   }
 
-  async getSignedTransactions(id: number) {
+  async getSignedTransactions(username: string) {
     return await this.signedTransactionsRepository.find({
-      where: { user: { id } },
+      where: { user: { username } },
     });
   }
 
