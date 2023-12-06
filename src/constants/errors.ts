@@ -1,0 +1,3 @@
+export const ERROR_STATUS_CODE = {
+  UNAUTHORIZED: 401,
+};

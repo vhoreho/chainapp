@@ -1,0 +1,83 @@
+{
+  "authorization": {
+    "login": {
+      "title": "Authorization",
+      "user-not-found": "User not found",
+      "wrong-password": "Incorrect password entered",
+      "login": "Login",
+      "register": "Sign up",
+      "placeholders": {
+        "username": "Enter login",
+        "password": "Enter password"
+      }
+    },
+    "sign-up": {
+      "title": "Sign Up",
+      "user-already-taken": "User already exists",
+      "email-is-already-registered": "Email already exists",
+      "failed-registered-user": "Sign up error, try again later",
+      "login": "Login",
+      "register": "Sign up",
+      "placeholders": {
+        "username": "Enter login",
+        "email": "Enter email",
+        "password": "Enter password"
+      }
+    }
+  },
+  "header": {
+    "nav": {
+      "main": "Main",
+      "blockchain": {
+        "title": "Blockchain",
+        "emulator": "Simulator",
+        "explorer": "Explorer",
+        "reputation": "Reputation check"
+      },
+      "profile": {
+        "user-management": "User management",
+        "settings": "Profile settings",
+        "logout": "Logout"
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Resources about the functioning of blockchain technology:",
+      "buttons": {
+        "emulator": "Simulator",
+        "explorer": "Transaction explorer",
+        "reputation": "Reputation check"
+      }
+    },
+    "blockchain": {
+      "title": "Blockchain explorer",
+      "create-block": "Create a block",
+      "reset-block": "Reset blocks",
+      "unsigned-block": "Unsigned blocks",
+      "block-in-progress": "Progress blocks",
+      "card": {
+        "title": "Block details",
+        "created": "Create date",
+        "prev-hash": "The previous hash of the transaction:",
+        "current-hash": "Transaction hash:",
+        "amount": "Amount:",
+        "message": "Message:",
+        "sender": "Sender:",
+        "recipient": "Recipient:",
+        "mine-block": "Mine the block",
+        "verified": "Verified",
+        "not-verified": "Not verified",
+        "zero-block": {
+          "prev-hash": "The null block has no previous hash",
+          "amount": "Specifies the number of tokens transferred between wallets",
+          "message": "The text of the message contains a note to the transaction",
+          "recipient": "The address of the wallet where the tokens were sent is specified"
+        }
+      }
+    },
+    "docs": {
+      "title": "Documentation"
+    }
+  }
+}

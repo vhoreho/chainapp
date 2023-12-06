@@ -1,0 +1,47 @@
+{
+  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
+  "plugins": ["tailwindcss", "simple-import-sort"],
+  "rules": {
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "simple-import-sort/imports": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js", "**/*.ts", "**/*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              [
+                // `react` first, `next` second, then packages starting with a character
+                "^react",
+                "^next",
+                "^@?\\w",
+                // Internal packages.
+                "^(@|components)(/.*|$)",
+                // Side effect imports.
+                "^\\u0000",
+                // Parent imports. Put `..` last.
+                "^\\.\\.(?!/?$)",
+                "^\\.\\./?$",
+                // Other relative imports. Put same-folder imports and `.` last.
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$",
+                // Style imports.
+                "^.+\\.?(css)$"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
