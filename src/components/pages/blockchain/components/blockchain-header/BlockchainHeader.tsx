@@ -2,7 +2,11 @@ import React, { FunctionComponent, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { CreateBlockReqM, useCreateChainMutation } from "@/api/blockchain";
+import {
+  CreateBlockReqM,
+  useCreateChainMutation,
+  useGetTransactionsForMiningQuery,
+} from "@/api/blockchain";
 import { ProfileResM } from "@/api/profile/type";
 import { UnsignedTransactionsModal } from "@/components/ui/modals";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
@@ -24,6 +28,10 @@ const DynamicSignedTransactionModal = dynamic(() =>
   import("@/components/ui/modals").then((module) => module.SignedTransactionsModal),
 );
 
+const DynamicMiningModal = dynamic(() =>
+  import("@/components/ui/modals").then((module) => module.MiningTransactionModal),
+);
+
 export const BlockchainHeader: FunctionComponent<Props> = ({
   profile,
   unsignedTransactions,
@@ -32,6 +40,7 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const { closeModal, openModal } = useModal();
   const createChainMutation = useCreateChainMutation();
+  const { data: transactionsForMining, isLoading } = useGetTransactionsForMiningQuery(profile.role);
   const queryClient = useQueryClient();
 
   const handleAddBlock = async (blockData: BlockFormData) => {
@@ -67,6 +76,13 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
     openModal(<DynamicSignedTransactionModal signedTransactions={signedTransactions} />);
   };
 
+  const handleOpenMiningTransactionsModal = () => {
+    if (transactionsForMining?.length)
+      openModal(
+        <DynamicMiningModal transactionsForMining={transactionsForMining} profile={profile} />,
+      );
+  };
+
   useEffect(() => {
     if (!profile.publicKey && profile.role === ROLES.USER) {
       openModal(<NotificationModal onClose={closeModal} profile={profile} />);
@@ -98,6 +114,17 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
             {t("pages.blockchain.block-in-progress")}
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs text-black">
               {signedTransactions.length}
+            </span>
+          </button>
+        ) : null}
+        {isLoading ? null : transactionsForMining?.length ? (
+          <button
+            className="flex w-full items-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
+            onClick={handleOpenMiningTransactionsModal}
+          >
+            Транзакции для майнинга
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs text-black">
+              {transactionsForMining.length}
             </span>
           </button>
         ) : null}

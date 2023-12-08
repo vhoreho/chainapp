@@ -4,6 +4,7 @@ import {
   CREATE_BLOCK_ROUTE,
   GET_BLOCKCHAIN_ROUTE,
   GET_SIGNED_TRANSACTIONS,
+  GET_TRANSACTIONS_FOR_MINING,
   GET_UNSIGNED_TRANSACTIONS,
   SIGN_BLOCK_ROUTE,
 } from "@/constants/API";
@@ -27,6 +28,13 @@ export const getBlockChainQuery = async (token: string) => {
 
 export const getUnsignedTransactions = async (token: string) => {
   const { data } = await axios.get<Block[]>(GET_UNSIGNED_TRANSACTIONS, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};
+
+export const getTransactionsForMining = async (token: string) => {
+  const { data } = await axios.get<Block[]>(GET_TRANSACTIONS_FOR_MINING, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return data;

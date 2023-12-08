@@ -72,11 +72,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   isAuthenticated && router.pathname.startsWith(ROUTES.AUTH) && router.push(ROUTES.HOME);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [isAuthenticated]);
-
   return (
     <AuthContext.Provider
       value={{ isAuthenticated, isLoading, logIn, error, signUp, logout, authData }}

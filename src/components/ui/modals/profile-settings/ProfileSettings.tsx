@@ -1,9 +1,11 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
-import { useGetProfileQuery } from "@/api/profile";
 import { ProfileResM } from "@/api/profile/type";
-import { useAuthContext, useModal } from "@/hooks/context";
-import { ROLES, UserResM } from "@/types";
+import { useChangeRoleMutation } from "@/api/users";
+import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
+import { useModal } from "@/hooks/context";
+import { ROLES } from "@/types";
 import CloseIcon from "../../icons/Close";
 import { RolesSelect } from "./components/roles-select/RolesSelect";
 
@@ -21,6 +23,8 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
   const [isFormDisabled, setIsFormDisabled] = useState(true);
   const [currentRole, setCurrentRole] = useState(profile.role);
   const { closeModal } = useModal();
+  const changeRoleMutation = useChangeRoleMutation();
+  const queryClient = useQueryClient();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -29,8 +33,23 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // dispatch(updateProfile(formState));
     closeModal();
+    location.reload();
+  };
+
+  const handleChangeRole = async () => {
+    try {
+      await changeRoleMutation.mutateAsync(
+        { role: currentRole },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET],
+            });
+          },
+        },
+      );
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -40,7 +59,7 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
   }, [formState]);
 
   return (
-    <div className="w-[760px]">
+    <div className="min-w-[400px] max-w-[760px]">
       <div className="mb-4 flex justify-between">
         <h2>Настройки профиля</h2>
         <button onClick={closeModal} className="">
@@ -98,11 +117,12 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
               <RolesSelect setRole={setCurrentRole} role={currentRole} />
               <button
                 className={classNames(
-                  "bg-green-400 p-2 text-white rounded-r-md transition-all",
+                  "bg-green-400 p-2 text-white rounded-r-md transition-all whitespace-nowrap",
                   "hover:bg-green-500",
                 )}
+                onClick={handleChangeRole}
               >
-                Запросить
+                Поменять роль
               </button>
             </div>
           </div>
