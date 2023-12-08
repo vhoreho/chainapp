@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { WalletReport } from 'src/core/wallet-report/wallet-report.entity';
-import { UserRole } from 'src/enums/user-role.enum';
+import { USER_ROLE } from 'src/enums/user-role.enum';
 import { Transaction } from '../blockchain/transaction.entity';
 
 @Entity()
@@ -25,11 +25,11 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: UserRole,
-    default: UserRole.User,
+    enum: USER_ROLE,
+    default: USER_ROLE.USER,
     nullable: true,
   })
-  role: UserRole;
+  role: USER_ROLE;
 
   @OneToMany(() => WalletReport, (report) => report.user)
   reports: WalletReport[];

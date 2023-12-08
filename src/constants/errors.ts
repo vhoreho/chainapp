@@ -13,6 +13,7 @@ export const AUTHORIZATION_ERRORS = {
 export const USERS_ERRORS = {
   USER_HAS_NOT_PUBLIC_KEY: 'user.public-key.user-has-not-public-key',
   USER_NOT_FOUND: 'user.user-not-found',
+  WRONG_ROLE: 'user.wrong-role',
 };
 
 export const BLOCKCHAIN_ERRORS = {

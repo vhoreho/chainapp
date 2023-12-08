@@ -20,6 +20,7 @@ import { ec } from 'elliptic';
 import { NewTransaction } from './new-transaction.entity';
 import { createHash } from 'crypto';
 import { SignedTransaction } from './signed-transactions.entity';
+import { USER_ROLE } from 'src/enums/user-role.enum';
 
 @Injectable()
 export class BlockchainService {
@@ -44,6 +45,14 @@ export class BlockchainService {
     return await this.newTransactionRepository.find({
       where: { user: { username } },
     });
+  }
+
+  async getTransactionsForMining(role: USER_ROLE) {
+    if (role !== USER_ROLE.MINER) {
+      throw new BadRequestException(USERS_ERRORS.WRONG_ROLE);
+    }
+
+    return await this.newTransactionRepository.find({ relations: ['user'] });
   }
 
   async getSignedTransactions(username: string) {

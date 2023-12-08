@@ -4,13 +4,14 @@ import {
   Get,
   NotFoundException,
   Param,
+  Post,
   Req,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { UserRole } from 'src/enums/user-role.enum';
+import { USER_ROLE } from 'src/enums/user-role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -30,7 +31,7 @@ export class UsersController {
       throw new NotFoundException('Пользователь не найден');
     }
 
-    if (requestingUser.role !== UserRole.SuperAdmin) {
+    if (requestingUser.role !== USER_ROLE.SUPERADMIN) {
       throw new UnauthorizedException(
         'У вас нет прав для удаления пользователя',
       );
@@ -65,5 +66,13 @@ export class UsersController {
     const { privateKey } = body;
 
     return this.usersService.getPublicKeyFromPrivateKey(privateKey);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('change-role')
+  async changeRole(@Req() request, @Body() { role }) {
+    const { username } = request.user;
+
+    return this.usersService.changeRole(username, role);
   }
 }

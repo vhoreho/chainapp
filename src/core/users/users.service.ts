@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
 import { Repository } from 'typeorm';
-import { UserRole } from 'src/enums/user-role.enum';
+import { USER_ROLE } from 'src/enums/user-role.enum';
 import { ec } from 'elliptic';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
 import * as bitcoin from 'bitcoinjs-lib';
@@ -39,7 +39,7 @@ export class UsersService {
       username,
       password,
       email,
-      role: UserRole.User,
+      role: USER_ROLE.USER,
     });
   }
 
@@ -111,5 +111,15 @@ export class UsersService {
     return bitcoin.payments
       .p2pkh({ pubkey: Buffer.from(publicKey, 'hex') })
       .address?.toString();
+  }
+
+  async changeRole(username: string, role: USER_ROLE) {
+    const user = await this.usersRepository.findOne({ where: { username } });
+
+    if (!user) {
+      throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
+    }
+
+    await this.usersRepository.save({ ...user, role });
   }
 }

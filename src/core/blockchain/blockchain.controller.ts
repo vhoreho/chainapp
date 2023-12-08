@@ -41,6 +41,13 @@ export class BlockchainController {
     return await this.blockchainService.getSignedTransactions(username);
   }
 
+  @Get('get-transaction-for-mining')
+  @UseGuards(JwtAuthGuard)
+  async getTransactionsForMining(@Req() request) {
+    const { role } = request.user;
+    return await this.blockchainService.getTransactionsForMining(role);
+  }
+
   @Post('sign-transaction/:id')
   @UseGuards(JwtAuthGuard)
   async singTransaction(
