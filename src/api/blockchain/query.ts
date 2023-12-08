@@ -2,10 +2,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext } from "@/hooks/context";
+import { ROLES } from "@/types";
+import { getProfileQuery } from "../profile";
 import {
   createBlockQuery,
   getBlockChainQuery,
   getSignedTransactions,
+  getTransactionsForMining,
   getUnsignedTransactions,
   signTransaction,
 } from "./module";
@@ -47,6 +50,16 @@ export const useGetSignedTransactionsQuery = () => {
     queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_SIGNED_TRANSACTIONS],
     queryFn: () => getSignedTransactions(authData?.access_token!),
     enabled: !!authData?.access_token,
+  });
+};
+
+export const useGetTransactionsForMiningQuery = (role: ROLES) => {
+  const { authData } = useAuthContext();
+
+  return useQuery({
+    queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_TRANSACTIONS_FOR_MINING],
+    queryFn: () => getTransactionsForMining(authData?.access_token!),
+    enabled: !!authData?.access_token && role === ROLES.MINER,
   });
 };
 

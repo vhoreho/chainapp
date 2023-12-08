@@ -19,11 +19,11 @@ export const Auth = () => {
 
   return (
     <div className="relative flex h-screen flex-col items-center justify-center bg-cornflower-500 text-platinum-500">
-      {/* {isSignUp ? (
+      {isSignUp ? (
         <SignUpPage onSignIn={handleShowSignIn} />
-      ) : ( */}
-      <LogIn onSignUp={handleShowSignUp} />
-      {/* )} */}
+      ) : (
+        <LogIn onSignUp={handleShowSignUp} />
+      )}
     </div>
   );
 };

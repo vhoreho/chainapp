@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Play } from "next/font/google";
 import { appWithTranslation } from "next-i18next";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider, ModalProvider, SpinnerProvider } from "@/providers";
+import { AuthProvider, ModalProvider, SecondaryModalProvider, SpinnerProvider } from "@/providers";
 import "@/styles/globals.css";
 
 const play = Play({ subsets: ["latin"], weight: ["400", "700"] });
@@ -15,7 +15,9 @@ function App({ Component, pageProps }: AppProps) {
         <div className={`${play.className} flex min-h-screen flex-col`}>
           <SpinnerProvider>
             <ModalProvider>
-              <Component {...pageProps} />
+              <SecondaryModalProvider>
+                <Component {...pageProps} />
+              </SecondaryModalProvider>
             </ModalProvider>
           </SpinnerProvider>
         </div>
