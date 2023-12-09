@@ -120,6 +120,11 @@ export class UsersService {
       throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
     }
 
-    await this.usersRepository.save({ ...user, role });
+    await this.usersRepository.save({
+      ...user,
+      publicKey: null,
+      walletAddress: null,
+      role,
+    });
   }
 }
