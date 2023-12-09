@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useGetSignedTransactionsQuery, useGetUnsignedTransactionsQuery } from "@/api/blockchain";
 import { useGetProfileQuery } from "@/api/profile";
 import { Spinner } from "@/components/common";
@@ -25,7 +26,15 @@ export const Blockchain = () => {
   }
 
   if (!profile || !unsignedTransactions || !signedTransactions) {
-    return null;
+    return (
+      <CommonLayout>
+        <div className="flex grow flex-col py-7">
+          <div className="layout flex w-full grow flex-col items-center justify-center">
+            <Spinner variant="blue" size="lg" />
+          </div>
+        </div>
+      </CommonLayout>
+    );
   }
 
   return (
