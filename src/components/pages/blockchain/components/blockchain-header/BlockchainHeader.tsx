@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -39,6 +39,7 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { closeModal, openModal } = useModal();
+  const [isGenerated, setIsGenerated] = useState(false);
   const createChainMutation = useCreateChainMutation();
   const { data: transactionsForMining, isLoading } = useGetTransactionsForMiningQuery(profile.role);
   const queryClient = useQueryClient();
@@ -85,9 +86,16 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!profile.publicKey && profile.role === ROLES.USER) {
-      openModal(<NotificationModal onClose={closeModal} profile={profile} />);
+      openModal(
+        <NotificationModal onClose={closeModal} profile={profile} onGenerate={setIsGenerated} />,
+      );
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
+
+  useEffect(() => {
+    console.log("🚀 ~ file: BlockchainHeader.tsx:99 ~ isGenerated:", isGenerated);
+  }, [isGenerated]);
 
   return (
     <div className="flex flex-col items-center justify-between gap-4 pb-4 md:flex-row">
@@ -117,7 +125,7 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
             </span>
           </button>
         ) : null}
-        {isLoading ? null : transactionsForMining?.length ? (
+        {isLoading ? null : transactionsForMining?.length && profile.role === ROLES.MINER ? (
           <button
             className="flex w-full items-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
             onClick={handleOpenMiningTransactionsModal}
