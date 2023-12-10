@@ -7,10 +7,12 @@ import { useModal } from "@/hooks/context";
 type NewBlockModalProps = {
   onClose: () => void;
   profile: ProfileResM;
+  onGenerate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NotificationModal: FC<NewBlockModalProps> = ({ onClose, profile }) => {
+export const NotificationModal: FC<NewBlockModalProps> = ({ onClose, profile, onGenerate }) => {
   const { openModal, closeModal } = useModal();
+
   return (
     <div className="flex max-w-[500px] flex-col gap-4">
       <div className="mb-4 flex justify-between">
@@ -37,7 +39,9 @@ export const NotificationModal: FC<NewBlockModalProps> = ({ onClose, profile }) 
         децентрализованном мире криптовалют! 🚀💰
       </p>
       <button
-        onClick={() => openModal(<GenerateKeysModal closeModal={closeModal} />)}
+        onClick={() =>
+          openModal(<GenerateKeysModal closeModal={closeModal} onGenerate={onGenerate} />)
+        }
         className="inline-flex justify-center self-end rounded-md border border-transparent bg-blue-500 px-4 py-[10px] text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus:outline-none"
       >
         Сгенерировать

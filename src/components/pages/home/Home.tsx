@@ -14,19 +14,19 @@ export const Home = () => {
             <div className="flex flex-wrap justify-center gap-2 py-4">
               <Link
                 href={ROUTES.BLOCKCHAIN}
-                className="rounded-lg bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 focus:outline-none"
+                className="rounded-lg bg-blue-500 px-4 py-1 font-bold text-white hover:bg-blue-600 focus:outline-none"
               >
                 {t("pages.home.buttons.emulator")}
               </Link>
               <Link
                 href={ROUTES.BLOCKCHAIN_EXPLORER}
-                className="rounded-lg bg-indigo-500 px-4 py-2 font-bold text-white hover:bg-indigo-600 focus:outline-none"
+                className="rounded-lg bg-indigo-500 px-4 py-1 font-bold text-white hover:bg-indigo-600 focus:outline-none"
               >
                 {t("pages.home.buttons.explorer")}
               </Link>
               {/* <Link
                 href={ROUTES.BLOCKCHAIN_REPUTATION}
-                className="rounded-lg bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none"
+                className="rounded-lg bg-green-500 px-4 py-1 font-bold text-white hover:bg-green-600 focus:outline-none"
               >
                 {t("pages.home.buttons.reputation")}
               </Link> */}

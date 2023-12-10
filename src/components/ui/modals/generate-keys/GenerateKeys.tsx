@@ -1,28 +1,36 @@
 import React, { FunctionComponent, useState } from "react";
-import ClipboardJS from "clipboard";
+import { useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useGenerateKeysMutation } from "@/api/users";
 import { Spinner } from "@/components/common";
+import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { CopySvg } from "../..";
 import CloseIcon from "../../icons/Close";
 
 type Props = {
   closeModal: () => void;
+  onGenerate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const GenerateKeysModal: FunctionComponent<Props> = ({ closeModal }) => {
+export const GenerateKeysModal: FunctionComponent<Props> = ({ closeModal, onGenerate }) => {
   const [privateKey, setPrivateKey] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const generateKeysMutation = useGenerateKeysMutation();
+  const queryClient = useQueryClient();
 
   const handleGenerateKeys = () => {
     setIsLoading(true);
+    setError(null);
     generateKeysMutation.mutateAsync(undefined, {
       onSuccess: (keys) => {
         setPrivateKey(keys.privateKey);
+        queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET] });
+        onGenerate(true);
       },
-      onError: (error) => {
+      onError: (error: AxiosError) => {
         console.log("🚀 ~ file: GenerateKeys.tsx:21 ~ handleGenerateKeys ~ error:", error);
+        setError(error.message);
       },
       onSettled: () => setIsLoading(false),
     });
@@ -69,6 +77,7 @@ export const GenerateKeysModal: FunctionComponent<Props> = ({ closeModal }) => {
         >
           {isLoading ? <Spinner size="xs" /> : <span>Сгенерировать</span>}
         </button>
+        {error && <span className="mt-3 text-red-500">{error}</span>}
       </div>
     </div>
   );
