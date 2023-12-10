@@ -3,6 +3,6 @@ export * from "./profile-settings/ProfileSettings";
 export * from "./settings-modal/SettingsModal";
 export * from "./unsigned-transactions/UnsignedTransactions";
 export * from "./signed-transactions/SignedTransactions";
-export * from "./mining-modal/MiningModal";
+export * from "./mine-modal/MineModal";
 export * from "./mining-transactions/MiningTransactions";
-export * from "./mining-modal/MiningModal";
+export * from "./mine-modal/MineModal";

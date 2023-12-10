@@ -6,7 +6,7 @@ import { useGetProfileQuery } from "@/api/profile";
 import { Spinner } from "@/components/common";
 import { ZERO_BLOCK_IDENTIFIER } from "@/constants/vars";
 import { useAuthContext } from "@/hooks/context";
-import { Block, REQUEST_STATUS, ROLES } from "@/types";
+import { Block, REQUEST_STATUS, USER_ROLE } from "@/types";
 import "react-tooltip/dist/react-tooltip.css";
 
 type Props = {
@@ -16,12 +16,10 @@ type Props = {
 };
 
 export const Card = memo(function Card({ chain, wallet, isZeroBlock }: Props) {
-  const { data: profile, isLoading } = useGetProfileQuery();
+  const { data: profile } = useGetProfileQuery();
   const { created_date, data, prevHash, hash, nonce, id } = chain;
 
   const parsedData = typeof data === "string" ? JSON.parse(data) : data;
-
-  const handleMine = () => {};
 
   return (
     <div
@@ -31,12 +29,6 @@ export const Card = memo(function Card({ chain, wallet, isZeroBlock }: Props) {
     >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">Детали блока</h2>
-        {profile?.role === ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
-          <div className="mx-2">|</div>
-        )}
-        {profile?.role !== ROLES.MINER && prevHash !== ZERO_BLOCK_IDENTIFIER && (
-          <div className="mx-2">|</div>
-        )}
         <span className="text-gray-500">
           {isZeroBlock
             ? "Дата создания блока"

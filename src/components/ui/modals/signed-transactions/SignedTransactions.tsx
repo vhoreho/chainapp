@@ -45,7 +45,7 @@ export const SignedTransactionsModal: FunctionComponent<Props> = ({ signedTransa
             onClick={() => toggleBlock(block.id)}
           >
             <h2 className="text-lg font-semibold">
-              Block #{block.id} - {moment(block.created_date).format("DD-MM-YYYY h:mm:ss")}
+              ⛓️ Block #{block.id} - {moment(block.created_date).format("DD-MM-YYYY h:mm:ss")}
             </h2>
             <div className="p-2">
               {openBlockId === block.id ? <FaChevronUp /> : <FaChevronDown />}
@@ -53,13 +53,13 @@ export const SignedTransactionsModal: FunctionComponent<Props> = ({ signedTransa
           </div>
           {openBlockId === block.id && (
             <div className="mt-4">
-              <p>Предыдущий хэш: {block.prevHash}</p>
+              <p>Предыдущий хэш: {block.prevHash} 🔗</p>
               <div className="my-4 max-w-md self-start truncate text-gray-600">
-                <p className="truncate">Адресат: {JSON.parse(block.data).receivedAddress}</p>
-                <p>Количество: {JSON.parse(block.data).amount}</p>
-                <p className="truncate">Сообщение: {JSON.parse(block.data).message}</p>
+                <p className="truncate">Адресат: {JSON.parse(block.data).receivedAddress} 🎁</p>
+                <p>Количество: {JSON.parse(block.data).amount} 💰</p>
+                <p className="truncate">Сообщение: {JSON.parse(block.data).message} 📝</p>
               </div>
-              <p>Хэш: {block.hash}</p>
+              <p>Хэш: {block.hash} 🔒</p>
             </div>
           )}
         </div>

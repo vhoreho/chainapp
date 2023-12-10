@@ -5,7 +5,7 @@ import { ProfileResM } from "@/api/profile/type";
 import { useChangeRoleMutation } from "@/api/users";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useModal } from "@/hooks/context";
-import { ROLES } from "@/types";
+import { USER_ROLE } from "@/types";
 import CloseIcon from "../../icons/Close";
 import { RolesSelect } from "./components/roles-select/RolesSelect";
 
@@ -34,7 +34,6 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     closeModal();
-    location.reload();
   };
 
   const handleChangeRole = async () => {
@@ -46,6 +45,8 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
             queryClient.invalidateQueries({
               queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET],
             });
+
+            closeModal();
           },
         },
       );
@@ -59,7 +60,7 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
   }, [formState]);
 
   return (
-    <div className="min-w-[400px] max-w-[760px]">
+    <div className="w-[90vw] xl:w-[62vw]">
       <div className="mb-4 flex justify-between">
         <h2>Настройки профиля</h2>
         <button onClick={closeModal} className="">
@@ -98,35 +99,6 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
             className="w-full rounded-md border p-2"
           />
         </div>
-        {profile.publicKey && (
-          <div className="mb-4">
-            <label className="mb-1 block">Public key</label>
-            <input
-              type="text"
-              name="username"
-              value={profile.publicKey}
-              disabled
-              className="w-full truncate rounded-md border p-2"
-            />
-          </div>
-        )}
-        {profile.role !== ROLES.ADMIN && profile.role !== ROLES.SUPERADMIN && (
-          <div className="mb-4">
-            <label className="mb-1 block">Запросить новую роль</label>
-            <div className="flex  ">
-              <RolesSelect setRole={setCurrentRole} role={currentRole} />
-              <button
-                className={classNames(
-                  "bg-green-400 p-2 text-white rounded-r-md transition-all whitespace-nowrap",
-                  "hover:bg-green-500",
-                )}
-                onClick={handleChangeRole}
-              >
-                Поменять роль
-              </button>
-            </div>
-          </div>
-        )}
 
         <div className="flex justify-end">
           <button
@@ -138,6 +110,36 @@ export const ProfileSettings: FunctionComponent<Props> = ({ profile }) => {
           </button>
         </div>
       </form>
+      <div className="my-3 border border-gray-200" />
+      {profile.publicKey && (
+        <div className="mb-4">
+          <label className="mb-1 block">Public key</label>
+          <input
+            type="text"
+            name="username"
+            value={profile.publicKey}
+            disabled
+            className="w-full truncate rounded-md border p-2"
+          />
+        </div>
+      )}
+      {profile.role !== USER_ROLE.ADMIN && profile.role !== USER_ROLE.SUPERADMIN && (
+        <div className="mb-4">
+          <label className="mb-1 block">Запросить новую роль</label>
+          <div className="flex  ">
+            <RolesSelect setRole={setCurrentRole} role={currentRole} />
+            <button
+              className={classNames(
+                "bg-green-400 p-2 text-white rounded-r-md transition-all whitespace-nowrap",
+                "hover:bg-green-500",
+              )}
+              onClick={handleChangeRole}
+            >
+              Поменять роль
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { useSignTransactionMutation } from "@/api/blockchain";
 import { Spinner } from "@/components/common";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { Block } from "@/types";
+import CloseIcon from "../../icons/Close";
 
 type Props = {
   transaction: Block;
@@ -18,7 +19,6 @@ export const SignTransaction: FunctionComponent<Props> = ({
   onClose,
 }) => {
   const [privateKey, setPrivateKey] = useState("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const signTransactionMutation = useSignTransactionMutation();
@@ -54,6 +54,9 @@ export const SignTransaction: FunctionComponent<Props> = ({
         <div className="text-lg font-semibold">
           Block #{id} - {moment(created_date).format("DD-MM-YYYY h:mm:ss")}
         </div>
+        <button onClick={onClose}>
+          <CloseIcon className="h-5 w-5 fill-black/50 hover:fill-black/100" />
+        </button>
       </div>
       <div className="my-4 max-w-md self-start truncate text-gray-600">
         <p className="truncate">Адресат: {JSON.parse(data).receivedAddress}</p>

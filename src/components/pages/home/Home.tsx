@@ -24,12 +24,12 @@ export const Home = () => {
               >
                 {t("pages.home.buttons.explorer")}
               </Link>
-              <Link
+              {/* <Link
                 href={ROUTES.BLOCKCHAIN_REPUTATION}
                 className="rounded-lg bg-green-500 px-4 py-1 font-bold text-white hover:bg-green-600 focus:outline-none"
               >
                 {t("pages.home.buttons.reputation")}
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

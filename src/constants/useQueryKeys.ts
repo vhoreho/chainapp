@@ -17,6 +17,8 @@ export const USE_QUERY_KEYS = {
     MUTATION: {
       CREATE: "BlockchainCreateBlock",
       SIGN_TRANSACTION: "SignTransaction",
+      DELETE_UNSIGNED_TRANSACTION: "DeleteUnsignedTransaction",
+      MINE_BLOCK: "MineBlock",
     },
     QUERY: {
       GET_CREATED_TRANSACTIONS: "GetCreatedTransactions",

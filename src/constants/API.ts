@@ -16,8 +16,10 @@ export const GET_TRANSACTIONS_FOR_MINING = `${BASE_API_URL}/blockchain/get-trans
 export const GET_SIGNED_TRANSACTIONS = `${BASE_API_URL}/blockchain/get-signed-transactions`;
 export const CREATE_BLOCK_ROUTE = `${BASE_API_URL}/blockchain/create`;
 export const CLEAR_BLOCKCHAIN_ROUTE = `${BASE_API_URL}/blockchain/clear`;
-export const MINER_BLOCK_ROUTE = (id: number) => `${BASE_API_URL}/blockchain/mine/${id}`;
+export const MINE_BLOCK_ROUTE = (id: number) => `${BASE_API_URL}/blockchain/mine/${id}`;
 export const SIGN_BLOCK_ROUTE = (id: number) => `${BASE_API_URL}/blockchain/sign-transaction/${id}`;
+export const DELETE_USNIGNED_TRANSACTION_BY_ID = (id: number) =>
+  `${BASE_API_URL}/blockchain/delete-unsigned-transaction/${id}`;
 
 //Users API Routes
 export const GET_USERS_ROUTE = `${BASE_API_URL}/users`;
