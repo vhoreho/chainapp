@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Transaction } from './transaction.entity';
+import { Transaction } from './entities/transaction.entity';
 import { Repository } from 'typeorm';
 import { CreateBlockDto } from './dto/blochchain.dto';
 import { calculateHash } from './helpers';
@@ -17,10 +17,11 @@ import {
 import * as moment from 'moment';
 import { MD5 } from 'crypto-js';
 import { ec } from 'elliptic';
-import { NewTransaction } from './new-transaction.entity';
+import { NewTransaction } from './entities/new-transaction.entity';
 import { createHash } from 'crypto';
-import { SignedTransaction } from './signed-transactions.entity';
+import { SignedTransaction } from './entities/signed-transactions.entity';
 import { USER_ROLE } from 'src/enums/user-role.enum';
+import { ZERO_BLOCK_HASH } from 'src/constants/vars';
 
 @Injectable()
 export class BlockchainService {
@@ -47,12 +48,20 @@ export class BlockchainService {
     });
   }
 
-  async getTransactionsForMining(role: USER_ROLE) {
-    if (role !== USER_ROLE.MINER) {
+  async getTransactionsForMining(username: string) {
+    const user = await this.usersRepository.findOne({ where: { username } });
+
+    if (!user) {
+      throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
+    }
+
+    if (user.role !== USER_ROLE.MINER) {
       throw new BadRequestException(USERS_ERRORS.WRONG_ROLE);
     }
 
-    return await this.newTransactionRepository.find({ relations: ['user'] });
+    return await this.signedTransactionsRepository.find({
+      relations: ['user'],
+    });
   }
 
   async getSignedTransactions(username: string) {
@@ -92,7 +101,7 @@ export class BlockchainService {
         : MD5(newBlock.created_date + JSON.stringify(newBlock.data)).toString();
       newBlock.prevHash = lastChainRecord
         ? lastChainRecord.hash
-        : '7252f2453b7a9cd4703e362cbe7dae48';
+        : ZERO_BLOCK_HASH;
 
       return await this.newTransactionRepository.save(newBlock);
     } catch (error) {
@@ -109,29 +118,33 @@ export class BlockchainService {
     }
   }
 
-  async mineBlock(id: number, difficulty: number) {
-    const block = await this.newTransactionRepository.findOne({
+  async mineBlock(id: number, nonce: number) {
+    const block = await this.signedTransactionsRepository.findOne({
       where: { id },
     });
 
-    let nonce = 0;
+    const lastChainRecord = await this.transactionRepository
+      .createQueryBuilder('block_chain')
+      .select()
+      .orderBy('block_chain.id', 'DESC')
+      .getOne();
 
-    while (
-      calculateHash(block.data + nonce.toString()).substring(0, difficulty) !==
-      Array(difficulty + 1).join('0')
-    ) {
-      nonce++;
+    const transaction: Transaction = {
+      ...block,
+      nonce,
+      prevHash: lastChainRecord ? lastChainRecord.hash : ZERO_BLOCK_HASH,
+      hash: MD5(block.data + nonce).toString(),
+    };
+
+    try {
+      await this.transactionRepository.save(transaction);
+
+      await this.signedTransactionsRepository.delete(block);
+
+      return true;
+    } catch (error) {
+      return false;
     }
-
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 5000);
-    });
-
-    const newBlock = { ...block, nonce };
-
-    return await this.newTransactionRepository.save(newBlock);
   }
 
   async signTransaction(
@@ -209,5 +222,11 @@ export class BlockchainService {
     const dataString = JSON.stringify(data);
     const hash = createHash('sha256').update(dataString).digest('hex');
     return hash;
+  }
+
+  async deleteUnsignedTransaction(id: number) {
+    await this.newTransactionRepository.delete({ id });
+
+    return this.newTransactionRepository.find();
   }
 }

@@ -5,10 +5,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User } from '../../users/users.entity';
 
 @Entity()
-export class Transaction {
+export class SignedTransaction {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,9 +20,6 @@ export class Transaction {
 
   @Column()
   created_date: string;
-
-  @Column({ nullable: true })
-  nonce: number;
 
   @Column()
   data: string;

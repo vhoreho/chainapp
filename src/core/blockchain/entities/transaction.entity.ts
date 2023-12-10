@@ -5,10 +5,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User } from '../../users/users.entity';
 
 @Entity()
-export class NewTransaction {
+export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 

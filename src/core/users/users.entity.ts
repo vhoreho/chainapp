@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { WalletReport } from 'src/core/wallet-report/wallet-report.entity';
 import { USER_ROLE } from 'src/enums/user-role.enum';
-import { Transaction } from '../blockchain/transaction.entity';
+import { Transaction } from '../blockchain/entities/transaction.entity';
 
 @Entity()
 export class User {

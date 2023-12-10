@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -11,7 +12,7 @@ import { BlockchainService } from './blockchain.service';
 import { CreateBlockDto } from './dto/blochchain.dto';
 import { DIFFICULTY_BLOCK } from './constants';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { Transaction } from './transaction.entity';
+import { Transaction } from './entities/transaction.entity';
 
 @Controller('blockchain')
 export class BlockchainController {
@@ -31,6 +32,7 @@ export class BlockchainController {
   @UseGuards(JwtAuthGuard)
   async getUnsignedTransaction(@Req() request) {
     const { username } = request.user;
+
     return await this.blockchainService.getUnsignedTransactions(username);
   }
 
@@ -44,8 +46,8 @@ export class BlockchainController {
   @Get('get-transaction-for-mining')
   @UseGuards(JwtAuthGuard)
   async getTransactionsForMining(@Req() request) {
-    const { role } = request.user;
-    return await this.blockchainService.getTransactionsForMining(role);
+    const { username } = request.user;
+    return await this.blockchainService.getTransactionsForMining(username);
   }
 
   @Post('sign-transaction/:id')
@@ -69,8 +71,14 @@ export class BlockchainController {
     return await this.blockchainService.clearBlockchain();
   }
 
-  @Get('mine/:id')
-  async mineBlock(@Param('id') id: number) {
-    return await this.blockchainService.mineBlock(id, DIFFICULTY_BLOCK);
+  @Post('mine/:id')
+  async mineBlock(@Param('id') id: number, @Body() { nonce }) {
+    return await this.blockchainService.mineBlock(id, nonce);
+  }
+
+  @Get('delete-unsigned-transaction/:id')
+  @UseGuards(JwtAuthGuard)
+  async deleteUnsignedTransaction(@Param('id') id: number) {
+    return await this.blockchainService.deleteUnsignedTransaction(id);
   }
 }

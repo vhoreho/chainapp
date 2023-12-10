@@ -5,16 +5,18 @@ import { UsersModule } from './core/users/users.module';
 import { User } from './core/users/users.entity';
 import { AppController } from './app.controller';
 import { BlockchainModule } from './core/blockchain/blockchain.module';
-import { Transaction } from './core/blockchain/transaction.entity';
+import { Transaction } from './core/blockchain/entities/transaction.entity';
 import { WalletReportModule } from './core/wallet-report/wallet-report.module';
 import { ProfileModule } from './core/profile/profile.module';
-import { NewTransaction } from './core/blockchain/new-transaction.entity';
-import { SignedTransaction } from './core/blockchain/signed-transactions.entity';
+import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
+import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    ConfigModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'ec2-34-252-169-131.eu-west-1.compute.amazonaws.com',
