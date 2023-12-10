@@ -1,4 +1,4 @@
-import { ROLES } from "@/types";
+import { USER_ROLE } from "@/types";
 
 export type KeysResM = {
   publicKey: string;
@@ -6,5 +6,5 @@ export type KeysResM = {
 };
 
 export type ChangeRoleReqM = {
-  role: ROLES;
+  role: USER_ROLE;
 };

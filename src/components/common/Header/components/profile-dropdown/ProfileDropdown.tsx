@@ -11,7 +11,7 @@ import { ERROR_STATUS_CODE } from "@/constants/errors";
 import { ROUTES } from "@/constants/routes";
 import { ADMIN_ROLES } from "@/constants/vars";
 import { useAuthContext, useModal } from "@/hooks/context";
-import { ROLES } from "@/types";
+import { USER_ROLE } from "@/types";
 
 export const ProfileDropdown = () => {
   const { logout } = useAuthContext();
@@ -48,7 +48,7 @@ export const ProfileDropdown = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg focus:outline-none">
-          {ADMIN_ROLES.includes(profile?.role ?? ROLES.USER) && (
+          {ADMIN_ROLES.includes(profile?.role ?? USER_ROLE.USER) && (
             <div className="py-1">
               <Menu.Item>
                 {({ active }) => (

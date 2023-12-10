@@ -11,7 +11,7 @@ import { ProfileResM } from "@/api/profile/type";
 import { UnsignedTransactionsModal } from "@/components/ui/modals";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useModal } from "@/hooks/context";
-import { Block, BlockFormData, ROLES } from "@/types";
+import { Block, BlockFormData, USER_ROLE } from "@/types";
 import { NotificationModal } from "../notification-modal/NotificationModal";
 
 type Props = {
@@ -77,14 +77,11 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
   };
 
   const handleOpenMiningTransactionsModal = () => {
-    if (transactionsForMining?.length)
-      openModal(
-        <DynamicMiningModal transactionsForMining={transactionsForMining} profile={profile} />,
-      );
+    if (transactionsForMining?.length) openModal(<DynamicMiningModal profile={profile} />);
   };
 
   useEffect(() => {
-    if (!profile.publicKey && profile.role === ROLES.USER) {
+    if (!profile.publicKey && profile.role === USER_ROLE.USER) {
       openModal(<NotificationModal onClose={closeModal} profile={profile} />);
     }
   }, []);
@@ -95,9 +92,9 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
         {t("pages.blockchain.title")}
       </h2>
       <div className="flex flex-wrap gap-3 md:flex-row md:flex-nowrap">
-        {unsignedTransactions?.length ? (
+        {unsignedTransactions?.length && profile.role === USER_ROLE.USER ? (
           <button
-            className="flex w-full items-center gap-2 whitespace-nowrap rounded-lg bg-cornflower-500/90 px-4 py-1 font-semibold text-white hover:bg-cornflower-500/100 focus:outline-none"
+            className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-cornflower-500/90 px-4 py-1 font-semibold text-white hover:bg-cornflower-500/100 focus:outline-none"
             onClick={handleOpenUnsignedBlockModal}
           >
             {t("pages.blockchain.unsigned-block")}
@@ -106,9 +103,9 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
             </span>
           </button>
         ) : null}
-        {signedTransactions?.length ? (
+        {signedTransactions?.length && profile.role === USER_ROLE.USER ? (
           <button
-            className="flex w-full items-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
+            className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
             onClick={handleOpenSignedBlockModal}
           >
             {t("pages.blockchain.block-in-progress")}
@@ -117,9 +114,9 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
             </span>
           </button>
         ) : null}
-        {isLoading ? null : transactionsForMining?.length ? (
+        {isLoading ? null : transactionsForMining?.length && profile.role === USER_ROLE.MINER ? (
           <button
-            className="flex w-full items-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
+            className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-green-300 px-4 py-1 font-semibold text-white hover:bg-green-400 focus:outline-none"
             onClick={handleOpenMiningTransactionsModal}
           >
             Транзакции для майнинга
@@ -128,7 +125,7 @@ export const BlockchainHeader: FunctionComponent<Props> = ({
             </span>
           </button>
         ) : null}
-        {profile?.role === ROLES.USER && profile.publicKey && (
+        {profile?.role === USER_ROLE.USER && profile.publicKey && (
           <button
             className="w-full whitespace-nowrap rounded-lg bg-blue-500 px-4 py-1 font-semibold text-white hover:bg-blue-600 focus:outline-none"
             onClick={handleOpenNewBlockModal}

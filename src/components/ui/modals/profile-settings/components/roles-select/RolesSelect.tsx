@@ -3,15 +3,15 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import { v4 } from "uuid";
-import { ROLES } from "@/types";
+import { USER_ROLE } from "@/types";
 
 type Props = {
-  role: ROLES;
-  setRole: Dispatch<SetStateAction<ROLES>>;
+  role: USER_ROLE;
+  setRole: Dispatch<SetStateAction<USER_ROLE>>;
 };
 
 export const RolesSelect: FC<Props> = ({ role, setRole }) => {
-  const roles = [ROLES.MINER, ROLES.USER].filter((r) => r !== role);
+  const roles = [USER_ROLE.MINER, USER_ROLE.USER].filter((r) => r !== role);
 
   return (
     <Menu as="div" className="relative inline-block w-full text-left">

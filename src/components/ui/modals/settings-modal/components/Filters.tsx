@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { ROLES } from "@/types";
+import { USER_ROLE } from "@/types";
 
 interface FiltersProps {
-  roles: ROLES[];
-  onFilterChange: (selectedRoles: ROLES[]) => void;
+  roles: USER_ROLE[];
+  onFilterChange: (selectedRoles: USER_ROLE[]) => void;
   onSearchChange: (searchText: string) => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({ roles, onFilterChange, onSearchChange }) => {
-  const [selectedRoles, setSelectedRoles] = useState<ROLES[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<USER_ROLE[]>([]);
   const [searchText, setSearchText] = useState("");
 
-  const handleRoleChange = (role: ROLES) => {
+  const handleRoleChange = (role: USER_ROLE) => {
     if (selectedRoles.includes(role)) {
       setSelectedRoles(selectedRoles.filter((r) => r !== role));
     } else {

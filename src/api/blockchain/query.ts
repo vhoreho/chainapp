@@ -2,17 +2,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext } from "@/hooks/context";
-import { ROLES } from "@/types";
-import { getProfileQuery } from "../profile";
+import { Block, USER_ROLE } from "@/types";
 import {
   createBlockQuery,
+  deleteUnsignedTransaction,
   getBlockChainQuery,
   getSignedTransactions,
   getTransactionsForMining,
   getUnsignedTransactions,
+  mineBlock,
   signTransaction,
 } from "./module";
-import { CreateBlockReqM, SignTransactionReqM } from "./types";
+import { CreateBlockReqM, MineBlockReqM, SignTransactionReqM } from "./types";
 
 export const useCreateChainMutation = () => {
   const { authData } = useAuthContext();
@@ -53,13 +54,13 @@ export const useGetSignedTransactionsQuery = () => {
   });
 };
 
-export const useGetTransactionsForMiningQuery = (role: ROLES) => {
+export const useGetTransactionsForMiningQuery = (role: USER_ROLE) => {
   const { authData } = useAuthContext();
 
   return useQuery({
     queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_TRANSACTIONS_FOR_MINING],
     queryFn: () => getTransactionsForMining(authData?.access_token!),
-    enabled: !!authData?.access_token && role === ROLES.MINER,
+    enabled: !!authData?.access_token && role === USER_ROLE.MINER,
   });
 };
 
@@ -69,6 +70,26 @@ export const useSignTransactionMutation = () => {
     mutationFn: (signTransactionReqM: SignTransactionReqM) =>
       signTransaction(authData?.access_token!, signTransactionReqM),
     mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.SIGN_TRANSACTION],
+  });
+
+  return mutation;
+};
+
+export const useDeleteUnsignedTransactionMutation = () => {
+  const { authData } = useAuthContext();
+  const mutation = useMutation<Block[], AxiosError, number>({
+    mutationFn: (id) => deleteUnsignedTransaction(authData?.access_token!, id),
+    mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.DELETE_UNSIGNED_TRANSACTION],
+  });
+
+  return mutation;
+};
+
+export const useMineBlockMutation = () => {
+  const { authData } = useAuthContext();
+  const mutation = useMutation<Block[], AxiosError, MineBlockReqM>({
+    mutationFn: (mineBlockReqM) => mineBlock(authData?.access_token!, mineBlockReqM),
+    mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.MINE_BLOCK],
   });
 
   return mutation;

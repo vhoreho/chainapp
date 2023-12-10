@@ -14,11 +14,11 @@ function App({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <div className={`${play.className} flex min-h-screen flex-col`}>
           <SpinnerProvider>
-            <ModalProvider>
-              <SecondaryModalProvider>
+            <SecondaryModalProvider>
+              <ModalProvider>
                 <Component {...pageProps} />
-              </SecondaryModalProvider>
-            </ModalProvider>
+              </ModalProvider>
+            </SecondaryModalProvider>
           </SpinnerProvider>
         </div>
       </AuthProvider>

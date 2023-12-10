@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { UniversalModal } from "@/components/common/UniversalModal/UniversalModal";
 import { ModalContext } from "@/contexts/modalContext";
 
@@ -19,6 +19,14 @@ export function ModalProvider({ children }: ModalProviderProps) {
     setIsOpen(false);
     setModalContent(null);
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isOpen]);
 
   return (
     <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>

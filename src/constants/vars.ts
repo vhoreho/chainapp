@@ -1,9 +1,9 @@
 import * as bitcoin from "bitcoinjs-lib";
-import { Block, ROLES } from "@/types";
+import { Block, USER_ROLE } from "@/types";
 
 export const ZERO_BLOCK_IDENTIFIER = "Нулевой блок не имеет предыдущего хэша";
 
-export const ADMIN_ROLES = [ROLES.ADMIN, ROLES.SUPERADMIN];
+export const ADMIN_ROLES = [USER_ROLE.ADMIN, USER_ROLE.SUPERADMIN];
 
 export const ZERO_BLOCK = new Block({
   id: 0,
