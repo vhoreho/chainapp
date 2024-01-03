@@ -1,0 +1,45 @@
+{
+  "name": "chainapp-mui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@iconify/react": "^4.1.1",
+    "@mui/material": "^5.15.3",
+    "@mui/material-nextjs": "^5.15.3",
+    "apexcharts": "^3.45.1",
+    "date-fns": "^3.0.6",
+    "next": "14.0.4",
+    "numeral": "^2.0.6",
+    "react": "^18",
+    "react-apexcharts": "^1.4.1",
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "@types/node": "^20",
+    "@types/numeral": "^2.0.5",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.2",
+    "prettier": "^3.1.1",
+    "typescript": "^5"
+  }
+}
