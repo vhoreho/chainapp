@@ -1,26 +1,13 @@
 import { styled } from "@mui/material";
-import { useState } from "react";
-
-import { LogIn, SignUp } from "./components";
+import { useAuthContext } from "@/hooks/context";
+import { LogIn } from "./components";
 
 export const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-
-  const handleShowSignUp = () => {
-    setIsSignUp(true);
-  };
-
-  const handleShowSignIn = () => {
-    setIsSignUp(false);
-  };
+  const { logIn, isLoading, error } = useAuthContext();
 
   return (
     <Wrapper>
-      {isSignUp ? (
-        <SignUp onSignIn={handleShowSignIn} />
-      ) : (
-        <LogIn onSignUp={handleShowSignUp} />
-      )}
+      <LogIn onLogIn={logIn} loading={isLoading} />
     </Wrapper>
   );
 };

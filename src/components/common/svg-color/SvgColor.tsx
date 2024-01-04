@@ -1,12 +1,13 @@
+import { forwardRef } from "react";
 import { SxProps } from "@mui/material";
 import Box from "@mui/material/Box";
-import { forwardRef } from "react";
 
 type Props = {
   src: string;
   sx: SxProps;
 };
 
+// eslint-disable-next-line react/display-name
 export const SvgColor = forwardRef(({ src, sx, ...other }: Props, ref) => (
   <Box
     component="span"

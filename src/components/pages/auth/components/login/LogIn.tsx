@@ -1,10 +1,20 @@
-import { Box, Button, FormControl, TextField, Typography, styled } from "@mui/material";
-import { teal } from "@mui/material/colors";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Iconify } from "@/components/common/iconify/Iconify";
+import { LogInReqM } from "@/types";
 
 type Props = {
-  onSignUp: () => void;
+  onLogIn: (logInReqM: LogInReqM) => void;
+  loading: boolean;
 };
 
 type Inputs = {
@@ -12,30 +22,33 @@ type Inputs = {
   password: string;
 };
 
-export const LogIn = ({ onSignUp }: Props) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+export const LogIn = ({ onLogIn }: Props) => {
+  const { register, handleSubmit } = useForm<Inputs>();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <LogInBox>
       <Typography variant="h3" component="h3">
         Авторизация
       </Typography>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onLogIn)}>
         <TextField fullWidth label="Username" size="medium" required {...register("username")} />
         <TextField
           fullWidth
-          type="password"
+          type={showPassword ? "text" : "password"}
           label="Password"
           required
           size="medium"
-          {...register("password")}
+          {...register("password", { minLength: 4 })}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  <Iconify icon={showPassword ? "mdi-light:eye" : "mdi-light:eye-off"} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Button type="submit" variant="contained" size="large">
           Войти
@@ -63,5 +76,3 @@ const Form = styled("form")(() => ({
   flexDirection: "column",
   gap: 16,
 }));
-
-const FormInput = styled(TextField)(() => ({}));

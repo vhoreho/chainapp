@@ -1,6 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
-  "plugins": ["tailwindcss", "simple-import-sort"],
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["simple-import-sort", "unused-imports"],
   "rules": {
     "sort-imports": [
       "error",
@@ -9,7 +9,13 @@
         "ignoreDeclarationSort": true
       }
     ],
-    "simple-import-sort/imports": "error"
+    "simple-import-sort/imports": "error",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+    ]
   },
   "overrides": [
     {
