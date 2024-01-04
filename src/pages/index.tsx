@@ -1,8 +1,7 @@
 import { Ubuntu } from "next/font/google";
 import Head from "next/head";
 
-// import { Auth } from "@/components/pages";
-import { AppView } from "@/sections/overview/view";
+import { Auth } from "@/components/pages";
 
 const ubuntu = Ubuntu({
   subsets: ["cyrillic", "latin"],
@@ -19,7 +18,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${ubuntu.className}`}>
-        <AppView />
+        <Auth />
       </main>
     </>
   );

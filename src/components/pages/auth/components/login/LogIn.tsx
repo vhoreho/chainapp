@@ -1,4 +1,4 @@
-import { Box, FormControl, TextField, Typography, styled } from "@mui/material";
+import { Box, Button, FormControl, TextField, Typography, styled } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -24,31 +24,22 @@ export const LogIn = ({ onSignUp }: Props) => {
 
   return (
     <LogInBox>
-      <Typography
-        variant="h5"
-        component="h5"
-        fontFamily={"inherit"}
-        color={teal["900"]}
-        fontWeight={"500"}
-      >
+      <Typography variant="h3" component="h3">
         Авторизация
       </Typography>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          fullWidth
-          label="Username"
-          size="small"
-          required
-          {...register("username")}
-        />
+        <TextField fullWidth label="Username" size="medium" required {...register("username")} />
         <TextField
           fullWidth
           type="password"
           label="Password"
           required
-          size="small"
+          size="medium"
           {...register("password")}
         />
+        <Button type="submit" variant="contained" size="large">
+          Войти
+        </Button>
       </Form>
     </LogInBox>
   );
@@ -57,14 +48,14 @@ export const LogIn = ({ onSignUp }: Props) => {
 const LogInBox = styled(Box)(({ theme }) => ({
   maxWidth: "calc(100%-32px)",
   width: "500px",
-  boxShadow: theme.shadows[5],
+  marginInline: theme.spacing(2),
+  boxShadow: theme.customShadows.card,
   borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(2),
+  padding: theme.spacing(4),
   display: "flex",
   flexDirection: "column",
   gap: "16px",
-  background:
-    "linear-gradient(135deg, rgba(91, 228, 155, 0.2), rgba(0, 167, 111, 0.2)) rgb(255, 255, 255)",
+  background: theme.palette.grey[50],
 }));
 
 const Form = styled("form")(() => ({

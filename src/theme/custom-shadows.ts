@@ -1,16 +1,8 @@
 /* eslint-disable prettier/prettier */
+import { grey } from "@mui/material/colors";
 import { alpha } from "@mui/material/styles";
+import { common, primary, secondary, success, warning, error, info } from "./palette";
 
-import {
-  common,
-  error,
-  grey,
-  info,
-  primary,
-  secondary,
-  success,
-  warning,
-} from "./palette";
 
 // ----------------------------------------------------------------------
 

@@ -1,11 +1,14 @@
 import { PaletteMode } from "@mui/material";
-import { Palette, alpha } from "@mui/material/styles";
+import { Palette, PaletteColor, TypeAction, alpha } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
+import { PaletteAugmentColorOptions } from "@mui/material/styles/createPalette";
 
 // ----------------------------------------------------------------------
 
 // SETUP COLORS
 
-export const grey = {
+export const customGreyPalette = {
+  ...grey,
   0: "#FFFFFF",
   100: "#F9FAFB",
   200: "#F4F6F8",
@@ -60,7 +63,7 @@ export const warning = {
   main: "#FFAB00",
   dark: "#B76E00",
   darker: "#7A4100",
-  contrastText: grey[800],
+  contrastText: customGreyPalette[800],
 };
 
 export const error = {
@@ -77,14 +80,18 @@ export const common = {
   white: "#FFFFFF",
 };
 
-export const action = {
-  hover: alpha(grey[500], 0.08),
-  selected: alpha(grey[500], 0.16),
-  disabled: alpha(grey[500], 0.8),
-  disabledBackground: alpha(grey[500], 0.24),
-  focus: alpha(grey[500], 0.24),
+export const action: TypeAction = {
+  hover: alpha(customGreyPalette[500], 0.08),
+  selected: alpha(customGreyPalette[500], 0.16),
+  disabled: alpha(customGreyPalette[500], 0.8),
+  disabledBackground: alpha(customGreyPalette[500], 0.24),
+  focus: alpha(customGreyPalette[500], 0.24),
   hoverOpacity: 0.08,
   disabledOpacity: 0.48,
+  active: "",
+  selectedOpacity: 0,
+  focusOpacity: 0,
+  activatedOpacity: 0,
 };
 
 const base = {
@@ -96,29 +103,30 @@ const base = {
   error,
   grey,
   common,
-  divider: alpha(grey[500], 0.2),
+  divider: alpha(customGreyPalette[500], 0.2),
   action,
+  contrastThreshold: 0,
+  mode: "light",
 };
 
 // ----------------------------------------------------------------------
 
-export function palette(): Palette {
+export function palette() {
   return {
     ...base,
-    mode: "light",
+    mode: "light" as PaletteMode,
     text: {
-      primary: grey[800],
-      secondary: grey[600],
-      disabled: grey[500],
+      primary: customGreyPalette[800],
+      secondary: customGreyPalette[600],
+      disabled: customGreyPalette[500],
     },
     background: {
       paper: "#FFFFFF",
-      default: grey[100],
-      neutral: grey[200],
+      default: customGreyPalette[100],
     },
     action: {
       ...base.action,
-      active: grey[600],
+      active: customGreyPalette[600],
     },
   };
 }

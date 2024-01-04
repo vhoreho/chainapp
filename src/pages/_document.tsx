@@ -18,6 +18,11 @@ export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
     <Html lang="en">
       <Head>
         <DocumentHeadTags {...props} />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Play:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <CssBaseline />

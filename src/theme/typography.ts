@@ -1,5 +1,3 @@
-import { Typography } from "@mui/material/styles/createTypography";
-
 interface Sizes {
   sm: number;
   md: number;
@@ -28,8 +26,8 @@ export function responsiveFontSizes({ sm, md, lg }: Sizes) {
   };
 }
 
-export const primaryFont = "Public Sans, sans-serif";
-export const secondaryFont = "Barlow, sans-serif";
+export const primaryFont = "Play, sans-serif";
+export const secondaryFont = "Merriweather, serif";
 
 // ----------------------------------------------------------------------
 
@@ -102,12 +100,10 @@ export const typography = {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
-    textTransform: "uppercase",
   },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: "unset",
   },
 };
