@@ -17,6 +17,10 @@ const Card = ({ hash }: Block) => (
         <Typography fontWeight="600">ID:</Typography>
         {hash}
       </Box>
+      <Box>
+        <Typography fontWeight="600">Входы:</Typography>
+        {hash}
+      </Box>
     </AccordionSummary>
     <AccordionDetails></AccordionDetails>
   </Accordion>
@@ -27,9 +31,7 @@ export const CardsContainer: FunctionComponent<Props> = ({ profile, blockchain }
     <Box display="flex" flexDirection="column" gap={1}>
       <Card {...ZERO_BLOCK} />
       {blockchain.map((block) => (
-        <div key={v4()}>
-          <Card {...block} />
-        </div>
+        <Card {...block} key={v4()} />
       ))}
     </Box>
   );
