@@ -1,9 +1,4 @@
-import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import { Theme, alpha } from "@mui/material/styles";
-
-// ----------------------------------------------------------------------
-
-export function overrides(theme: Theme) {
+export function overrides() {
   return {
     MuiCssBaseline: {
       styleOverrides: {
@@ -22,6 +17,7 @@ export function overrides(theme: Theme) {
           padding: 0,
           width: "100%",
           height: "100%",
+          background: "#F4F5FA !important",
         },
         __next: {
           width: "100%",

@@ -1,7 +1,6 @@
 import { PaletteMode } from "@mui/material";
-import { Palette, PaletteColor, TypeAction, alpha } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import { PaletteAugmentColorOptions } from "@mui/material/styles/createPalette";
+import { alpha, TypeAction } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +23,7 @@ export const customGreyPalette = {
 export const primary = {
   lighter: "#D0ECFE",
   light: "#73BAFB",
-  main: "#1877F2",
+  main: "#12B76A",
   dark: "#0C44AE",
   darker: "#042174",
   contrastText: "#FFFFFF",
@@ -122,7 +121,7 @@ export function palette() {
     },
     background: {
       paper: "#FFFFFF",
-      default: customGreyPalette[100],
+      default: "#F4F5FA",
     },
     action: {
       ...base.action,

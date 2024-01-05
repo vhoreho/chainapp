@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "@/providers";
+import { AuthProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
 import ThemeProvider from "@/theme";
 
@@ -24,11 +24,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <AppCacheProvider {...pageProps}>
       <ThemeProvider>
         <QueryClientProvider client={query}>
-          <SnackBarProvider>
-            <AuthProvider>
-              <Component {...pageProps} />
-            </AuthProvider>
-          </SnackBarProvider>
+          <ProgressProvider>
+            <SnackBarProvider>
+              <AuthProvider>
+                <Component {...pageProps} />
+              </AuthProvider>
+            </SnackBarProvider>
+          </ProgressProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </AppCacheProvider>,

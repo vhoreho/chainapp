@@ -48,7 +48,7 @@ export default function LanguagePopover() {
           bgcolor: open && "action.selected",
         }}
       >
-        <Image src={LANGS[0].icon} alt={LANGS[0].label} />
+        <Image src={LANGS[0].icon} alt={LANGS[0].label} width={28} height={28} />
       </IconButton>
 
       <Popover

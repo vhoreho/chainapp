@@ -1,13 +1,12 @@
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider as MUIThemeProvider, ThemeOptions, createTheme } from "@mui/material";
-import { Typography, TypographyOptions } from "@mui/material/styles/createTypography";
 import { CSSProperties, ReactNode, useMemo } from "react";
-
+// eslint-disable-next-line sort-imports
+import { createTheme, ThemeOptions, ThemeProvider as MUIThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import { customShadows } from "./custom-shadows";
 import { overrides } from "./overrides";
+import { palette } from "./palette";
 import { shadows } from "./shadows";
 import { typography } from "./typography";
-import { palette } from "./palette";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -51,7 +50,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
   const theme = createTheme(memoizedValue);
 
-  theme.components = overrides(theme);
+  theme.components = overrides();
 
   return (
     <MUIThemeProvider theme={theme}>

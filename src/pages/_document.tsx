@@ -11,11 +11,15 @@ export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
     <Html lang="en">
       <Head>
         <DocumentHeadTags {...props} />
+        <title>OSINT Insight Hub</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Play:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        <meta name="description" content="OSInt tools page" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
         <CssBaseline />

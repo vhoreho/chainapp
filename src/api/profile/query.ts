@@ -19,6 +19,7 @@ export const useUpdateProfileMutation = () => {
 
 export const useGetProfileQuery = () => {
   const { authData } = useAuthContext();
+
   return useQuery<ProfileResM, AxiosError>({
     queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET],
     queryFn: () => getProfileQuery(authData?.access_token!),

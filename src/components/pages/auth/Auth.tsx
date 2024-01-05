@@ -19,5 +19,5 @@ const Wrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
   width: "100%",
   height: "100vh",
-  background: theme.palette.grey[100],
+  background: "#F4F5FA",
 }));

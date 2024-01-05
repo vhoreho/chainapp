@@ -1,10 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { grey } from "@mui/material/colors";
 import { alpha } from "@mui/material/styles";
-import { common, primary, secondary, success, warning, error, info } from "./palette";
-
-
-// ----------------------------------------------------------------------
+import { common, error, info, primary, secondary, success, warning } from "./palette";
 
 export function customShadows() {
   const transparent = alpha(grey[500], 0.16);
@@ -17,15 +13,9 @@ export function customShadows() {
     z16: `0 16px 32px -4px ${transparent}`,
     z20: `0 20px 40px -4px ${transparent}`,
     z24: `0 24px 48px 0 ${transparent}`,
-    //
-    card: `0 0 2px 0 ${alpha(grey[500], 0.08)}, 0 12px 24px -4px ${alpha(
-      grey[500],
-      0.08
-    )}`,
-    dropdown: `0 0 2px 0 ${alpha(
-      grey[500],
-      0.24
-    )}, -20px 20px 40px -4px ${alpha(grey[500], 0.24)}`,
+    base: "rgba(58, 53, 65, 0.1) 0px 2px 10px 0px",
+    card: `0 0 2px 0 ${alpha(grey[500], 0.08)}, 0 12px 24px -4px ${alpha(grey[500], 0.08)}`,
+    dropdown: `0 0 2px 0 ${alpha(grey[500], 0.24)}, -20px 20px 40px -4px ${alpha(grey[500], 0.24)}`,
     dialog: `-40px 40px 80px -8px ${alpha(common.black, 0.24)}`,
     //
     primary: `0 8px 16px 0 ${alpha(primary.main, 0.24)}`,

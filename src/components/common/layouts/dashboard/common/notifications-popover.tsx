@@ -186,31 +186,59 @@ function renderContent(notification: Notification) {
 
   if (notification.type === "order_placed") {
     return {
-      avatar: <Image alt={notification.title} src="/assets/icons/ic_notification_package.svg" />,
+      avatar: (
+        <Image
+          alt={notification.title}
+          src="/assets/icons/ic_notification_package.svg"
+          width={40}
+          height={40}
+        />
+      ),
       title,
     };
   }
   if (notification.type === "order_shipped") {
     return {
-      avatar: <Image alt={notification.title} src="/assets/icons/ic_notification_shipping.svg" />,
+      avatar: (
+        <Image
+          alt={notification.title}
+          src="/assets/icons/ic_notification_shipping.svg"
+          width={40}
+          height={40}
+        />
+      ),
       title,
     };
   }
   if (notification.type === "mail") {
     return {
-      avatar: <Image alt={notification.title} src="/assets/icons/ic_notification_mail.svg" />,
+      avatar: (
+        <Image
+          alt={notification.title}
+          src="/assets/icons/ic_notification_mail.svg"
+          width={40}
+          height={40}
+        />
+      ),
       title,
     };
   }
   if (notification.type === "chat_message") {
     return {
-      avatar: <Image alt={notification.title} src="/assets/icons/ic_notification_chat.svg" />,
+      avatar: (
+        <Image
+          alt={notification.title}
+          src="/assets/icons/ic_notification_chat.svg"
+          width={40}
+          height={40}
+        />
+      ),
       title,
     };
   }
   return {
     avatar: notification.avatar ? (
-      <Image alt={notification.title} src={notification.avatar} />
+      <Image alt={notification.title} src={notification.avatar} width={40} height={40} />
     ) : null,
     title,
   };

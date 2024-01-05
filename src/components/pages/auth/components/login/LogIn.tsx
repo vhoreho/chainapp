@@ -62,7 +62,7 @@ const LogInBox = styled(Box)(({ theme }) => ({
   maxWidth: "calc(100%-32px)",
   width: "500px",
   marginInline: theme.spacing(2),
-  boxShadow: theme.customShadows.card,
+  boxShadow: theme.customShadows.base,
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(4),
   display: "flex",

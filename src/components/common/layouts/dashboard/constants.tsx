@@ -25,36 +25,19 @@ const icon = (name: string) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
 );
 
-const navConfig = [
+export const navConfig = [
   {
     title: "dashboard",
-    path: "/",
+    path: "/dashboard",
     icon: icon("ic_analytics"),
   },
   {
-    title: "user",
-    path: "/user",
-    icon: icon("ic_user"),
-  },
-  {
-    title: "product",
-    path: "/products",
-    icon: icon("ic_cart"),
-  },
-  {
-    title: "blog",
-    path: "/blog",
-    icon: icon("ic_blog"),
-  },
-  {
-    title: "login",
-    path: "/login",
-    icon: icon("ic_lock"),
-  },
-  {
-    title: "Not found",
-    path: "/404",
-    icon: icon("ic_disabled"),
+    title: "blockchain",
+    icon: icon("ic_blockchain"),
+    submenu: [
+      { title: "emulator", path: "/blockchain/emulator", icon: icon("ic_emulator") },
+      { title: "explorer", path: "/blockchain/explorer", icon: icon("ic_explorer") },
+    ],
   },
 ];
 
@@ -106,4 +89,3 @@ export const NOTIFICATIONS = [
   },
 ];
 
-export default navConfig;

@@ -7,6 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
 import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { useGetProfileQuery } from "@/api/profile";
+import { useAuthContext } from "@/hooks/context";
 import { ACCOUNT } from "../constants";
 
 // ----------------------------------------------------------------------
@@ -30,6 +32,8 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const { logout } = useAuthContext();
+  const { data: profile, isLoading } = useGetProfileQuery();
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);
@@ -71,21 +75,14 @@ export default function AccountPopover() {
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
-        PaperProps={{
-          sx: {
-            p: 0,
-            mt: 1,
-            ml: 0.75,
-            width: 200,
-          },
-        }}
+        sx={{ p: 0, mt: 1, ml: 0.75, width: 200 }}
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {ACCOUNT.displayName}
+            {profile?.username}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {ACCOUNT.email}
+            {profile?.email}
           </Typography>
         </Box>
 
@@ -102,7 +99,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={logout}
           sx={{ typography: "body2", color: "error.main", py: 1.5 }}
         >
           Logout

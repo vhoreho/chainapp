@@ -5,6 +5,7 @@ import { ROUTES } from "@/constants/routes";
 import { AUTH_DATA } from "@/constants/ui";
 import { AuthContext } from "@/contexts/authContext";
 import { useSnackBarContext } from "@/hooks/context";
+import { useProgressContext } from "@/hooks/context/useProgressContext";
 import { LogInReqM, REQUEST_STATUS, SignUpReqM, UserDataResM } from "@/types";
 import { getAxiosErrorMessage } from "@/utils/get-axios-error-message";
 
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authData, setAuthData] = useState<UserDataResM | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { handleStart, handleStop } = useProgressContext();
   const [error, setError] = useState();
   const logInMutation = useAuthorizationLogInMutation();
   const signUpMutation = useAuthorizationSignUpMutation();
@@ -24,7 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logIn = async (logInReqM: LogInReqM) => {
     try {
-      setIsLoading(true);
+      handleStart();
       const authData = await logInMutation.mutateAsync(logInReqM);
       localStorage.setItem(AUTH_DATA, JSON.stringify(authData));
       setIsAuthenticated(true);
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       handleShow(getAxiosErrorMessage(error), "error");
       return REQUEST_STATUS.REJECT;
     } finally {
-      setIsLoading(false);
+      handleStop();
     }
   };
 
