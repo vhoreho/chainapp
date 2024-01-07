@@ -88,9 +88,7 @@ export const CardsContainer: FunctionComponent<CardsContainerProps> = ({ profile
     <Box display="flex" flexDirection="column" gap={1}>
       <Card {...ZERO_BLOCK} isZero />
       {blockchain.map((block) => (
-        <div key={v4()}>
-          <Card {...block} />
-        </div>
+        <Card {...block} key={v4()} />
       ))}
     </Box>
   );
