@@ -15,7 +15,7 @@ import { ACCOUNT } from "../constants";
 
 const MENU_OPTIONS = [
   {
-    label: "Home",
+    label: "Dashboard",
     icon: "eva:home-fill",
   },
   {

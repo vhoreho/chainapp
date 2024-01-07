@@ -1,11 +1,12 @@
 import React from "react";
-import { Alert, alpha, Box, Container, Skeleton, Typography } from "@mui/material";
+import { Alert, alpha, Button, Container, Grid, Skeleton, Typography } from "@mui/material";
 import {
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
   useGetUnsignedTransactionsQuery,
 } from "@/api/blockchain";
 import { useGetProfileQuery } from "@/api/profile";
+import { Iconify } from "@/components/common/iconify/Iconify";
 import { CardsContainer } from "./components/cards/Cards";
 
 export const Emulator = () => {
@@ -57,14 +58,24 @@ export const Emulator = () => {
   }
 
   return (
-    <Container sx={{ flexGrow: 1 }}>
-      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} marginBottom={2}>
-        <Box gridColumn="span 6">
+    <Container sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+      <Grid container spacing={2} alignItems="center">
+        <Grid md={6}>
           <Typography component="h3" variant="h3">
             Реестр транзакций
           </Typography>
-        </Box>
-      </Box>
+        </Grid>
+        <Grid md={6} display="flex" gap={2}>
+          <Button variant="contained" sx={{ display: "flex", gap: 1 }}>
+            <Iconify icon="mdi-light:note-plus" />
+            Создать блок
+          </Button>
+          <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
+            <Iconify icon="mdi-light:note-plus" />
+            Очистить реестр
+          </Button>
+        </Grid>
+      </Grid>
       <CardsContainer profile={profile} blockchain={blockchain} />
     </Container>
   );

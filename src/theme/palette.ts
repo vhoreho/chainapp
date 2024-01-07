@@ -22,9 +22,9 @@ export const customGreyPalette = {
 
 export const primary = {
   lighter: "#D0ECFE",
-  light: "#73BAFB",
+  light: "#0c804a",
   main: "#12B76A",
-  dark: "#0C44AE",
+  dark: "#41c587",
   darker: "#042174",
   contrastText: "#FFFFFF",
 };
