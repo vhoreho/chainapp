@@ -28,7 +28,7 @@ export function overrides() {
     MuiGrid: {
       styleOverrides: {
         root: {
-          width: "100% !important",
+          width: "100%",
           margin: 0,
         },
       },

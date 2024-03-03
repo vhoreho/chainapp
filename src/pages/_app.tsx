@@ -8,7 +8,6 @@ import { AuthProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
 import ThemeProvider from "@/theme";
 import "moment/locale/ru";
-
 moment.locale("ru");
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

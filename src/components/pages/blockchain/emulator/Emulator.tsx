@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< HEAD
 import {
   Alert,
   alpha,
@@ -9,13 +10,21 @@ import {
   Skeleton,
   styled,
 } from "@mui/material";
+=======
+import { Alert, alpha, Button, Container, Grid, Skeleton, Typography } from "@mui/material";
+>>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
 import {
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
   useGetUnsignedTransactionsQuery,
 } from "@/api/blockchain";
 import { useGetProfileQuery } from "@/api/profile";
+<<<<<<< HEAD
 import { TransactionsList } from "./components/transactions-list/TransactionsList";
+=======
+import { Iconify } from "@/components/common/iconify/Iconify";
+import { CardsContainer } from "./components/cards/Cards";
+>>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
 
 export const Emulator = () => {
   const { data: profile, isLoading: isGetProfileLoading } = useGetProfileQuery();
@@ -66,20 +75,26 @@ export const Emulator = () => {
   }
 
   return (
-    <Card>
-      <Header title="Реестр транзакций" />
-      <Content>
-        <TransactionsList
-          transactions={blockchain}
-          isLoading={
-            isGetProfileLoading &&
-            isGetUnsignedTransactionsLoading &&
-            isGetSignedTransactionsLoading &&
-            isBlockchainLoading
-          }
-        />
-      </Content>
-    </Card>
+    <Container sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+      <Grid container spacing={2} alignItems="center">
+        <Grid md={6}>
+          <Typography component="h3" variant="h3">
+            Реестр транзакций
+          </Typography>
+        </Grid>
+        <Grid md={6} display="flex" gap={2}>
+          <Button variant="contained" sx={{ display: "flex", gap: 1 }}>
+            <Iconify icon="mdi-light:note-plus" />
+            Создать блок
+          </Button>
+          <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
+            <Iconify icon="mdi-light:note-plus" />
+            Очистить реестр
+          </Button>
+        </Grid>
+      </Grid>
+      <CardsContainer profile={profile} blockchain={blockchain} />
+    </Container>
   );
 };
 

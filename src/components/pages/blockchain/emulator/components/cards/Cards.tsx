@@ -14,7 +14,11 @@ import { ZERO_BLOCK } from "@/constants/vars";
 import { useResponsive } from "@/hooks/use-responsive";
 import { Block } from "@/types";
 
+<<<<<<< HEAD
 type ContainerProps = {
+=======
+type CardsContainerProps = {
+>>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
   profile: ProfileResM;
   blockchain: Block[];
 };
@@ -23,37 +27,71 @@ type CardProps = Block & {
   isZero?: boolean;
 };
 
-const Card: FunctionComponent<CardProps> = ({ hash, created_date, isZero }) => {
+const Card = ({ hash, created_date, isZero, prevHash, data }: CardProps) => {
   const smUp = useResponsive("up", "sm");
 
   return (
     <Accordion>
       <AccordionSummary>
         <Grid container spacing={2}>
-          <Grid sm={12} md={6}>
-            <Box display="flex" gap={2}>
+          <Grid md={6} wrap="nowrap" container gap={1} direction="row">
+            <Grid item xs={1}>
               <Typography fontWeight="600">ID:</Typography>
-              <Typography noWrap sx={{ maxWidth: smUp ? "fit-content" : 250 }}>
-                {hash}
-              </Typography>
-            </Box>
+            </Grid>
+            <Grid item zeroMinWidth>
+              <Typography noWrap>{hash}</Typography>
+            </Grid>
           </Grid>
-          <Grid md={6} alignContent="end">
-            <Box display="flex" gap={2}>
-              <Typography fontWeight="600">Дата создания:</Typography>
-              <Typography noWrap sx={{ maxWidth: "fit-content" }}>
-                {isZero ? "Дата создания блока" : moment(created_date).format(smUp ? "LLL" : "L")}
-              </Typography>
-            </Box>
+          <Grid md={6} container gap={1} direction="row">
+            <Typography fontWeight="600">Дата:</Typography>
+            <Typography sx={{ maxWidth: 270 }} noWrap>
+              {isZero
+                ? "Дата создания блока"
+                : smUp
+                  ? moment(created_date).format("LLL")
+                  : moment(created_date).format("L")}
+            </Typography>
           </Grid>
         </Grid>
       </AccordionSummary>
-      <AccordionDetails></AccordionDetails>
+      <AccordionDetails>
+        <Grid container spacing={2}>
+          <Grid md={6}>
+            <Grid>
+              <Typography fontWeight="600">Предыдущий хэш:</Typography>
+            </Grid>
+            <Grid>{prevHash}</Grid>
+          </Grid>
+          <Grid md={6}>
+            <Grid>
+              <Typography fontWeight="600">Данные о блоке:</Typography>
+              <Grid container direction={smUp ? "row" : "column"} wrap="nowrap">
+                <Typography fontWeight={600}>Отправитель:</Typography>
+                <Grid item zeroMinWidth>
+                  <Typography>{JSON.parse(data).receivedAddress}</Typography>
+                </Grid>
+              </Grid>
+              <Grid container direction="row">
+                <Typography fontWeight={600}>Сумма:</Typography>
+                <Typography>{JSON.parse(data).amount}</Typography>
+              </Grid>
+              <Grid container direction="row">
+                <Typography fontWeight={600}>Сообщение:</Typography>
+                <Typography>{JSON.parse(data).message}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </AccordionDetails>
     </Accordion>
   );
 };
 
+<<<<<<< HEAD
 export const CardsContainer: FunctionComponent<ContainerProps> = ({ profile, blockchain }) => {
+=======
+export const CardsContainer: FunctionComponent<CardsContainerProps> = ({ profile, blockchain }) => {
+>>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
   return (
     <Box display="flex" flexDirection="column" gap={1}>
       <Card {...ZERO_BLOCK} isZero />
