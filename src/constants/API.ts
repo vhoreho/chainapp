@@ -4,6 +4,7 @@ export const ABUSE_KEY = "q9AcAGfA1VPW8udL0guO6Bt4NYRAG2f7vlPCj8KH";
 
 export const BASE_API_URL = "https://chainapp-uh-c9c2ecac19f5.herokuapp.com";
 export const EXPLORER_API_URL = "https://blockchain.info/rawaddr";
+export const COIN_STATS_API_BASE_URL = "https://openapiv1.coinstats.app";
 // export const BASE_API_URL = "http://localhost:3333";
 
 //Auth API Routes
@@ -44,3 +45,7 @@ export const CRIME_REPORT_ROUTE = `${BASE_API_URL}/wallet-report`;
 //Explorer API
 export const GET_TRANSACTIONS_BY_ADDRESS = (address: string) => `${EXPLORER_API_URL}/${address}`;
 export const GET_CURRENCY_IN_USD = `https://api.coindesk.com/v1/bpi/currentprice.json`;
+
+//Coins Stat API
+export const GET_COINS = (page: number = 1, limit: number = 20, currency: string = "USD") =>
+  `${COIN_STATS_API_BASE_URL}/coins?page=${page}&limit=${limit}&currency=${currency}`;

@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import DashboardLayout from "@/components/common/layouts/dashboard";
-import { NextPageWithLayout } from "@/types/layout";
+import { BlockchainDashboard } from "@/components/pages";
 
-const dashboard: NextPageWithLayout = () => {
-  return <div>Dashboard</div>;
+export const dashboard = () => {
+  return <BlockchainDashboard />;
 };
 
 dashboard.getLayout = function getLayout(page: ReactElement) {

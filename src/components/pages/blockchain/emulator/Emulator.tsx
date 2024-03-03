@@ -1,12 +1,21 @@
 import React from "react";
-import { Alert, alpha, Box, Container, Skeleton, Typography } from "@mui/material";
+import {
+  Alert,
+  alpha,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Skeleton,
+  styled,
+} from "@mui/material";
 import {
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
   useGetUnsignedTransactionsQuery,
 } from "@/api/blockchain";
 import { useGetProfileQuery } from "@/api/profile";
-import { CardsContainer } from "./components/cards/Cards";
+import { TransactionsList } from "./components/transactions-list/TransactionsList";
 
 export const Emulator = () => {
   const { data: profile, isLoading: isGetProfileLoading } = useGetProfileQuery();
@@ -57,15 +66,30 @@ export const Emulator = () => {
   }
 
   return (
-    <Container sx={{ flexGrow: 1 }}>
-      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2} marginBottom={2}>
-        <Box gridColumn="span 6">
-          <Typography component="h3" variant="h3">
-            Реестр транзакций
-          </Typography>
-        </Box>
-      </Box>
-      <CardsContainer profile={profile} blockchain={blockchain} />
-    </Container>
+    <Card>
+      <Header title="Реестр транзакций" />
+      <Content>
+        <TransactionsList
+          transactions={blockchain}
+          isLoading={
+            isGetProfileLoading &&
+            isGetUnsignedTransactionsLoading &&
+            isGetSignedTransactionsLoading &&
+            isBlockchainLoading
+          }
+        />
+      </Content>
+    </Card>
   );
 };
+
+const Header = styled(CardHeader)`
+  padding: 8px 16px !important;
+`;
+
+const Content = styled(CardContent)`
+  &:last-child {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+`;

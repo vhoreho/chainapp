@@ -35,6 +35,7 @@ export const navConfig = [
     title: "blockchain",
     icon: icon("ic_blockchain"),
     submenu: [
+      { title: "dashboard", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
       { title: "emulator", path: "/blockchain/emulator", icon: icon("ic_emulator") },
       { title: "explorer", path: "/blockchain/explorer", icon: icon("ic_explorer") },
     ],
@@ -88,4 +89,3 @@ export const NOTIFICATIONS = [
     isUnRead: false,
   },
 ];
-

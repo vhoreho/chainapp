@@ -41,4 +41,9 @@ export const USE_QUERY_KEYS = {
       GET_CURRENCY_IN_USD: "GetCurrencyInUSD",
     },
   },
+  COINS_STAT: {
+    QUERY: {
+      GET_COINS: "GetCoins",
+    },
+  },
 };

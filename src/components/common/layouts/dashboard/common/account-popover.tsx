@@ -8,6 +8,7 @@ import Popover from "@mui/material/Popover";
 import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { useGetProfileQuery } from "@/api/profile";
+import { ROUTES } from "@/constants/routes";
 import { useAuthContext } from "@/hooks/context";
 import { ACCOUNT } from "../constants";
 
@@ -17,6 +18,7 @@ const MENU_OPTIONS = [
   {
     label: "Home",
     icon: "eva:home-fill",
+    path: ROUTES.DASHBOARD,
   },
   {
     label: "Profile",
@@ -33,7 +35,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const { logout } = useAuthContext();
-  const { data: profile, isLoading } = useGetProfileQuery();
+  const { data: profile } = useGetProfileQuery();
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);

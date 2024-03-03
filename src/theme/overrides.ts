@@ -25,5 +25,13 @@ export function overrides() {
         },
       },
     },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          width: "100% !important",
+          margin: 0,
+        },
+      },
+    },
   };
 }

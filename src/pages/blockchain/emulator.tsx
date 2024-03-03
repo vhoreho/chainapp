@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import DashboardLayout from "@/components/common/layouts/dashboard";
-import { Emulator } from "@/components/pages/blockchain/emulator/Emulator";
+import { Emulator } from "@/components/pages";
 
 export const emulator = () => {
   return <Emulator />;
