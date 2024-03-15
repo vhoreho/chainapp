@@ -13,7 +13,7 @@ export type Meta = {
   pageCount: number;
 };
 
-type Coin = {
+export type Coin = {
   availableSupply: number;
   explorers: Array<string>;
   icon: string;

@@ -44,6 +44,7 @@ export const USE_QUERY_KEYS = {
   COINS_STAT: {
     QUERY: {
       GET_COINS: "GetCoins",
+      GET_COIN: "GetCoin",
     },
   },
 };

@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import moment from "moment";
-import { AuthProvider, ProgressProvider } from "@/providers";
+import { AuthProvider, ModalProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
 import ThemeProvider from "@/theme";
 import "moment/locale/ru";
@@ -28,11 +28,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <ThemeProvider>
         <QueryClientProvider client={query}>
           <ProgressProvider>
-            <SnackBarProvider>
-              <AuthProvider>
-                <Component {...pageProps} />
-              </AuthProvider>
-            </SnackBarProvider>
+            <ModalProvider>
+              <SnackBarProvider>
+                <AuthProvider>
+                  <Component {...pageProps} />
+                </AuthProvider>
+              </SnackBarProvider>
+            </ModalProvider>
           </ProgressProvider>
         </QueryClientProvider>
       </ThemeProvider>

@@ -49,3 +49,5 @@ export const GET_CURRENCY_IN_USD = `https://api.coindesk.com/v1/bpi/currentprice
 //Coins Stat API
 export const GET_COINS = (page: number = 1, limit: number = 20, currency: string = "USD") =>
   `${COIN_STATS_API_BASE_URL}/coins?page=${page}&limit=${limit}&currency=${currency}`;
+
+export const GET_COIN = (id: string) => `https://openapiv1.coinstats.app/coins/${id}`;

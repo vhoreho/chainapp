@@ -14,7 +14,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Popover from "@mui/material/Popover";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { Iconify } from "@/components/common/iconify/Iconify";
+import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 import Scrollbar from "@/components/common/scrollbar/Scrollbar";
 import { fToNow } from "@/utils/format-time";
 import { NOTIFICATIONS } from "../constants";

@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import { alpha, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { useResponsive } from "@/hooks/use-responsive";
-import { Iconify } from "../../iconify/Iconify";
+import { Iconify } from "../../design-system/iconify/Iconify";
 import AccountPopover from "./common/account-popover";
 import { HEADER, NAV } from "./constants";
 

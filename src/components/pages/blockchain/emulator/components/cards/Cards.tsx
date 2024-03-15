@@ -14,11 +14,7 @@ import { ZERO_BLOCK } from "@/constants/vars";
 import { useResponsive } from "@/hooks/use-responsive";
 import { Block } from "@/types";
 
-<<<<<<< HEAD
-type ContainerProps = {
-=======
 type CardsContainerProps = {
->>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
   profile: ProfileResM;
   blockchain: Block[];
 };
@@ -87,11 +83,7 @@ const Card = ({ hash, created_date, isZero, prevHash, data }: CardProps) => {
   );
 };
 
-<<<<<<< HEAD
-export const CardsContainer: FunctionComponent<ContainerProps> = ({ profile, blockchain }) => {
-=======
 export const CardsContainer: FunctionComponent<CardsContainerProps> = ({ profile, blockchain }) => {
->>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
   return (
     <Box display="flex" flexDirection="column" gap={1}>
       <Card {...ZERO_BLOCK} isZero />

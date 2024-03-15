@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Iconify } from "@/components/common/iconify/Iconify";
+import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 import { LogInReqM } from "@/types";
 
 type Props = {

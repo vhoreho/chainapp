@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { alpha, Box, Collapse, List, ListItemButton } from "@mui/material";
-import { Iconify } from "@/components/common/iconify/Iconify";
+import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 
 type Item = {
   title: string;

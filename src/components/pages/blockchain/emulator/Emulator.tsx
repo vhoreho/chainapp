@@ -1,30 +1,15 @@
 import React from "react";
-<<<<<<< HEAD
-import {
-  Alert,
-  alpha,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Skeleton,
-  styled,
-} from "@mui/material";
-=======
 import { Alert, alpha, Button, Container, Grid, Skeleton, Typography } from "@mui/material";
->>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
 import {
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
   useGetUnsignedTransactionsQuery,
 } from "@/api/blockchain";
 import { useGetProfileQuery } from "@/api/profile";
-<<<<<<< HEAD
-import { TransactionsList } from "./components/transactions-list/TransactionsList";
-=======
-import { Iconify } from "@/components/common/iconify/Iconify";
+import { Iconify } from "@/components/common/design-system/iconify/Iconify";
+import { useModalContext } from "@/hooks/context";
 import { CardsContainer } from "./components/cards/Cards";
->>>>>>> 970cea8da799f6efbc1c7133fd5e5f8e48e2c030
+import { CreateTransactionModal } from "./components/create-transaction-modal/CreateTransactionModal";
 
 export const Emulator = () => {
   const { data: profile, isLoading: isGetProfileLoading } = useGetProfileQuery();
@@ -33,6 +18,7 @@ export const Emulator = () => {
   const { data: signedTransactions, isLoading: isGetSignedTransactionsLoading } =
     useGetSignedTransactionsQuery();
   const { data: blockchain, isLoading: isBlockchainLoading } = useGetBlockchainQuery();
+  const { openModal, closeModal } = useModalContext();
 
   if (
     isGetProfileLoading &&
@@ -83,12 +69,16 @@ export const Emulator = () => {
           </Typography>
         </Grid>
         <Grid md={6} display="flex" gap={2}>
-          <Button variant="contained" sx={{ display: "flex", gap: 1 }}>
+          <Button
+            variant="contained"
+            sx={{ display: "flex", gap: 1 }}
+            onClick={() => openModal(<CreateTransactionModal onClose={closeModal} />)}
+          >
             <Iconify icon="mdi-light:note-plus" />
             Создать блок
           </Button>
           <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
-            <Iconify icon="mdi-light:note-plus" />
+            <Iconify icon="material-symbols-light:auto-delete-outline" />
             Очистить реестр
           </Button>
         </Grid>
@@ -97,14 +87,3 @@ export const Emulator = () => {
     </Container>
   );
 };
-
-const Header = styled(CardHeader)`
-  padding: 8px 16px !important;
-`;
-
-const Content = styled(CardContent)`
-  &:last-child {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-`;
