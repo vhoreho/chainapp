@@ -12,10 +12,19 @@ export const CreateTransactionModal = ({ onClose }: Props) => {
   const [coin, setCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<number | null>(null);
   const [priceInUSD, setPriceInUSD] = useState<number | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const getCoinInformation = useGetCoinMutation();
 
   const handleChangeInput = (event: React.SyntheticEvent<Element, Event>, value: Coin | null) => {
+    if (!value) {
+      setPriceInUSD(null);
+    }
+
     setCoin(value);
+  };
+
+  const handleSubmitTransaction = () => {
+    console.log("🚀 ~ handleChangeInput ~ value:", { coin, amount, message });
   };
 
   useEffect(() => {
@@ -65,7 +74,7 @@ export const CreateTransactionModal = ({ onClose }: Props) => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 1,
-          marginTop: 1,
+          marginTop: 1.5,
         }}
       >
         <TextField
@@ -80,16 +89,28 @@ export const CreateTransactionModal = ({ onClose }: Props) => {
           </Badge>
         ) : null}
       </Box>
-      {amount && amount > 0 ? (
-        <ButtonGroup>
-          <Button variant="contained" disabled={!Boolean(amount)}>
-            Создать транзакцию
-          </Button>
-          <Button variant="outlined" onClick={onClose} style={{ marginLeft: 10 }}>
-            Отмена
-          </Button>
-        </ButtonGroup>
-      ) : null}
+      <TextField
+        sx={{ marginTop: 1.5 }}
+        label="Сообщение к транзакции"
+        multiline
+        fullWidth
+        maxRows={4}
+        size="small"
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      <ButtonGroup>
+        <Button
+          variant="contained"
+          disabled={!Boolean(amount && coin)}
+          onClick={handleSubmitTransaction}
+        >
+          Создать транзакцию
+        </Button>
+        <Button variant="outlined" onClick={onClose} style={{ marginLeft: 10 }}>
+          Отмена
+        </Button>
+      </ButtonGroup>
     </ModalContainer>
   );
 };
@@ -115,5 +136,5 @@ const ButtonGroup = styled("div")`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
-  margin-top: 8px;
+  margin-top: 16px;
 `;

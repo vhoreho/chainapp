@@ -48,7 +48,7 @@ export const ModalProvider: FunctionComponent<Props> = ({ children }) => {
               bgcolor: "background.paper",
               borderRadius: "8px",
               boxShadow: 24,
-              p: 4,
+              p: 2.5,
             }}
           >
             {modalContent}

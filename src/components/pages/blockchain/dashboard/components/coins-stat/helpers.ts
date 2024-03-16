@@ -1,4 +1,4 @@
-import { Data, Order } from "@/types/table";
+import { CoinsStatData, Order } from "@/types/table";
 
 export function createData(
   id: number,
@@ -7,7 +7,7 @@ export function createData(
   volume: number,
   name: string,
   icon: string,
-): Data {
+): CoinsStatData {
   return {
     id,
     name,
