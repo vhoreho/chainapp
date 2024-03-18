@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './core/auth/auth.module';
 import { UsersModule } from './core/users/users.module';
-import { User } from './core/users/users.entity';
+import { User } from './core/users/entities/users.entity';
 import { AppController } from './app.controller';
 import { BlockchainModule } from './core/blockchain/blockchain.module';
 import { Transaction } from './core/blockchain/entities/transaction.entity';
@@ -11,6 +11,8 @@ import { ProfileModule } from './core/profile/profile.module';
 import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
 import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RolesController } from './core/roles/roles.controller';
+import { RolesModule } from './core/roles/roles.module';
 
 @Module({
   imports: [
@@ -36,8 +38,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     BlockchainModule,
     WalletReportModule,
     ProfileModule,
+    RolesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, RolesController],
   providers: [],
 })
 export class AppModule {}

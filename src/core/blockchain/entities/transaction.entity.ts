@@ -5,7 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../../users/users.entity';
+import { User } from '../../users/entities/users.entity';
+import { Wallet } from 'src/core/users/entities/wallet.entity';
 
 @Entity()
 export class Transaction {
@@ -25,9 +26,12 @@ export class Transaction {
   nonce: number;
 
   @Column()
-  data: string;
+  coin: string;
 
-  @ManyToOne(() => User, (user) => user)
-  @JoinColumn({ name: 'userId' })
-  user: User;
+  @Column()
+  amount: number;
+
+  @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
+  @JoinColumn({ name: 'walletId' })
+  wallet: Wallet;
 }

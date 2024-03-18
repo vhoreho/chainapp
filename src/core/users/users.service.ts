@@ -4,18 +4,21 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './users.entity';
+import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
 import { USER_ROLE } from 'src/enums/user-role.enum';
 import { ec } from 'elliptic';
+import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
 import * as bitcoin from 'bitcoinjs-lib';
+import { Wallet } from './entities/wallet.entity';
 
 @Injectable()
 export class UsersService {
   private elliptic = new ec('secp256k1');
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Wallet) private walletRepository: Repository<Wallet>,
   ) {}
 
   findUser(username: string): Promise<User> {
@@ -30,16 +33,15 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  registerUser(
+  async registerUser(
     username: string,
     password: string,
-    email: string,
+    role: USER_ROLE = USER_ROLE.SIMPLE_USER,
   ): Promise<User> {
-    return this.usersRepository.save({
+    return await this.usersRepository.save({
       username,
       password,
-      email,
-      role: USER_ROLE.USER,
+      role,
     });
   }
 
@@ -55,20 +57,29 @@ export class UsersService {
 
   async generateAndReturnKeys(
     username: string,
-  ): Promise<{ privateKey: string; publicKey: string }> {
+  ): Promise<{ wallet: string; privateKey: string; publicKey: string }> {
     const user = await this.usersRepository.findOne({ where: { username } });
 
     if (!user) {
       throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
     }
 
+    const wallet = new Wallet();
     const keyPair = await this.generateKeyPair();
 
+    wallet.address = this.generateWalletAddress(keyPair.publicKey);
+    wallet.user = user;
+    this.walletRepository.save(wallet);
+
     user.publicKey = keyPair.publicKey;
-    user.walletAddress = this.generateWalletAddress(keyPair.publicKey);
+    user.role = USER_ROLE.BLOCK_CREATOR;
     this.usersRepository.save(user);
 
-    return { privateKey: keyPair.privateKey, publicKey: keyPair.publicKey };
+    return {
+      wallet: wallet.address,
+      privateKey: keyPair.privateKey,
+      publicKey: keyPair.publicKey,
+    };
   }
 
   async generateKeyPair(): Promise<{ publicKey: string; privateKey: string }> {
@@ -126,5 +137,40 @@ export class UsersService {
       walletAddress: null,
       role,
     });
+  }
+
+  async createUser(username: string, password: string, role: USER_ROLE) {
+    const existingUser = await this.usersRepository.findOne({
+      where: { username },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException(
+        AUTHORIZATION_ERRORS.SIGN_UP.USER_ALREADY_TAKEN,
+      );
+    }
+
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+
+    const user = await this.registerUser(username, hashedPassword, role);
+
+    if (!user) {
+      throw new BadRequestException(
+        AUTHORIZATION_ERRORS.SIGN_UP.FAILED_REGISTER,
+      );
+    }
+
+    return;
+  }
+
+  async getWallets(username: string) {
+    const wallets = await this.walletRepository
+      .createQueryBuilder('wallet')
+      .innerJoinAndSelect('wallet.user', 'user')
+      .where('user.username != :username', { username })
+      .getMany();
+
+    return wallets;
   }
 }

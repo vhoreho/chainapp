@@ -2,8 +2,14 @@ import { IsInt, IsString } from 'class-validator';
 
 export class CreateBlockDto {
   @IsInt()
-  userId: number;
+  amount: number;
 
   @IsString()
-  data: string;
+  coin: string;
+
+  @IsString()
+  message: string;
+
+  @IsString()
+  wallet: string;
 }

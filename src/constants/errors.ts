@@ -21,3 +21,7 @@ export const BLOCKCHAIN_ERRORS = {
   TRANSACTION_HAS_NOT_HASH: 'blockchain.transaction.has-not-hash',
   WRONG_PRIVATE_KEY: 'blockchain.transaction.wrong-private-key',
 };
+
+export const WALLET_ERRORS = {
+  WALLET_NOT_FOUND: 'wallet.not-found',
+};

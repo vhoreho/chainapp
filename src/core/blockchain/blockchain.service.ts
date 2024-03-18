@@ -8,11 +8,12 @@ import { Transaction } from './entities/transaction.entity';
 import { Repository } from 'typeorm';
 import { CreateBlockDto } from './dto/blochchain.dto';
 import { calculateHash } from './helpers';
-import { User } from '../users/users.entity';
+import { User } from '../users/entities/users.entity';
 import {
   AUTHORIZATION_ERRORS,
   BLOCKCHAIN_ERRORS,
   USERS_ERRORS,
+  WALLET_ERRORS,
 } from 'src/constants/errors';
 import * as moment from 'moment';
 import { MD5 } from 'crypto-js';
@@ -22,6 +23,7 @@ import { createHash } from 'crypto';
 import { SignedTransaction } from './entities/signed-transactions.entity';
 import { USER_ROLE } from 'src/enums/user-role.enum';
 import { ZERO_BLOCK_HASH } from 'src/constants/vars';
+import { Wallet } from '../users/entities/wallet.entity';
 
 @Injectable()
 export class BlockchainService {
@@ -36,6 +38,8 @@ export class BlockchainService {
     private transactionRepository: Repository<Transaction>,
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    @InjectRepository(Wallet)
+    private readonly walletRepository: Repository<Wallet>,
   ) {}
 
   async getBlockchain() {
@@ -45,6 +49,7 @@ export class BlockchainService {
   async getUnsignedTransactions(username: string) {
     return await this.newTransactionRepository.find({
       where: { user: { username } },
+      relations: ['wallet', 'wallet.user'],
     });
   }
 
@@ -55,29 +60,42 @@ export class BlockchainService {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
-    if (user.role !== USER_ROLE.MINER) {
+    if (user.role !== USER_ROLE.BLOCK_CONFIRMER) {
       throw new BadRequestException(USERS_ERRORS.WRONG_ROLE);
     }
 
     return await this.signedTransactionsRepository.find({
-      relations: ['user'],
+      where: { user: { username } },
+      relations: ['wallet', 'wallet.user'],
     });
   }
 
   async getSignedTransactions(username: string) {
     return await this.signedTransactionsRepository.find({
       where: { user: { username } },
+      relations: ['wallet', 'wallet.user'],
     });
   }
 
-  async createBlock(block: CreateBlockDto): Promise<Transaction> {
+  async createBlock(
+    block: CreateBlockDto,
+    username: string,
+  ): Promise<NewTransaction> {
     const user = await this.usersRepository.findOne({
-      where: { id: block.userId },
+      where: { username },
       select: ['username', 'id'],
+    });
+
+    const wallet = await this.walletRepository.findOne({
+      where: { address: block.wallet },
     });
 
     if (!user) {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
+    }
+
+    if (!wallet) {
+      throw new BadRequestException(WALLET_ERRORS.WALLET_NOT_FOUND);
     }
 
     const lastChainRecord = await this.transactionRepository
@@ -90,18 +108,20 @@ export class BlockchainService {
       const newBlock = new NewTransaction();
       newBlock.user = user;
       newBlock.created_date = moment(new Date()).format();
-      newBlock.data = block.data;
       newBlock.nonce = 0;
+      newBlock.amount = block.amount;
+      newBlock.coin = block.coin;
+      newBlock.wallet = wallet;
       newBlock.hash = lastChainRecord
         ? MD5(
             lastChainRecord.prevHash +
               newBlock.created_date +
-              JSON.stringify(newBlock.data),
+              JSON.stringify(newBlock.coin + newBlock.amount),
           ).toString()
-        : MD5(newBlock.created_date + JSON.stringify(newBlock.data)).toString();
-      newBlock.prevHash = lastChainRecord
-        ? lastChainRecord.hash
-        : ZERO_BLOCK_HASH;
+        : MD5(
+            newBlock.created_date +
+              JSON.stringify(newBlock.coin + newBlock.amount),
+          ).toString();
 
       return await this.newTransactionRepository.save(newBlock);
     } catch (error) {
@@ -133,7 +153,7 @@ export class BlockchainService {
       ...block,
       nonce,
       prevHash: lastChainRecord ? lastChainRecord.hash : ZERO_BLOCK_HASH,
-      hash: MD5(block.data + nonce).toString(),
+      hash: MD5(block.coin + block.amount + nonce).toString(),
     };
 
     try {
@@ -147,14 +167,10 @@ export class BlockchainService {
     }
   }
 
-  async signTransaction(
-    privateKey: string,
-    id: number,
-    username: string,
-  ): Promise<any> {
+  async signTransaction(privateKey: string, id: number, username: string) {
     const transaction = await this.newTransactionRepository.findOne({
       where: { id },
-      select: ['hash', 'hash', 'prevHash', 'data', 'user'],
+      relations: ['wallet', 'wallet.user'],
     });
 
     const user = await this.usersRepository.findOne({
@@ -195,9 +211,10 @@ export class BlockchainService {
         const signedBlock = this.signedTransactionsRepository.create({
           user,
           created_date: moment(new Date()).format(),
-          data: transaction.data,
+          coin: transaction.coin,
+          amount: transaction.amount,
           hash: transaction.hash,
-          prevHash: transaction.prevHash,
+          wallet: transaction.wallet,
         });
 
         await this.signedTransactionsRepository.save(signedBlock);

@@ -4,10 +4,11 @@ import { BlockchainService } from './blockchain.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Transaction } from './entities/transaction.entity';
 import { UsersModule } from '../users/users.module';
-import { User } from '../users/users.entity';
+import { User } from '../users/entities/users.entity';
 import { JwtStrategy } from '../auth/strategy/jwt.strategy';
 import { NewTransaction } from './entities/new-transaction.entity';
 import { SignedTransaction } from './entities/signed-transactions.entity';
+import { Wallet } from '../users/entities/wallet.entity';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SignedTransaction } from './entities/signed-transactions.entity';
       NewTransaction,
       User,
       SignedTransaction,
+      Wallet,
     ]),
   ],
   controllers: [BlockchainController],

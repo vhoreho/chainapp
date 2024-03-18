@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/core/users/users.entity';
+import { User } from 'src/core/users/entities/users.entity';
 import { UsersService } from 'src/core/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
@@ -42,29 +42,19 @@ export class AuthService {
   }
 
   async register(createUserDto: SignUpDto) {
-    const { username, password, email } = createUserDto;
+    const { username, password } = createUserDto;
     const existingUser = await this.usersService.findUser(username);
+
     if (existingUser) {
       throw new BadRequestException(
         AUTHORIZATION_ERRORS.SIGN_UP.USER_ALREADY_TAKEN,
       );
     }
 
-    const existingEmail = await this.usersService.findByEmail(email);
-    if (existingEmail) {
-      throw new BadRequestException(
-        AUTHORIZATION_ERRORS.SIGN_UP.EMAIL_ALREADY_TAKEN,
-      );
-    }
-
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
-    const user = await this.usersService.registerUser(
-      username,
-      hashedPassword,
-      email,
-    );
+    const user = await this.usersService.registerUser(username, hashedPassword);
 
     if (!user) {
       throw new BadRequestException(
@@ -76,7 +66,6 @@ export class AuthService {
       username: user.username,
       role: user.role,
       id: user.id,
-      email: user.email,
       publicKey: user.publicKey,
     };
 

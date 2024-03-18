@@ -13,6 +13,7 @@ import { CreateBlockDto } from './dto/blochchain.dto';
 import { DIFFICULTY_BLOCK } from './constants';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { Transaction } from './entities/transaction.entity';
+import { NewTransaction } from './entities/new-transaction.entity';
 
 @Controller('blockchain')
 export class BlockchainController {
@@ -24,8 +25,13 @@ export class BlockchainController {
 
   @Post('create')
   @UseGuards(JwtAuthGuard)
-  async createBlock(@Body() block: CreateBlockDto): Promise<Transaction> {
-    return await this.blockchainService.createBlock(block);
+  async createBlock(
+    @Req() request,
+    @Body() block: CreateBlockDto,
+  ): Promise<NewTransaction> {
+    const { username } = request.user;
+
+    return await this.blockchainService.createBlock(block, username);
   }
 
   @Get('get-unsigned-transactions')

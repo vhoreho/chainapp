@@ -5,15 +5,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../../users/users.entity';
+import { User } from '../../users/entities/users.entity';
+import { Wallet } from 'src/core/users/entities/wallet.entity';
 
 @Entity()
 export class SignedTransaction {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  prevHash: string;
 
   @Column()
   hash: string;
@@ -22,9 +20,16 @@ export class SignedTransaction {
   created_date: string;
 
   @Column()
-  data: string;
+  coin: string;
+
+  @Column()
+  amount: number;
 
   @ManyToOne(() => User, (user) => user)
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
+  @JoinColumn({ name: 'walletId' })
+  wallet: Wallet;
 }

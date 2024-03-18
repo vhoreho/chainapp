@@ -12,6 +12,8 @@ import {
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { USER_ROLE } from 'src/enums/user-role.enum';
+import { RoleGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +33,7 @@ export class UsersController {
       throw new NotFoundException('Пользователь не найден');
     }
 
-    if (requestingUser.role !== USER_ROLE.SUPERADMIN) {
+    if (requestingUser.role !== USER_ROLE.ADMINISTRATOR) {
       throw new UnauthorizedException(
         'У вас нет прав для удаления пользователя',
       );
@@ -74,5 +76,20 @@ export class UsersController {
     const { username } = request.user;
 
     return this.usersService.changeRole(username, role);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('create-user')
+  async createUser(@Body() { username, password, role }) {
+    return this.usersService.createUser(username, password, role);
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(USER_ROLE.BLOCK_CREATOR)
+  @Get('get-wallets')
+  async getWallets(@Req() request) {
+    const { username } = request.user;
+
+    return await this.usersService.getWallets(username);
   }
 }
