@@ -1,41 +1,29 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Popover from "@mui/material/Popover";
-import { alpha } from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { useGetProfileQuery } from "@/api/profile";
-import { ROUTES } from "@/constants/routes";
+import { ADMIN_ROLES } from "@/constants/vars";
 import { useAuthContext } from "@/hooks/context";
-import { ACCOUNT } from "../constants";
-
-// ----------------------------------------------------------------------
-
-const MENU_OPTIONS = [
-  {
-    label: "Dashboard",
-    icon: "eva:home-fill",
-    path: ROUTES.DASHBOARD,
-  },
-  {
-    label: "Profile",
-    icon: "eva:person-fill",
-  },
-  {
-    label: "Settings",
-    icon: "eva:settings-2-fill",
-  },
-];
-
-// ----------------------------------------------------------------------
+import { USER_ROLE } from "@/types";
+import { ACCOUNT } from "../../constants";
+import { ADMIN_MENU_OPTIONS, MENU_OPTIONS } from "./constants";
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const { logout } = useAuthContext();
   const { data: profile } = useGetProfileQuery();
+  const options = useMemo(() => {
+    return ADMIN_ROLES.includes(profile?.role ?? USER_ROLE.SIMPLE_USER)
+      ? ADMIN_MENU_OPTIONS
+      : MENU_OPTIONS;
+  }, [profile?.role]);
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);
@@ -90,10 +78,10 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
+        {options.map((option) => (
+          <LinkStyled key={option.label} href={option.path}>
+            <MenuItem onClick={handleClose}>{option.label}</MenuItem>
+          </LinkStyled>
         ))}
 
         <Divider sx={{ borderStyle: "dashed", m: 0 }} />
@@ -110,3 +98,13 @@ export default function AccountPopover() {
     </>
   );
 }
+
+const LinkStyled = styled(Link)`
+  text-transform: none;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: #12b76a !important;
+  }
+`;

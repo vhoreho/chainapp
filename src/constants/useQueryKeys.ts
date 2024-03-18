@@ -30,9 +30,12 @@ export const USE_QUERY_KEYS = {
   USERS: {
     QUERY: {
       GENERATE_KEYS: "GenerateKeys",
+      GET_USERS: "GetUsers",
+      GET_WALLETS: "GetWallets",
     },
     MUTATION: {
       CHANGE_ROLE: "UsersChangeRole",
+      CREATE_USER: "UsersCreateUser",
     },
   },
   EXPLORER: {

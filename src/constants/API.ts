@@ -34,6 +34,8 @@ export const REJECT_UPDATE_ROLE_BY_ID_ROUTE = (id: number) =>
   `${BASE_API_URL}/users/reject-change-role/${id}`;
 export const DELETE_USER_ROUTE = (id: number) => `${BASE_API_URL}/users/delete/${id}`;
 export const GENERATE_KEYS_ROUTE = `${BASE_API_URL}/users/generate-keys`;
+export const CREATE_USER_ROUTE = `${BASE_API_URL}/users/create-user`;
+export const GET_WALLETS = `${BASE_API_URL}/users/get-wallets`;
 
 // Profile
 export const GET_PROFILE_ROUTE = `${BASE_API_URL}/profile`;

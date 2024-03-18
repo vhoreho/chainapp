@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { navConfig } from "../../constants";
+import { navConfig } from "../../../constants";
 import { NavItem } from "./nav-item";
 
 export const Menu = () => {

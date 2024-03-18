@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { set, sub } from "date-fns";
-import { SvgColor } from "../..";
+import { SvgColor } from "..";
 
 export const HEADER = {
   H_MOBILE: 64,
@@ -27,7 +27,7 @@ const icon = (name: string) => (
 
 export const navConfig = [
   {
-    title: "dashboard",
+    title: "Доска",
     path: "/dashboard",
     icon: icon("ic_analytics"),
   },
@@ -35,9 +35,9 @@ export const navConfig = [
     title: "blockchain",
     icon: icon("ic_blockchain"),
     submenu: [
-      { title: "dashboard", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
-      { title: "emulator", path: "/blockchain/emulator", icon: icon("ic_emulator") },
-      { title: "explorer", path: "/blockchain/explorer", icon: icon("ic_explorer") },
+      { title: "Доска", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
+      { title: "Эмулятор", path: "/blockchain/emulator", icon: icon("ic_emulator") },
+      { title: "Обозреватель", path: "/blockchain/explorer", icon: icon("ic_explorer") },
     ],
   },
 ];

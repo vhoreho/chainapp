@@ -5,9 +5,8 @@ export type LogInReqM = {
   password: string;
 };
 
-export type SignUpReqM = {
+export type RegisterReqM = {
   username: string;
-  email: string;
   password: string;
 };
 

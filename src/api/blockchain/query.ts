@@ -4,7 +4,7 @@ import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext } from "@/hooks/context";
 import { Block, USER_ROLE } from "@/types";
 import {
-  createBlockQuery,
+  createBlockFetcher,
   deleteUnsignedTransaction,
   getBlockChainQuery,
   getSignedTransactions,
@@ -19,7 +19,7 @@ export const useCreateChainMutation = () => {
   const { authData } = useAuthContext();
   const mutation = useMutation({
     mutationFn: (createBlockReqM: CreateBlockReqM) => {
-      return createBlockQuery(createBlockReqM, authData?.access_token!);
+      return createBlockFetcher(createBlockReqM, authData?.access_token!);
     },
     mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.CREATE],
   });
@@ -60,7 +60,7 @@ export const useGetTransactionsForMiningQuery = (role: USER_ROLE) => {
   return useQuery({
     queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_TRANSACTIONS_FOR_MINING],
     queryFn: () => getTransactionsForMining(authData?.access_token!),
-    enabled: !!authData?.access_token && role === USER_ROLE.MINER,
+    enabled: !!authData?.access_token && role === USER_ROLE.BLOCK_CONFIRMER,
   });
 };
 

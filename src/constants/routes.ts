@@ -17,6 +17,9 @@ export const ROUTES = {
     COMPONENTS: "/components",
     STEPS: "/steps",
   },
+  ADMIN: {
+    USER_MANAGEMENT: "/admin/user-management",
+  },
 };
 
 export const CREATE_CHAIN_PATH = `${BASE_API_URL}/chain/create`;

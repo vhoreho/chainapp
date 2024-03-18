@@ -1,89 +1,111 @@
-import React from "react";
-import { Alert, alpha, Button, Container, Grid, Skeleton, Typography } from "@mui/material";
-import {
-  useGetBlockchainQuery,
-  useGetSignedTransactionsQuery,
-  useGetUnsignedTransactionsQuery,
-} from "@/api/blockchain";
+import React, { useState } from "react";
+import { ContentCopy } from "@mui/icons-material";
+import { Box, Button, Container, styled, Typography } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGetProfileQuery } from "@/api/profile";
-import { Iconify } from "@/components/common/design-system/iconify/Iconify";
-import { useModalContext } from "@/hooks/context";
-import { CardsContainer } from "./components/cards/Cards";
-import { CreateTransactionModal } from "./components/create-transaction-modal/CreateTransactionModal";
+import { KeysResM, useGenerateKeysMutation } from "@/api/users";
+import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
+import { ADMIN_ROLES } from "@/constants/vars";
+import { EmulatorContent } from "./components/emulator-content/EmulatorContent";
 
 export const Emulator = () => {
-  const { data: profile, isLoading: isGetProfileLoading } = useGetProfileQuery();
-  const { data: unsignedTransactions, isLoading: isGetUnsignedTransactionsLoading } =
-    useGetUnsignedTransactionsQuery();
-  const { data: signedTransactions, isLoading: isGetSignedTransactionsLoading } =
-    useGetSignedTransactionsQuery();
-  const { data: blockchain, isLoading: isBlockchainLoading } = useGetBlockchainQuery();
-  const { openModal, closeModal } = useModalContext();
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedData, setGeneratedData] = useState<KeysResM | null>(null);
+  const { data: profile, isLoading, isError } = useGetProfileQuery();
+  const generateKeysMutation = useGenerateKeysMutation();
+  const queryClient = useQueryClient();
 
-  if (
-    isGetProfileLoading &&
-    isGetUnsignedTransactionsLoading &&
-    isGetSignedTransactionsLoading &&
-    isBlockchainLoading
-  ) {
-    return (
-      <Container>
-        <Skeleton
-          sx={{
-            width: "100%",
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
-            minHeight: 160,
-          }}
-        />
-      </Container>
-    );
+  const handleGenerate = async () => {
+    try {
+      const response = await generateKeysMutation.mutateAsync();
+      setGeneratedData(response);
+    } catch (error) {
+      console.log("🚀 ~ handleGenerate ~ error:", error);
+    }
+  };
+
+  const handleGoTocreatingBlocks = () => {
+    queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET] });
+  };
+
+  if (isLoading) {
+    return <Container>Loading...</Container>;
   }
 
-  if (!profile || !unsignedTransactions || !signedTransactions) {
-    return null;
+  if (isError || !profile) {
+    return <Container>Error: Unable to fetch profile data</Container>;
   }
 
-  if (!blockchain) {
+  if (!profile.publicKey && !ADMIN_ROLES.includes(profile.role)) {
     return (
-      <Container>
-        <Alert
-          variant="filled"
-          severity="info"
-          color="info"
-          sx={{
-            boxShadow: (theme) => theme.customShadows.base,
+      <Container
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <Typography variant="h6" color="GrayText" gutterBottom textAlign="center">
+          Для использования эмулятора необходимо сгенерировать ключ и адрес кошелька. Это необходимо
+          для создания цифровой подписи транзакций в блокчейне. Ключ и адрес кошелька используются
+          для идентификации пользователя в сети блокчейн и обеспечивают безопасность его транзакций.
+        </Typography>
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            setIsGenerating(true);
+            handleGenerate();
           }}
         >
-          Данных пока нет
-        </Alert>
+          Генерировать ключ и адрес
+        </Button>
+
+        {isGenerating && (
+          <Container>
+            <Typography variant="h6" gutterBottom>
+              Ключ и адрес кошелька успешно сгенерированы:
+            </Typography>
+
+            <Text>
+              <Typography variant="subtitle1">Адрес кошелька:</Typography>
+              <Typography variant="body1">{generatedData?.wallet}</Typography>
+            </Text>
+
+            <Text>
+              <Typography variant="subtitle1">Приватный ключ:</Typography>
+              <Typography variant="body1">{generatedData?.privateKey}</Typography>
+
+              <ContentCopy
+                sx={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(generatedData?.privateKey!);
+                  alert("Приватный ключ скопирован!");
+                }}
+              />
+            </Text>
+
+            <Typography variant="body2" color={"error"} sx={{ marginTop: 2 }}>
+              Сохраните приватный ключ в безопасном месте. Он используется для аутентификации и
+              подписи ваших транзакций.
+            </Typography>
+
+            <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleGoTocreatingBlocks}>
+              Перейти к созданию транзакций
+            </Button>
+          </Container>
+        )}
       </Container>
     );
   }
 
-  return (
-    <Container sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 2 }}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid md={6}>
-          <Typography component="h3" variant="h3">
-            Реестр транзакций
-          </Typography>
-        </Grid>
-        <Grid md={6} display="flex" gap={2}>
-          <Button
-            variant="contained"
-            sx={{ display: "flex", gap: 1 }}
-            onClick={() => openModal(<CreateTransactionModal onClose={closeModal} />)}
-          >
-            <Iconify icon="mdi-light:note-plus" />
-            Создать блок
-          </Button>
-          <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
-            <Iconify icon="material-symbols-light:auto-delete-outline" />
-            Очистить реестр
-          </Button>
-        </Grid>
-      </Grid>
-      <CardsContainer profile={profile} blockchain={blockchain} />
-    </Container>
-  );
+  return <EmulatorContent profile={profile} />;
 };
+
+const Text = styled(Box)`
+  display: flex;
+  gap: 8px;
+`;

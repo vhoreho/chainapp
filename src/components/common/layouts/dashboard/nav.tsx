@@ -8,9 +8,9 @@ import { useGetProfileQuery } from "@/api/profile";
 import { useProgressContext } from "@/hooks/context/useProgressContext";
 import { useResponsive } from "@/hooks/use-responsive";
 import Scrollbar from "../../scrollbar/Scrollbar";
-import { Account } from "./common/nav/account";
-import { Menu } from "./common/nav/menu";
-import { NAV } from "./constants";
+import { Account } from "../components/common/nav/account";
+import { Menu } from "../components/common/nav/menu";
+import { NAV } from "../constants";
 
 type Props = {
   openNav: boolean;

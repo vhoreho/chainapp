@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
 import ThemeProvider from "@/theme";
-import Header from "./header";
+import { Header } from "../components/header";
 import Main from "./main";
 import Nav from "./nav";
 

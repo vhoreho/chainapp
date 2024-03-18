@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { alpha, Avatar, Box, Typography } from "@mui/material";
 import { ProfileResM } from "@/api/profile/type";
-import { ACCOUNT } from "../../constants";
+import { ROLES_TID } from "@/constants/tid";
+import { ACCOUNT } from "../../../constants";
 
 type Props = {
   profile: ProfileResM;
@@ -27,7 +28,7 @@ export const Account: FunctionComponent<Props> = ({ profile }) => {
         <Typography variant="subtitle2">{profile.username}</Typography>
 
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {profile.role}
+          {ROLES_TID.find((role) => role.id === profile.role)?.tid}
         </Typography>
       </Box>
     </Box>

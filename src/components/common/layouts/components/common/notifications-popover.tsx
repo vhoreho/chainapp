@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 import Scrollbar from "@/components/common/scrollbar/Scrollbar";
 import { fToNow } from "@/utils/format-time";
-import { NOTIFICATIONS } from "../constants";
+import { NOTIFICATIONS } from "../../constants";
 
 type Notification = {
   createdAt: Date;

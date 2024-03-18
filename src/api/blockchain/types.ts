@@ -1,6 +1,8 @@
 export type CreateBlockReqM = {
-  userId: number;
-  data: string;
+  amount: number;
+  message: string;
+  coin: string;
+  wallet: string;
 };
 
 export type SignTransactionReqM = {

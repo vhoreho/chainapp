@@ -1,3 +1,4 @@
+import { Wallet } from "@/api/users";
 import { UserResM } from ".";
 
 export class Block {
@@ -26,5 +27,18 @@ export type BlockData = Block & {
   data: BlockFormData;
   prevHash: string;
   hash: string;
+  coin: string;
+  from: string;
+  to: string;
+  amount: string;
+};
+
+export type UnsignedTransaction = {
+  id: number;
+  hash: string;
+  created_date: string;
   nonce: number;
+  coin: string;
+  amount: number;
+  wallet: Wallet;
 };

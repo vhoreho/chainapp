@@ -26,6 +26,7 @@ export const EnhancedTableHead = <T extends GenericData>(props: EnhancedTablePro
       <TableRow>
         {headCells.map((headCell) => (
           <Cell
+            size="small"
             key={v4()}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}

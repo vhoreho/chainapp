@@ -1,3 +1,4 @@
+import { FunctionComponent } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -6,12 +7,15 @@ import { alpha, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { useResponsive } from "@/hooks/use-responsive";
 import { Iconify } from "../../design-system/iconify/Iconify";
+import { HEADER, NAV } from "../constants";
 import AccountPopover from "./common/account-popover";
-import { HEADER, NAV } from "./constants";
 
-// ----------------------------------------------------------------------
+type Props = {
+  onOpenNav?: () => void;
+  isFullWidth?: boolean;
+};
 
-export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
+export const Header: FunctionComponent<Props> = ({ onOpenNav, isFullWidth }) => {
   const theme = useTheme();
 
   const lgUp = useResponsive("up", "lg");
@@ -46,7 +50,7 @@ export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
           duration: theme.transitions.duration.shorter,
         }),
         ...(lgUp && {
-          width: `calc(100% - ${NAV.WIDTH + 1}px)`,
+          width: isFullWidth ? "100%" : `calc(100% - ${NAV.WIDTH + 1}px)`,
           height: HEADER.H_DESKTOP,
         }),
       }}
@@ -61,4 +65,4 @@ export default function Header({ onOpenNav }: { onOpenNav: () => void }) {
       </Toolbar>
     </AppBar>
   );
-}
+};

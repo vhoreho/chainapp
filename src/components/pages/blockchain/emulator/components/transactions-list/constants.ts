@@ -3,6 +3,18 @@ import { HeadCell } from "@/types/table";
 
 export const cells: readonly HeadCell<BlockData>[] = [
   {
+    id: "coin",
+    numeric: false,
+    disablePadding: false,
+    label: "Вид коина",
+  },
+  {
+    id: "amount",
+    numeric: false,
+    disablePadding: false,
+    label: "Количество",
+  },
+  {
     id: "hash",
     numeric: false,
     disablePadding: true,
@@ -15,15 +27,15 @@ export const cells: readonly HeadCell<BlockData>[] = [
     label: "Предыдущий hash",
   },
   {
-    id: "user",
+    id: "from",
     numeric: false,
     disablePadding: false,
-    label: "Пользователь",
+    label: "Адрес отправителя",
   },
   {
-    id: "data",
+    id: "to",
     numeric: false,
     disablePadding: false,
-    label: "Данные",
+    label: "Адрес получателя",
   },
 ];

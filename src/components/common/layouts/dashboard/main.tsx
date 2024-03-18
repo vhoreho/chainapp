@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { SxProps } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useResponsive } from "@/hooks/use-responsive";
-import { HEADER, NAV, SPACING } from "./constants";
+import { HEADER, NAV, SPACING } from "../constants";
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -18,7 +18,7 @@ export default function Main({ children, sx, ...other }: Props) {
       component="main"
       sx={{
         flexGrow: 1,
-        minHeight: 1,
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         py: `${HEADER.H_MOBILE + SPACING}px`,

@@ -10,10 +10,10 @@ import {
   MINE_BLOCK_ROUTE,
   SIGN_BLOCK_ROUTE,
 } from "@/constants/API";
-import { Block } from "@/types";
+import { Block, UnsignedTransaction } from "@/types";
 import { CreateBlockReqM, MineBlockReqM, SignTransactionReqM } from "./types";
 
-export const createBlockQuery = async (createBlockReqM: CreateBlockReqM, token: string) => {
+export const createBlockFetcher = async (createBlockReqM: CreateBlockReqM, token: string) => {
   const { data } = await axios.post<any>(CREATE_BLOCK_ROUTE, createBlockReqM, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -29,7 +29,7 @@ export const getBlockChainQuery = async (token: string) => {
 };
 
 export const getUnsignedTransactions = async (token: string) => {
-  const { data } = await axios.get<Block[]>(GET_UNSIGNED_TRANSACTIONS, {
+  const { data } = await axios.get<UnsignedTransaction[]>(GET_UNSIGNED_TRANSACTIONS, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return data;
@@ -43,7 +43,7 @@ export const getTransactionsForMining = async (token: string) => {
 };
 
 export const getSignedTransactions = async (token: string) => {
-  const { data } = await axios.get<Block[]>(GET_SIGNED_TRANSACTIONS, {
+  const { data } = await axios.get<UnsignedTransaction[]>(GET_SIGNED_TRANSACTIONS, {
     headers: { Authorization: `Bearer ${token}` },
   });
 

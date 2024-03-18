@@ -2,7 +2,7 @@ import { Block, USER_ROLE } from "@/types";
 
 export const ZERO_BLOCK_IDENTIFIER = "Нулевой блок не имеет предыдущего хэша";
 
-export const ADMIN_ROLES = [USER_ROLE.ADMIN, USER_ROLE.SUPERADMIN];
+export const ADMIN_ROLES = [USER_ROLE.ADMINISTRATOR];
 
 export const ZERO_BLOCK = new Block({
   id: 0,

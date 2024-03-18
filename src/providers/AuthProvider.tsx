@@ -6,7 +6,7 @@ import { AUTH_DATA } from "@/constants/ui";
 import { AuthContext } from "@/contexts/authContext";
 import { useSnackBarContext } from "@/hooks/context";
 import { useProgressContext } from "@/hooks/context/useProgressContext";
-import { LogInReqM, REQUEST_STATUS, SignUpReqM, UserDataResM } from "@/types";
+import { LogInReqM, RegisterReqM, REQUEST_STATUS, UserDataResM } from "@/types";
 import { getAxiosErrorMessage } from "@/utils/get-axios-error-message";
 
 interface AuthProviderProps {
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const signUp = async (signUpReqM: SignUpReqM) => {
+  const signUp = async (signUpReqM: RegisterReqM) => {
     try {
       setIsLoading(true);
       const authData = await signUpMutation.mutateAsync(signUpReqM);
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true);
       setAuthData(authData);
       setError(undefined);
+      router.push(ROUTES.DASHBOARD);
       return REQUEST_STATUS.FULFILLED;
     } catch (error) {
       setError(getAxiosErrorMessage(error));
