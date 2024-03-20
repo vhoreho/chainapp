@@ -1,14 +1,15 @@
 import { Wallet } from "@/api/users";
-import { UserResM } from ".";
 
 export class Block {
   public created_date!: string;
-  public data!: string;
   public prevHash!: string;
   public hash!: string;
   public nonce!: number;
   public id!: number;
-  public user?: UserResM | null;
+  public fromWallet!: Wallet;
+  public toWallet!: Wallet;
+  public coin!: string;
+  public amount!: number;
 
   constructor(init?: Block) {
     Object.assign(this, init);

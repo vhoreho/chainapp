@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   Button,
@@ -11,8 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSignTransactionMutation } from "@/api/blockchain";
+import { useMineBlockMutation } from "@/api/blockchain";
+import { Iconify } from "@/components/common/design-system/iconify/Iconify";
+import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { UnsignedTransaction } from "@/types";
+import { generateMathExample } from "@/utils/math";
 
 type Props = {
   isModalOpen: boolean;
@@ -29,62 +32,86 @@ export const SecondaryModal: FunctionComponent<Props> = ({
   handleClose,
   selectedTransaction,
 }) => {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [firstNumber, setFirstNumber] = useState<number>(0);
-  const [secondNumber, setSecondNumber] = useState<number>(0);
-  const [userAnswer, setUserAnswer] = useState<string>("");
-  const signUnsignedTransactionMutation = useSignTransactionMutation();
+  const [firstNumber, setFirstNumber] = useState<number | undefined>();
+  const [secondNumber, setSecondNumber] = useState<number | undefined>();
+  const [correctResult, setCorrectResult] = useState<number | undefined>();
+  const [operation, setOperation] = useState<string>("");
+
+  const mineTransactionMutation = useMineBlockMutation();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    generateExample();
+  }, [isModalOpen]);
 
   const handleSubmitTransaction: SubmitHandler<IFormInput> = async (data) => {
     checkAnswer(+data.answer);
   };
 
   const generateExample = () => {
-    const number1 = Math.floor(Math.random() * 100) + 1;
-    const number2 = Math.floor(Math.random() * 100) + 1;
+    const { number1, number2, result, selectedOperation } = generateMathExample();
     setFirstNumber(number1);
     setSecondNumber(number2);
+    setOperation(selectedOperation);
+    setCorrectResult(result);
+    setError(null);
   };
 
-  const checkAnswer = (answer: number) => {
+  const checkAnswer = async (answer: number) => {
     try {
-      const correctAnswer = firstNumber + secondNumber;
-      if (correctAnswer !== answer) {
+      setIsLoading(true);
+      if (correctResult !== answer) {
         throw new Error();
       } else {
-        console.log("CORRECT");
+        await mineTransactionMutation.mutateAsync({
+          id: selectedTransaction.id,
+          nonce: correctResult,
+        });
+        queryClient.invalidateQueries({
+          queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_TRANSACTIONS_FOR_MINING],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_CREATED_TRANSACTIONS],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_SIGNED_TRANSACTIONS],
+        });
+        reset();
+        handleClose();
       }
     } catch (error) {
-      generateExample();
+      setError("Неправильный ответ");
+      reset();
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Dialog open={isModalOpen} onClose={handleClose}>
-      <DialogTitle>Решите пример</DialogTitle>
+      <DialogTitle sx={{ padding: "8px 12px" }}>Решите пример</DialogTitle>
       <form onSubmit={handleSubmit(handleSubmitTransaction)}>
-        <DialogContent>
+        <DialogContent sx={{ padding: "0 12px 8px" }}>
           <Typography>
-            Решите пример: {firstNumber} + {secondNumber} =
+            Решите пример: {firstNumber} {operation} {secondNumber} =
           </Typography>
           <TextField
+            sx={{ width: "300px" }}
             label="Ответ"
             fullWidth
             size="small"
             {...register("answer", { required: true })}
+            autoComplete="off"
           />
         </DialogContent>
-        <DialogActions>
-          <Button size="small" onClick={generateExample} color="primary">
+        <DialogActions sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          <Button variant="outlined" size="small" onClick={generateExample} color="primary">
             Новый пример
           </Button>
-          <Button size="small" onClick={handleClose} color="primary">
-            Отмена
-          </Button>
-          <Button size="small" type="submit" color="primary">
+          <Button variant="contained" size="small" type="submit" color="primary">
             {isLoading ? <CircularProgress size={20} color="inherit" /> : "Проверить ответ"}
           </Button>
         </DialogActions>
@@ -94,6 +121,18 @@ export const SecondaryModal: FunctionComponent<Props> = ({
           {error}
         </Typography>
       )}
+      <Button
+        onClick={handleClose}
+        sx={{
+          position: "absolute",
+          top: 4,
+          right: 4,
+          padding: 0,
+          minWidth: "fit-content",
+        }}
+      >
+        <Iconify icon="mdi:close" />
+      </Button>
     </Dialog>
   );
 };

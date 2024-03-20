@@ -40,7 +40,7 @@ export const UnsignedTransactionsModal: FunctionComponent<Props> = memo(({ onClo
   }
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" maxHeight="calc(100vh - 80px)" overflow="auto">
       <Typography variant="h5">Подпись транзакций</Typography>
 
       <TableContainer>

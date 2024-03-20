@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import {
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
@@ -41,7 +41,7 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
   }
 
   return (
-    <Container sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 2, paddingInline: 2 }}>
       <Grid container spacing={2} alignItems="center">
         <Grid md={6}>
           <Typography component="h3" variant="h3">
@@ -83,13 +83,15 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
           )}
         </Grid>
       </Grid>
-      {blockchain.length ? (
-        <TransactionsList transactions={blockchain} />
-      ) : (
-        <Typography variant="body1" textAlign="center" fontWeight="bold" color="grey">
-          Транзакций пока нет
-        </Typography>
-      )}
-    </Container>
+      <Grid container>
+        {blockchain.length ? (
+          <TransactionsList transactions={blockchain} />
+        ) : (
+          <Typography variant="body1" textAlign="center" fontWeight="bold" color="grey">
+            Транзакций пока нет
+          </Typography>
+        )}
+      </Grid>
+    </Box>
   );
 };

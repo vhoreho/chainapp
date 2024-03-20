@@ -6,7 +6,6 @@ export type CreateBlockReqM = {
 };
 
 export type SignTransactionReqM = {
-  privateKey: string;
   id: number;
 };
 

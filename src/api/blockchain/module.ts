@@ -59,13 +59,9 @@ export const resetBlockchain = async (token: string) => {
 };
 
 export const signTransaction = async (token: string, signTransactionReqM: SignTransactionReqM) => {
-  const { data } = await axios.post<boolean>(
-    SIGN_BLOCK_ROUTE(signTransactionReqM.id),
-    { privateKey: signTransactionReqM.privateKey },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  );
+  const { data } = await axios.post<boolean>(SIGN_BLOCK_ROUTE(signTransactionReqM.id), {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
   return data;
 };

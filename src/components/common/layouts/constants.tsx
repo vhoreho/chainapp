@@ -32,7 +32,7 @@ export const navConfig = [
     icon: icon("ic_analytics"),
   },
   {
-    title: "blockchain",
+    title: "Блокчейн",
     icon: icon("ic_blockchain"),
     submenu: [
       { title: "Доска", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
