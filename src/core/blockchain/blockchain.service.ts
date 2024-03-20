@@ -43,7 +43,10 @@ export class BlockchainService {
   ) {}
 
   async getBlockchain() {
-    return await this.transactionRepository.find();
+    return await this.transactionRepository.find({
+      relations: ['fromWallet', 'toWallet'],
+      order: { id: 'ASC' },
+    });
   }
 
   async getUnsignedTransactions(username: string) {
@@ -141,6 +144,7 @@ export class BlockchainService {
   async mineBlock(id: number, nonce: number) {
     const block = await this.signedTransactionsRepository.findOne({
       where: { id },
+      relations: ['wallet', 'user', 'user.wallet'],
     });
 
     const lastChainRecord = await this.transactionRepository
@@ -154,6 +158,8 @@ export class BlockchainService {
       nonce,
       prevHash: lastChainRecord ? lastChainRecord.hash : ZERO_BLOCK_HASH,
       hash: MD5(block.coin + block.amount + nonce).toString(),
+      fromWallet: block.user.wallet,
+      toWallet: block.wallet,
     };
 
     try {

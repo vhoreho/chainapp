@@ -22,6 +22,6 @@ export class Wallet {
 
   // Define other properties of the wallet as needed
 
-  @OneToMany(() => Transaction, (transaction) => transaction.wallet)
+  @OneToMany(() => Transaction, (transaction) => transaction.id)
   transactions: Transaction[];
 }

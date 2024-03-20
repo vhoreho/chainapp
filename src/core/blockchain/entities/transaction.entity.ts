@@ -32,6 +32,10 @@ export class Transaction {
   amount: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
-  @JoinColumn({ name: 'walletId' })
-  wallet: Wallet;
+  @JoinColumn({ name: 'from' })
+  fromWallet: Wallet;
+
+  @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
+  @JoinColumn({ name: 'to' })
+  toWallet: Wallet;
 }
