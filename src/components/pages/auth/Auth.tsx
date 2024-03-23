@@ -41,6 +41,7 @@ const ToggleModeButton = styled("button")(({ theme }) => ({
   cursor: "pointer",
   border: "none",
   background: "none",
+  fontFamily: "Play",
   color: theme.palette.primary.main,
   textDecoration: "underline",
   "&:hover": {

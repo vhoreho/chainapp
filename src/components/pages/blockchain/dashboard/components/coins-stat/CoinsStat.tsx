@@ -16,6 +16,7 @@ import {
 import { Meta, useGetCoinsMutation } from "@/api/coins";
 import { SkeletonRows } from "@/components/common/tables";
 import { CoinsStatData, Order } from "@/types/table";
+import { addApostrophes } from "@/utils/format-number";
 import { EnhancedTableHead } from "../../../../../common/tables/enhanced-table-head/EnhancedTableHead";
 import { headCells, initialMetaState } from "./constants";
 import { createData } from "./helpers";
@@ -109,7 +110,7 @@ export const CoinsStat = () => {
                       key={row.name + row.price}
                       sx={{ cursor: "pointer" }}
                     >
-                      <Cell component="th" scope="row" padding="none">
+                      <Cell size="small" component="th" scope="row" padding="none">
                         <Box
                           sx={{
                             display: "flex",
@@ -121,9 +122,15 @@ export const CoinsStat = () => {
                           {row.name}
                         </Box>
                       </Cell>
-                      <Cell align="right">{row.price.toFixed(2)}</Cell>
-                      <Cell align="right">{row.totalSupply}</Cell>
-                      <Cell align="right">{row.volume.toFixed(2)}</Cell>
+                      <Cell size="small" align="right">
+                        {addApostrophes(+row.price.toFixed(2))}$
+                      </Cell>
+                      <Cell size="small" align="right">
+                        {addApostrophes(row.totalSupply)}$
+                      </Cell>
+                      <Cell size="small" align="right">
+                        {addApostrophes(+row.volume.toFixed(2))}$
+                      </Cell>
                     </TableRow>
                   );
                 })

@@ -18,13 +18,13 @@ export const headCells: readonly HeadCell<CoinsStatData>[] = [
     id: "totalSupply",
     numeric: true,
     disablePadding: false,
-    label: "Общее количество транзакций",
+    label: "Сумма доступных коинов",
   },
   {
     id: "volume",
     numeric: true,
     disablePadding: false,
-    label: "Объем",
+    label: "Капитализация",
   },
 ];
 
