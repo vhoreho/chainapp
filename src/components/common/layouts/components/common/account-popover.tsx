@@ -13,17 +13,21 @@ import { ADMIN_ROLES } from "@/constants/vars";
 import { useAuthContext } from "@/hooks/context";
 import { USER_ROLE } from "@/types";
 import { ACCOUNT } from "../../constants";
+import { ChangeRoleModal } from "./change-role-modal/ChangeRoleModal";
 import { ADMIN_MENU_OPTIONS, MENU_OPTIONS } from "./constants";
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
   const { logout } = useAuthContext();
   const { data: profile } = useGetProfileQuery();
+  const isAdminRole = useMemo(
+    () => ADMIN_ROLES.includes(profile?.role ?? USER_ROLE.SIMPLE_USER),
+    [profile?.role],
+  );
   const options = useMemo(() => {
-    return ADMIN_ROLES.includes(profile?.role ?? USER_ROLE.SIMPLE_USER)
-      ? ADMIN_MENU_OPTIONS
-      : MENU_OPTIONS;
-  }, [profile?.role]);
+    return isAdminRole ? ADMIN_MENU_OPTIONS : MENU_OPTIONS;
+  }, [isAdminRole]);
 
   const handleOpen = (event: any) => {
     setOpen(event.currentTarget);
@@ -86,6 +90,17 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed", m: 0 }} />
 
+        {!isAdminRole && (
+          <MenuItem
+            onClick={() => {
+              setModalOpen(true);
+              handleClose();
+            }}
+          >
+            Сменить роль
+          </MenuItem>
+        )}
+
         <MenuItem
           disableRipple
           disableTouchRipple
@@ -95,6 +110,9 @@ export default function AccountPopover() {
           Logout
         </MenuItem>
       </Popover>
+      {isModalOpen && (
+        <ChangeRoleModal isModalOpen={isModalOpen} handleClose={() => setModalOpen(false)} />
+      )}
     </>
   );
 }

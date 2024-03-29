@@ -2,7 +2,7 @@ import { ROUTES } from "@/constants/routes";
 
 export const MENU_OPTIONS = [
   {
-    label: "Dashboard",
+    label: "Доска",
     icon: "eva:home-fill",
     path: ROUTES.DASHBOARD,
   },

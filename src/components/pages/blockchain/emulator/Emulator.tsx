@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetProfileQuery } from "@/api/profile";
 import { KeysResM, useGenerateKeysMutation } from "@/api/users";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
-import { ADMIN_ROLES } from "@/constants/vars";
+import { USER_ROLE } from "@/types";
 import { EmulatorContent } from "./components/emulator-content/EmulatorContent";
 
 export const Emulator = () => {
@@ -19,9 +19,7 @@ export const Emulator = () => {
     try {
       const response = await generateKeysMutation.mutateAsync();
       setGeneratedData(response);
-    } catch (error) {
-      console.log("🚀 ~ handleGenerate ~ error:", error);
-    }
+    } catch (error) {}
   };
 
   const handleGoToCreatingBlocks = () => {
@@ -36,7 +34,7 @@ export const Emulator = () => {
     return <Container>Error: Unable to fetch profile data</Container>;
   }
 
-  if (!profile.publicKey && !ADMIN_ROLES.includes(profile.role)) {
+  if (profile.role === USER_ROLE.BLOCK_CREATOR && !profile.publicKey) {
     return (
       <Container
         sx={{

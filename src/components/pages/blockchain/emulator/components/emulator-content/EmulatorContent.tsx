@@ -7,7 +7,6 @@ import {
 } from "@/api/blockchain";
 import { ProfileResM } from "@/api/profile/type";
 import { Iconify } from "@/components/common/design-system/iconify/Iconify";
-import { ADMIN_ROLES } from "@/constants/vars";
 import { useModalContext } from "@/hooks/context";
 import { USER_ROLE } from "@/types";
 import { TransactionsList } from "../transactions-list/TransactionsList";
@@ -15,8 +14,10 @@ import { CreateTransactionModal } from "./components/create-transaction-modal/Cr
 import { LoadingComponent } from "./components/loading-component/LoadingComponent";
 import { MiningTransactionsModal } from "./components/mining-transactions-modal/MiningTransactionsModal";
 import { NoDataComponent } from "./components/no-data-component/NoDataComponent";
+import { SignedTransactions } from "./components/signed-transactions/SignedTransactions";
 import { TransactionMining } from "./components/transaction-mining/TransactionMining";
 import { TransactionSigning } from "./components/transaction-signing/TransactionSigning";
+import { TransactionsInProgress } from "./components/transactions-in-progress/TransactionsInProgress";
 import { UnsignedTransactionsModal } from "./components/unsigned-transactions-modal/UnsignedTransactionsModal";
 
 type Props = {
@@ -58,6 +59,13 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
               />
             ) : null
           ) : null}
+          {profile.role === USER_ROLE.BLOCK_CREATOR && signedTransactions.length ? (
+            <TransactionsInProgress
+              title="Транзакции в процессе создания"
+              count={signedTransactions.length}
+              onClick={() => openModal(<SignedTransactions onClose={closeModal} />)}
+            />
+          ) : null}
           {profile.role === USER_ROLE.BLOCK_CREATOR && unsignedTransactions.length ? (
             <TransactionSigning
               title="Подписать транзакции"
@@ -75,12 +83,12 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
               Создать блок
             </Button>
           )}
-          {ADMIN_ROLES.includes(profile.role) && (
+          {/* {ADMIN_ROLES.includes(profile.role) && (
             <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
               <Iconify icon="material-symbols-light:auto-delete-outline" />
               Очистить реестр
             </Button>
-          )}
+          )} */}
         </Grid>
       </Grid>
       <Grid container>

@@ -35,7 +35,6 @@ export const CreateUser: FunctionComponent<Props> = ({ onFetchUser }) => {
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-  console.log("🚀 ~ newUserRole:", newUserRole);
 
   const handleAddUser = async () => {
     try {
@@ -57,7 +56,6 @@ export const CreateUser: FunctionComponent<Props> = ({ onFetchUser }) => {
     event: React.SyntheticEvent<Element, Event>,
     value: { id: number; tid: string } | null,
   ) => {
-    console.log("🚀 ~ value:", value);
     if (value) {
       setNewUserRole(value);
     } else {

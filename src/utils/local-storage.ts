@@ -12,8 +12,6 @@ export const getTokenFromStorage = () => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem(AUTH_DATA);
 
-    console.log("TOKEN FROM STORAGE:", token);
-
     return token;
   }
 

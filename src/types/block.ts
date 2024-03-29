@@ -43,3 +43,13 @@ export type UnsignedTransaction = {
   amount: number;
   wallet: Wallet;
 };
+
+export type SignedTransaction = {
+  id: number;
+  hash: string;
+  created_date: string;
+  nonce: number;
+  coin: string;
+  amount: number;
+  wallet: Wallet;
+};

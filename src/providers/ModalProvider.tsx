@@ -44,7 +44,7 @@ export const ModalProvider: FunctionComponent<Props> = ({ children }) => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              minWidth: 360,
+              maxWidth: "96%",
               bgcolor: "background.paper",
               borderRadius: "8px",
               boxShadow: 24,

@@ -42,9 +42,9 @@ const ToggleModeButton = styled("button")(({ theme }) => ({
   cursor: "pointer",
   border: "none",
   background: "none",
+  fontFamily: "Play",
   color: theme.palette.primary.main,
   textDecoration: "underline",
-  fontFamily: "Play",
   "&:hover": {
     opacity: 0.8,
   },
