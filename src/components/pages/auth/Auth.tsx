@@ -31,9 +31,10 @@ const Wrapper = styled("div")(() => ({
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
-  width: "100%",
+  maxWidth: "100%",
   height: "100vh",
   background: "#F4F5FA",
+  paddingInline: "10px",
 }));
 
 const ToggleModeButton = styled("button")(({ theme }) => ({
@@ -43,6 +44,7 @@ const ToggleModeButton = styled("button")(({ theme }) => ({
   background: "none",
   color: theme.palette.primary.main,
   textDecoration: "underline",
+  fontFamily: "Play",
   "&:hover": {
     opacity: 0.8,
   },

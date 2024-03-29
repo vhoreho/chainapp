@@ -79,8 +79,8 @@ export const Register = ({ onRegister, loading }: Props) => {
 };
 
 const RegisterBox = styled(Box)(({ theme }) => ({
-  maxWidth: "calc(100%-32px)",
-  width: "500px",
+  maxWidth: "500px",
+  width: "100%",
   marginInline: theme.spacing(2),
   boxShadow: theme.customShadows.base,
   borderRadius: theme.shape.borderRadius,

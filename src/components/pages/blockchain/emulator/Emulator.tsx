@@ -24,7 +24,7 @@ export const Emulator = () => {
     }
   };
 
-  const handleGoTocreatingBlocks = () => {
+  const handleGoToCreatingBlocks = () => {
     queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.PROFILE.QUERY.GET] });
   };
 
@@ -93,7 +93,7 @@ export const Emulator = () => {
               подписи ваших транзакций.
             </Typography>
 
-            <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleGoTocreatingBlocks}>
+            <Button variant="contained" sx={{ marginTop: 2 }} onClick={handleGoToCreatingBlocks}>
               Перейти к созданию транзакций
             </Button>
           </Container>
