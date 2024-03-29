@@ -228,6 +228,7 @@ export class BlockchainService {
         await this.newTransactionRepository.delete(transaction);
       }
     } catch (error) {
+      console.log('🚀 ~ BlockchainService ~ signTransaction ~ error:', error);
       throw new BadRequestException(error.message);
     }
   }

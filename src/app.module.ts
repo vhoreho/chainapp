@@ -11,8 +11,6 @@ import { ProfileModule } from './core/profile/profile.module';
 import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
 import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesController } from './core/roles/roles.controller';
-import { RolesModule } from './core/roles/roles.module';
 
 @Module({
   imports: [
@@ -38,9 +36,8 @@ import { RolesModule } from './core/roles/roles.module';
     BlockchainModule,
     WalletReportModule,
     ProfileModule,
-    RolesModule,
   ],
-  controllers: [AppController, RolesController],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}

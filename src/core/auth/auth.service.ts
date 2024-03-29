@@ -32,7 +32,6 @@ export class AuthService {
       id: user.id,
       username: user.username,
       role: user.role,
-      email: user.email,
       publicKey: user.publicKey,
     };
 

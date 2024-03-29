@@ -125,18 +125,24 @@ export class UsersService {
   }
 
   async changeRole(username: string, role: USER_ROLE) {
-    const user = await this.usersRepository.findOne({ where: { username } });
+    try {
+      const user = await this.usersRepository.findOne({ where: { username } });
 
-    if (!user) {
-      throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
+      if (!user) {
+        throw new NotFoundException(USERS_ERRORS.USER_NOT_FOUND);
+      }
+
+      await this.usersRepository.save({
+        ...user,
+        publicKey: null,
+        walletAddress: null,
+        role,
+      });
+
+      return true;
+    } catch (error) {
+      throw new BadRequestException('Something went wrong');
     }
-
-    return await this.usersRepository.save({
-      ...user,
-      publicKey: null,
-      walletAddress: null,
-      role,
-    });
   }
 
   async createUser(username: string, password: string, role: USER_ROLE) {
