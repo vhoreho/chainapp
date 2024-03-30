@@ -6,7 +6,11 @@ export const ROUTES = {
   DASHBOARD: "/dashboard",
   BLOCKCHAIN: "/blockchain",
   BLOCKCHAIN_DOCS: "/blockchain-docs",
-  BLOCKCHAIN_EXPLORER: "/blockchain-explorer",
+  BLOCKCHAIN_EXPLORER: {
+    INDEX: "/blockchain-explorer",
+    BITCOIN: "/blockchain-explorer/bitcoin",
+    ETHERIUM: "/blockchain-explorer/etherium",
+  },
   BLOCKCHAIN_REPUTATION: "/blockchain-reputation",
   BLOCKCHAIN_ANALYSER: "/blockchain-analyser",
   DOCS: {

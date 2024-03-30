@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
-import { Container } from "@mui/material";
 import DashboardLayout from "@/components/common/layouts/dashboard";
+import { Explorer } from "@/components/pages/blockchain/explorer/Explorer";
 
 export const explorer = () => {
-  return <Container>Explorer</Container>;
+  return <Explorer />;
 };
 
 explorer.getLayout = function getLayout(page: ReactElement) {

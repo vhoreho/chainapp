@@ -7,7 +7,7 @@ import { getTopGainersLastWeek, getTopLosersLastWeek } from "@/utils/currency";
 import { CoinsStat } from "./components/coins-stat/CoinsStat";
 
 export const BlockchainDashboard = () => {
-  const { data: coins, isLoading } = useGetCoinsQuery();
+  const { data: coins } = useGetCoinsQuery();
 
   const topGainers = useMemo(() => getTopGainersLastWeek(coins?.result ?? []), [coins]);
   const topLosers = useMemo(() => getTopLosersLastWeek(coins?.result ?? []), [coins]);
@@ -33,7 +33,7 @@ export const BlockchainDashboard = () => {
                   <Image src={coin.icon} alt="icon" width={20} height={20} />
                   {coin.name}
                 </CoinNameContainer>
-                <div>{coin.priceChange1w}</div>
+                <div>{coin.priceChange1w}%</div>
                 <div>${coin.price.toFixed(3)}</div>
               </ListItem>
             ))}
@@ -41,12 +41,12 @@ export const BlockchainDashboard = () => {
         </Box>
         <Box sx={{ padding: 2, bgcolor: "white", borderRadius: 1, width: "100%" }}>
           <Typography variant="h5" marginBottom={2}>
-            Топ 5 упавших криптовалют (1 неделя)
+            Топ 5 обесценившихся криптовалют (1 неделя)
           </Typography>
           <List>
             <ListItem>
               <Title>Название</Title>
-              <Title>Спад</Title>
+              <Title>Снижение</Title>
               <Title>Текущая стоимость</Title>
             </ListItem>
             {topLosers.map((coin) => (
@@ -55,7 +55,7 @@ export const BlockchainDashboard = () => {
                   <Image src={coin.icon} alt="icon" width={20} height={20} />
                   {coin.name}
                 </CoinNameContainer>
-                <div>{coin.priceChange1w}</div>
+                <div>{coin.priceChange1w}%</div>
                 <div>${coin.price.toFixed(3)}</div>
               </ListItem>
             ))}
@@ -69,7 +69,7 @@ export const BlockchainDashboard = () => {
 const Container = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1.3fr;
   align-items: start;
   grid-gap: 12px;
 
