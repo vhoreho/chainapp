@@ -41,6 +41,8 @@ export const USE_QUERY_KEYS = {
   EXPLORER: {
     MUTATION: {
       GET_TRANSACTION: "GetTransactionsForExplorer",
+    },
+    QUERY: {
       GET_CURRENCY_IN_USD: "GetCurrencyInUSD",
     },
   },

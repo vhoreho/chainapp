@@ -1,22 +1,5 @@
-import { format, formatDistanceToNow, getTime } from "date-fns";
-
-// ----------------------------------------------------------------------
-
-export function fDate(date: string | number | Date, newFormat: string) {
-  const fm = newFormat || "dd MMM yyyy";
-
-  return date ? format(new Date(date), fm) : "";
-}
-
-export function fDateTime(date: string | number | Date, newFormat: string) {
-  const fm = newFormat || "dd MMM yyyy p";
-
-  return date ? format(new Date(date), fm) : "";
-}
-
-export function fTimestamp(date: string | number | Date) {
-  return date ? getTime(new Date(date)) : "";
-}
+import { formatDistanceToNow } from "date-fns";
+import dayjs from "dayjs";
 
 export function fToNow(date: string | number | Date) {
   return date
@@ -25,3 +8,7 @@ export function fToNow(date: string | number | Date) {
       })
     : "";
 }
+
+export const convertTimestampToDate = (timestamp: number): string => {
+  return dayjs.unix(timestamp).format("M/D/YYYY, HH:mm:ss");
+};
