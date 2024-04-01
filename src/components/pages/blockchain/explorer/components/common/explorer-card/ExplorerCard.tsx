@@ -13,7 +13,7 @@ export const ExplorerCard: React.FC<Props> = ({ explorer }) => {
     <Link href={explorer.url} passHref style={{ textDecoration: "none" }}>
       <ExplorerCardContainer>
         <ExplorerIcon>
-          <Image src={explorer.icon} alt={explorer.name} width={30} height={30} />
+          <Image src={explorer.icon} alt={explorer.name} width={45} height={45} />
         </ExplorerIcon>
         <ExplorerName>{explorer.name}</ExplorerName>
       </ExplorerCardContainer>
@@ -22,23 +22,24 @@ export const ExplorerCard: React.FC<Props> = ({ explorer }) => {
 };
 
 const ExplorerCardContainer = styled.div`
-  max-width: 345px;
+  width: 250px;
   border-radius: 4px;
   box-shadow:
     0px 2px 1px rgba(0, 0, 0, 0.1),
     0px 4px 2px rgba(0, 0, 0, 0.05);
   padding: 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   background: #fff;
+  gap: 12px;
   color: black;
   cursor: pointer; // Add cursor pointer for hover effect
   transition: transform 0.1s ease-in-out; // Add transition for smooth hover effect
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
     color: #12b76a;
   }
@@ -46,13 +47,11 @@ const ExplorerCardContainer = styled.div`
 
 const ExplorerIcon = styled.div`
   position: relative;
-  margin-bottom: 16px;
 `;
 
 const ExplorerName = styled.h2`
   font-weight: 500;
   font-size: 1.2rem;
-  margin: 0;
   text-decoration: none !important;
   transition: color 0.2s ease-in-out; // Add transition for smooth text color change
 `;

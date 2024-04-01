@@ -45,7 +45,8 @@ export const GET_CRIME_TYPES_ROUTE = `${BASE_API_URL}/wallet-report/crimes`;
 export const CRIME_REPORT_ROUTE = `${BASE_API_URL}/wallet-report`;
 
 //Explorer API
-export const GET_TRANSACTIONS_BY_ADDRESS = (address: string) => `${EXPLORER_API_URL}/${address}`;
+export const GET_TRANSACTIONS_BY_ADDRESS = (address: string) =>
+  `${EXPLORER_API_URL}/${address}?cors=false`;
 export const GET_CURRENCY_IN_USD = `https://api.coindesk.com/v1/bpi/currentprice.json`;
 
 //Coins Stat API

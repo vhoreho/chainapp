@@ -1,11 +1,7 @@
 export type ConverterResM = {
-  response: {
-    data: {
-      bpi: {
-        USD: {
-          rate_float: string;
-        };
-      };
+  bpi: {
+    USD: {
+      rate_float: number;
     };
   };
 };
