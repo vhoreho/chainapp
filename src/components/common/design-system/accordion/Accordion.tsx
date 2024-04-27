@@ -4,7 +4,7 @@ import { Iconify } from "../iconify/Iconify";
 
 type Props = {
   summary: ReactNode;
-  details: ReactNode;
+  details?: ReactNode;
 };
 
 export const AccordionMUI: React.FC<Props> = ({ summary, details }) => {
@@ -17,7 +17,7 @@ export const AccordionMUI: React.FC<Props> = ({ summary, details }) => {
       >
         {summary}
       </AccordionSummary>
-      <AccordionDetails sx={{ padding: 0 }}>{details}</AccordionDetails>
+      {details && <AccordionDetails sx={{ padding: 0 }}>{details}</AccordionDetails>}
     </Accordion>
   );
 };

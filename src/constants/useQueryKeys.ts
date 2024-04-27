@@ -41,9 +41,11 @@ export const USE_QUERY_KEYS = {
   EXPLORER: {
     MUTATION: {
       GET_TRANSACTION: "GetTransactionsForExplorer",
+      GET_ETHEREUM_TRANSACTION: "GetEthereumTransactionsForExplorer",
     },
     QUERY: {
-      GET_CURRENCY_IN_USD: "GetCurrencyInUSD",
+      GET_BTC_CURRENCY_IN_USD: "GetBTCCurrencyInUSD",
+      GET_ETH_CURRENCY_IN_USD: "GetETHCurrencyInUSD",
     },
   },
   COINS_STAT: {

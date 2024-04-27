@@ -55,3 +55,34 @@ export function numberToFormattedString(number: number): string {
     return formattedNumber + "K";
   }
 }
+
+export function getGasFeeInGwei(gasUsed: string, gasPrice: string): number {
+  // Convert gasUsed and gasPrice from strings to numbers
+  const gUsed = parseInt(gasUsed, 10);
+  const gPrice = parseInt(gasPrice, 10);
+
+  // Calculate gas fee in Gwei
+  const gasFee = gUsed * gPrice;
+
+  return gasFee;
+}
+
+export function weiToEth(weiValue: number): number {
+  return weiValue / Math.pow(10, 18);
+}
+
+export function gweiToDollars(gweiValue: number, ethPriceUsd: number): number {
+  // Convert Gwei to Ether (ETH)
+  const ethValue = gweiValue / Math.pow(10, 9);
+
+  // Convert Ether (ETH) to USD
+  const usdValue = ethValue * ethPriceUsd;
+
+  return usdValue;
+}
+
+export function convertToThousandAndDecimal(value: number) {
+  const thousand = Math.floor(value / Math.pow(10, 15));
+  const decimal = (value % Math.pow(10, 15)) / Math.pow(10, 15);
+  return `${thousand}.${decimal}`;
+}
