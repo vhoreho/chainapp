@@ -13,18 +13,22 @@ import {
 } from "./module";
 import { ChangeRoleReqM, CreateUserReqM, KeysResM, User, Wallet } from "./types";
 
+enum QueryKeys {
+  USERS = "users",
+}
+
 export const useGetUsersQuery = () => {
   const { authData } = useAuthContext();
 
   return useQuery<User[], AxiosError>({
-    queryKey: [USE_QUERY_KEYS.USERS.QUERY.GET_USERS],
+    queryKey: [QueryKeys.USERS],
     queryFn: () => getUsersFetcher(authData?.access_token!),
     enabled: !!authData?.access_token,
   });
 };
 
 export const invalidateUsers = () => {
-  queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.USERS.QUERY.GET_USERS] });
+  queryClient.invalidateQueries({ queryKey: [QueryKeys.USERS] });
 };
 
 export const useGetWalletsQuery = () => {

@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
@@ -10,17 +11,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useQueryClient } from "@tanstack/react-query";
-import { useCreateUserMutation } from "@/api/users";
+import { invalidateUsers, useCreateUserMutation } from "@/api/users";
 import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 import { ROLES_TID } from "@/constants/tid";
-import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
+import { useSnackBarContext } from "@/hooks/context";
 
-type Props = {
-  onFetchUser: () => void;
-};
-
-export const CreateUser: FunctionComponent<Props> = ({ onFetchUser }) => {
+export const CreateUser: FunctionComponent = () => {
   const [newUsername, setNewUsername] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [newUserRole, setNewUserRole] = useState<{
@@ -28,28 +24,32 @@ export const CreateUser: FunctionComponent<Props> = ({ onFetchUser }) => {
     tid: string;
   }>(ROLES_TID[0]);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const createUserMutation = useCreateUserMutation();
-
-  const queryClient = useQueryClient();
+  const { mutate, isPending } = useCreateUserMutation();
+  const { handleShow } = useSnackBarContext();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const handleAddUser = async () => {
-    try {
-      await createUserMutation.mutateAsync({
+    mutate(
+      {
         username: newUsername,
         password: newPassword,
         role: newUserRole.id,
-      });
-      queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.USERS.QUERY.GET_USERS] });
-      setNewUsername("");
-      setNewUserRole(ROLES_TID[0]);
-      setNewPassword("");
-    } catch (error) {
-      console.error("Error adding user:", error);
-    }
+      },
+      {
+        onSuccess: () => {
+          invalidateUsers();
+          setNewUsername("");
+          setNewUserRole(ROLES_TID[0]);
+          setNewPassword("");
+        },
+        onError: (error) => {
+          handleShow(error.message, "error");
+        },
+      },
+    );
   };
 
   const handleChangeInput = (
@@ -134,7 +134,14 @@ export const CreateUser: FunctionComponent<Props> = ({ onFetchUser }) => {
             disabled={!newUsername.length && !newPassword.length}
             onClick={handleAddUser}
           >
-            Создать
+            {isPending ? (
+              <CircularProgress
+                sx={{ width: "20px !important", height: "20px !important" }}
+                color="inherit"
+              />
+            ) : (
+              <>Создать</>
+            )}
           </Button>
         </Grid>
       </Grid>

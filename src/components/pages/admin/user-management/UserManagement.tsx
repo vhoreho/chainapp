@@ -13,7 +13,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useGetProfileQuery } from "@/api/profile";
 import { invalidateUsers, useDeleteUserMutation, useGetUsersQuery } from "@/api/users";
 import { ROLES_TID } from "@/constants/tid";
@@ -28,25 +27,15 @@ export const UserManagement: FunctionComponent = () => {
 
   const users = useMemo(() => {
     return data?.length ? data.filter((d) => d.username !== profile?.username) : [];
-  }, [data]);
-
-  const handleRoleChange = async (userId: number, newRole: string) => {
-    try {
-      await axios.put(`/api/users/${userId}/role`, { role: newRole });
-    } catch (error) {
-      console.error("Error updating user role:", error);
-    }
-  };
+  }, [data, profile?.username]);
 
   const handleDeleteUser = async (userId: number) => {
-    deleteUser(userId, {
-      onSuccess: () => {
-        invalidateUsers();
-      },
+    await deleteUser(userId, {
       onError: (error) => {
         handleShow(error.message, "error");
       },
     });
+    invalidateUsers();
   };
 
   return (
@@ -54,7 +43,7 @@ export const UserManagement: FunctionComponent = () => {
       <Typography variant="h4" gutterBottom>
         Управление пользователями
       </Typography>
-      <CreateUser onFetchUser={() => {}} />
+      <CreateUser />
       {isLoading ? (
         <span>loading</span>
       ) : users?.length ? (
