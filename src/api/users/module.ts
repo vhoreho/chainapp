@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   CREATE_USER_ROUTE,
+  DELETE_USER_ROUTE,
   GENERATE_KEYS_ROUTE,
   GET_USERS_ROUTE,
   GET_WALLETS,
@@ -50,6 +51,16 @@ export const changeRoleFetcher = async (token: string, changeRoleResM: ChangeRol
 
 export const createUserFetcher = async (token: string, createUserResM: CreateUserReqM) => {
   const { data } = await axios.post<boolean>(CREATE_USER_ROUTE, createUserResM, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
+};
+
+export const deleteUserFetcher = async (token: string, id: number) => {
+  const { data } = await axios.get<boolean>(DELETE_USER_ROUTE(id), {
     headers: {
       Authorization: `Bearer ${token}`,
     },

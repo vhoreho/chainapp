@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { queryClient } from "@/constants/query-client";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext } from "@/hooks/context";
 import {
   changeRoleFetcher,
   createUserFetcher,
+  deleteUserFetcher,
   generateKeysQuery,
   getUsersFetcher,
   getWallets,
@@ -19,6 +21,10 @@ export const useGetUsersQuery = () => {
     queryFn: () => getUsersFetcher(authData?.access_token!),
     enabled: !!authData?.access_token,
   });
+};
+
+export const invalidateUsers = () => {
+  queryClient.invalidateQueries({ queryKey: [USE_QUERY_KEYS.USERS.QUERY.GET_USERS] });
 };
 
 export const useGetWalletsQuery = () => {
@@ -54,5 +60,13 @@ export const useCreateUserMutation = () => {
     mutationKey: [USE_QUERY_KEYS.USERS.MUTATION.CREATE_USER],
     mutationFn: (createUserReqM: CreateUserReqM) =>
       createUserFetcher(authData?.access_token!, createUserReqM),
+  });
+};
+
+export const useDeleteUserMutation = () => {
+  const { authData } = useAuthContext();
+  return useMutation<boolean, AxiosError, number>({
+    mutationKey: [USE_QUERY_KEYS.USERS.MUTATION.DELETE_USER],
+    mutationFn: (id: number) => deleteUserFetcher(authData?.access_token!, id),
   });
 };

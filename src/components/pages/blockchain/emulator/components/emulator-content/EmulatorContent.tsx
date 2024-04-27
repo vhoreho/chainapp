@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import {
+  useClearBlockchainMutation,
   useGetBlockchainQuery,
   useGetSignedTransactionsQuery,
   useGetUnsignedTransactionsQuery,
@@ -32,6 +33,11 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
   const { data: signedTransactions, isLoading: isGetSignedTransactionsLoading } =
     useGetSignedTransactionsQuery();
   const { data: blockchain, isLoading: isBlockchainLoading } = useGetBlockchainQuery();
+  const { mutate, isPending } = useClearBlockchainMutation();
+
+  const handleClearBlockchain = () => {
+    mutate();
+  };
 
   if (isGetUnsignedTransactionsLoading || isGetSignedTransactionsLoading || isBlockchainLoading) {
     return <LoadingComponent />;
@@ -83,12 +89,26 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
               Создать блок
             </Button>
           )}
-          {/* {ADMIN_ROLES.includes(profile.role) && (
-            <Button color="error" variant="contained" sx={{ display: "flex", gap: 1 }}>
-              <Iconify icon="material-symbols-light:auto-delete-outline" />
-              Очистить реестр
+          {profile.role === USER_ROLE.ADMINISTRATOR && (
+            <Button
+              color="error"
+              variant="contained"
+              sx={{ display: "flex", gap: 1 }}
+              onClick={handleClearBlockchain}
+            >
+              {isPending ? (
+                <CircularProgress
+                  sx={{ width: "20px !important", height: "20px !important" }}
+                  color="inherit"
+                />
+              ) : (
+                <>
+                  <Iconify icon="material-symbols-light:auto-delete-outline" />
+                  Очистить реестр
+                </>
+              )}
             </Button>
-          )} */}
+          )}
         </Grid>
       </Grid>
       <Grid container>

@@ -11,6 +11,7 @@ import {
   getTransactionsForMining,
   getUnsignedTransactions,
   mineBlock,
+  resetBlockchain,
   signTransaction,
 } from "./module";
 import { CreateBlockReqM, MineBlockReqM, SignTransactionReqM } from "./types";
@@ -90,6 +91,16 @@ export const useMineBlockMutation = () => {
   const mutation = useMutation<Block[], AxiosError, MineBlockReqM>({
     mutationFn: (mineBlockReqM) => mineBlock(authData?.access_token!, mineBlockReqM),
     mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.MINE_BLOCK],
+  });
+
+  return mutation;
+};
+
+export const useClearBlockchainMutation = () => {
+  const { authData } = useAuthContext();
+  const mutation = useMutation<any, AxiosError>({
+    mutationFn: () => resetBlockchain(authData?.access_token!),
+    mutationKey: [USE_QUERY_KEYS.BLOCKCHAIN.MUTATION.CLEAR_BLOCK],
   });
 
   return mutation;

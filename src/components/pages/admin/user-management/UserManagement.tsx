@@ -1,6 +1,7 @@
 import { FunctionComponent, useMemo } from "react";
 import { Delete, Edit } from "@mui/icons-material";
 import {
+  CircularProgress,
   Container,
   IconButton,
   Paper,
@@ -14,13 +15,16 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useGetProfileQuery } from "@/api/profile";
-import { useGetUsersQuery } from "@/api/users";
+import { invalidateUsers, useDeleteUserMutation, useGetUsersQuery } from "@/api/users";
 import { ROLES_TID } from "@/constants/tid";
+import { useSnackBarContext } from "@/hooks/context";
 import { CreateUser } from "./components/create-user/CreateUser";
 
 export const UserManagement: FunctionComponent = () => {
   const { data, isLoading } = useGetUsersQuery();
   const { data: profile } = useGetProfileQuery();
+  const { mutate: deleteUser, isPending } = useDeleteUserMutation();
+  const { handleShow } = useSnackBarContext();
 
   const users = useMemo(() => {
     return data?.length ? data.filter((d) => d.username !== profile?.username) : [];
@@ -35,11 +39,14 @@ export const UserManagement: FunctionComponent = () => {
   };
 
   const handleDeleteUser = async (userId: number) => {
-    try {
-      await axios.delete(`/api/users/${userId}`);
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
+    deleteUser(userId, {
+      onSuccess: () => {
+        invalidateUsers();
+      },
+      onError: (error) => {
+        handleShow(error.message, "error");
+      },
+    });
   };
 
   return (
@@ -81,7 +88,14 @@ export const UserManagement: FunctionComponent = () => {
                         <Edit />
                       </IconButton>
                       <IconButton color="error" onClick={() => handleDeleteUser(user.id)}>
-                        <Delete />
+                        {isPending ? (
+                          <CircularProgress
+                            sx={{ width: "20px !important", height: "20px !important" }}
+                            color="inherit"
+                          />
+                        ) : (
+                          <Delete />
+                        )}
                       </IconButton>
                     </TableCell>
                   </TableRow>

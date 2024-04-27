@@ -19,6 +19,7 @@ export const USE_QUERY_KEYS = {
       SIGN_TRANSACTION: "SignTransaction",
       DELETE_UNSIGNED_TRANSACTION: "DeleteUnsignedTransaction",
       MINE_BLOCK: "MineBlock",
+      CLEAR_BLOCK: "ClearBlockchain",
     },
     QUERY: {
       GET_CREATED_TRANSACTIONS: "GetCreatedTransactions",
@@ -36,6 +37,7 @@ export const USE_QUERY_KEYS = {
     MUTATION: {
       CHANGE_ROLE: "UsersChangeRole",
       CREATE_USER: "UsersCreateUser",
+      DELETE_USER: "UsersDeleteUser",
     },
   },
   EXPLORER: {
