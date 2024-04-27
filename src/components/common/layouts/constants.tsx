@@ -27,7 +27,7 @@ const icon = (name: string) => (
 
 export const navConfig = [
   {
-    title: "Доска",
+    title: "Главная",
     path: "/dashboard",
     icon: icon("ic_analytics"),
   },
@@ -35,7 +35,7 @@ export const navConfig = [
     title: "Блокчейн",
     icon: icon("ic_blockchain"),
     submenu: [
-      { title: "Доска", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
+      { title: "Главная", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
       { title: "Эмулятор", path: "/blockchain/emulator", icon: icon("ic_emulator") },
       { title: "Обозреватель", path: "/blockchain/explorer", icon: icon("ic_explorer") },
     ],
