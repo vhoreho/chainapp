@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { Explorer } from "../../../types";
@@ -12,9 +11,7 @@ export const ExplorerCard: React.FC<Props> = ({ explorer }) => {
   return (
     <Link href={explorer.url} passHref style={{ textDecoration: "none" }}>
       <ExplorerCardContainer>
-        <ExplorerIcon>
-          <Image src={explorer.icon} alt={explorer.name} width={45} height={45} />
-        </ExplorerIcon>
+        <ExplorerIcon>{explorer.icon}</ExplorerIcon>
         <ExplorerName>{explorer.name}</ExplorerName>
       </ExplorerCardContainer>
     </Link>
@@ -22,8 +19,8 @@ export const ExplorerCard: React.FC<Props> = ({ explorer }) => {
 };
 
 const ExplorerCardContainer = styled.div`
-  width: 250px;
   border-radius: 4px;
+  width: 250px;
   box-shadow:
     0px 2px 1px rgba(0, 0, 0, 0.1),
     0px 4px 2px rgba(0, 0, 0, 0.05);
@@ -36,7 +33,8 @@ const ExplorerCardContainer = styled.div`
   gap: 12px;
   color: black;
   cursor: pointer; // Add cursor pointer for hover effect
-  transition: transform 0.1s ease-in-out; // Add transition for smooth hover effect
+  transition: transform 0.1s ease-in-out;
+  display: flex; // Add transition for smooth hover effect
 
   &:hover {
     transform: scale(1.05);
@@ -47,6 +45,11 @@ const ExplorerCardContainer = styled.div`
 
 const ExplorerIcon = styled.div`
   position: relative;
+
+  & svg {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 const ExplorerName = styled.h2`

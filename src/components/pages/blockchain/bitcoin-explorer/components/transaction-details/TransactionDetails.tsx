@@ -16,9 +16,14 @@ type Output = {
 type Props = {
   transaction: TransactionResM;
   USDPrice: number;
+  searchedAddress: string;
 };
 
-export const TransactionDetails: FunctionComponent<Props> = ({ transaction, USDPrice }) => {
+export const TransactionDetails: FunctionComponent<Props> = ({
+  transaction,
+  USDPrice,
+  searchedAddress,
+}) => {
   const inputs: Input[] = transaction.inputs.map((input) => ({
     addr: input.prev_out.addr,
     value: input.prev_out.value / 100000000, // Convert to BTC
@@ -35,7 +40,7 @@ export const TransactionDetails: FunctionComponent<Props> = ({ transaction, USDP
         <ItemList>
           {inputs.map((input) => (
             <Item key={input.addr}>
-              <Address>{input.addr}</Address>
+              <Address isEqual={searchedAddress === input.addr}>{input.addr}</Address>
               <Value>{`${input.value} BTC • ${formatPrice(input.value, USDPrice)}`}</Value>
             </Item>
           ))}
@@ -46,7 +51,7 @@ export const TransactionDetails: FunctionComponent<Props> = ({ transaction, USDP
         <ItemList>
           {outputs.map((output) => (
             <Item key={output.addr}>
-              <Address>{output.addr}</Address>
+              <Address isEqual={searchedAddress === output.addr}>{output.addr}</Address>
               <Value>{`${output.value} BTC • ${formatPrice(output.value, USDPrice)}`}</Value>
             </Item>
           ))}
@@ -107,8 +112,8 @@ const Item = styled.li`
   padding: 8px 12px;
 `;
 
-const Address = styled.div`
-  color: rgb(237, 155, 96);
+const Address = styled.div<{ isEqual?: boolean }>`
+  color: ${({ isEqual }) => (isEqual ? "rgb(244, 91, 105)" : "rgb(237, 155, 96)")};
   overflow: hidden;
   text-overflow: ellipsis;
 `;

@@ -1,9 +1,9 @@
-export const KEY = "1aKcZP8pHLa1XwuIfwOTjKeijZ0zWMl0LpUFxoSK";
-export const CRYPTO_API_KEY = "c78ab0934b3063ccfb71da2f71d700a6a3f4a8ee";
-export const ABUSE_KEY = "q9AcAGfA1VPW8udL0guO6Bt4NYRAG2f7vlPCj8KH";
+const ETHEREUM_API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY;
+const CRYPTO_COMPARE_KEY = process.env.NEXT_PUBLIC_CRYPTO_COMPARE_API_KEY;
 
 export const BASE_API_URL = "https://chainapp-uh-c9c2ecac19f5.herokuapp.com";
-export const EXPLORER_API_URL = "https://blockchain.info/rawaddr";
+export const BITCOIN_EXPLORER_API_URL = "https://blockchain.info/rawaddr";
+export const ETHEREUM_EXPLORER_API_URL = "https://api.etherscan.io/api";
 export const COIN_STATS_API_BASE_URL = "https://openapiv1.coinstats.app";
 // export const BASE_API_URL = "http://localhost:3333";
 
@@ -46,8 +46,11 @@ export const CRIME_REPORT_ROUTE = `${BASE_API_URL}/wallet-report`;
 
 //Explorer API
 export const GET_TRANSACTIONS_BY_ADDRESS = (address: string) =>
-  `${EXPLORER_API_URL}/${address}?cors=false`;
+  `${BITCOIN_EXPLORER_API_URL}/${address}?cors=false`;
 export const GET_CURRENCY_IN_USD = `https://api.coindesk.com/v1/bpi/currentprice.json`;
+export const GET_ETHEREUM_IN_USD = `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${CRYPTO_COMPARE_KEY}`;
+export const GET_ETHEREUM_TRANSACTIONS = (address: string) =>
+  `${ETHEREUM_EXPLORER_API_URL}?module=account&action=txlist&address=${address}&apikey=${ETHEREUM_API_KEY}`;
 
 //Coins Stat API
 export const GET_COINS = (page: number = 1, limit: number = 20, currency: string = "USD") =>

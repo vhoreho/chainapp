@@ -6,6 +6,7 @@ const nextConfig = {
       {
         hostname: "static.coinstats.app",
       },
+      { hostname: "cryptologos.cc" },
     ],
   },
 };

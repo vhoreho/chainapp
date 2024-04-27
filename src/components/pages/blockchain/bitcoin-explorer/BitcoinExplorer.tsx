@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Container, TextField, Typography } from "@mui/material";
-import { AxiosError } from "axios";
+import { Button, CircularProgress, Container, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
-import { useGetCurrencyInUSD } from "@/api/currency";
-import { TransactionResM, useGetBitcoinTransactionsMutation, WalletResM } from "@/api/explorer";
+import { useGetBTCCurrencyInUSD } from "@/api/currency";
+import {
+  BitcoinWalletResM,
+  TransactionResM,
+  useGetBitcoinTransactionsMutation,
+} from "@/api/explorer";
+import { useSnackBarContext } from "@/hooks/context";
 import { AddressSummary } from "./components/address-summary/AddressSummary";
 import { TransactionsList } from "./components/transactions-list/TransactionsList";
 
@@ -13,27 +17,23 @@ type Explorer = {
 };
 
 export const BitcoinExplorer: React.FC = () => {
-  const { control, handleSubmit } = useForm<Explorer>();
-  const [summary, setSummary] = useState<Omit<WalletResM, "txs"> | null>(null);
+  const { control, handleSubmit, watch } = useForm<Explorer>();
+  const [summary, setSummary] = useState<Omit<BitcoinWalletResM, "txs"> | null>(null);
   const [txs, setTxs] = useState<TransactionResM[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const getTransactions = useGetBitcoinTransactionsMutation();
-  const { data: priceInUSD } = useGetCurrencyInUSD();
+  const { mutate, isPending } = useGetBitcoinTransactionsMutation();
+  const { data: priceInUSD } = useGetBTCCurrencyInUSD();
+  const { handleShow } = useSnackBarContext();
 
   const onSubmit = async ({ address }: Explorer) => {
-    setIsLoading(true);
-    try {
-      const response = await getTransactions.mutateAsync(address);
-      setSummary(response);
-      setTxs(response.txs);
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        setError(err.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    mutate(address, {
+      onSuccess: (response) => {
+        setSummary(response);
+        setTxs(response.txs);
+      },
+      onError: (error) => {
+        handleShow(error.message, "error");
+      },
+    });
   };
 
   return (
@@ -58,12 +58,21 @@ export const BitcoinExplorer: React.FC = () => {
             )}
           />
           <Button type="submit" variant="contained" color="primary">
-            Поиск
+            {isPending ? (
+              <CircularProgress
+                sx={{ width: "20px !important", height: "20px !important" }}
+                color="inherit"
+              />
+            ) : (
+              <>Поиск</>
+            )}
           </Button>
         </Form>
       </Container>
       {summary && priceInUSD && <AddressSummary {...summary} USDPrice={priceInUSD} />}
-      {txs.length && priceInUSD ? <TransactionsList txs={txs} USDPrice={priceInUSD} /> : null}
+      {txs.length && priceInUSD ? (
+        <TransactionsList searchedAddress={watch("address")} txs={txs} USDPrice={priceInUSD} />
+      ) : null}
     </PageContainer>
   );
 };

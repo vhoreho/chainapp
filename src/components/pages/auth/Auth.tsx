@@ -4,7 +4,7 @@ import { useAuthContext } from "@/hooks/context";
 import { LogIn, Register } from "./components";
 
 export const Auth = () => {
-  const { logIn, isLoading, signUp, error } = useAuthContext();
+  const { logIn, isLoading, signUp } = useAuthContext();
   const [isRegistering, setIsRegistering] = useState(false);
 
   const handleToggleMode = () => {

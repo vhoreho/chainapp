@@ -8,9 +8,10 @@ import { TransactionSummary } from "../transaction-summary/TransactionSummary";
 type Props = {
   txs: TransactionResM[];
   USDPrice: number;
+  searchedAddress: string;
 };
 
-export const TransactionsList = ({ txs, USDPrice }: Props) => {
+export const TransactionsList = ({ txs, USDPrice, searchedAddress }: Props) => {
   return (
     <Container>
       <ListContainer>
@@ -18,7 +19,13 @@ export const TransactionsList = ({ txs, USDPrice }: Props) => {
           <AccordionMUI
             key={tx.hash}
             summary={<TransactionSummary transaction={tx} USDPrice={USDPrice} />}
-            details={<TransactionDetails transaction={tx} USDPrice={USDPrice} />}
+            details={
+              <TransactionDetails
+                searchedAddress={searchedAddress}
+                transaction={tx}
+                USDPrice={USDPrice}
+              />
+            }
           />
         ))}
       </ListContainer>

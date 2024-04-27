@@ -46,7 +46,9 @@ export const TransactionSummary: FunctionComponent<Props> = ({ transaction, USDP
           <span>{formatPrice(transaction.result / 100000000, USDPrice)}</span>
         </div>
         <div>
-          <TextBlack>Комиссия {numberToFormattedString(transaction.fee)} Sats</TextBlack>
+          <TextBlack>
+            <RedColored>Комиссия</RedColored> {numberToFormattedString(transaction.fee)} Sats
+          </TextBlack>
           <span>•</span>
           <span>${satoshiToDollars(transaction.fee, USDPrice)}</span>
         </div>
@@ -91,4 +93,8 @@ const TextBlack = styled.span`
 const TextColored = styled.span`
   color: rgb(237, 155, 96);
   font-weight: 700;
+`;
+
+const RedColored = styled.span`
+  color: rgb(244, 91, 105);
 `;
