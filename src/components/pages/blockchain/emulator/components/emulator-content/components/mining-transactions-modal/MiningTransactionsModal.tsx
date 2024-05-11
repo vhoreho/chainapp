@@ -81,10 +81,9 @@ export const MiningTransactionsModal: FunctionComponent<Props> = ({ onClose }) =
                   <TableCell sx={{ whiteSpace: "nowrap", fontSize: 12 }} size="small">{`${
                     transaction.amount
                   } ${cryptoData.find((c) => c.name === transaction.coin)?.symbol}`}</TableCell>
-                  <TableCell
-                    size="small"
-                    sx={{ whiteSpace: "nowrap", fontSize: 12 }}
-                  >{`${transaction.wallet.address} (${transaction.wallet.user.username})`}</TableCell>
+                  <TableCell size="small" sx={{ whiteSpace: "nowrap", fontSize: 12 }}>{`${
+                    transaction.wallet.address
+                  } (${transaction.wallet.user && transaction.wallet.user.username})`}</TableCell>
                   <TableCell size="small">
                     <Button
                       sx={{ whiteSpace: "nowrap", fontSize: 12 }}

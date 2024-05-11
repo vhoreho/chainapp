@@ -21,6 +21,10 @@ type Props = {
 
 export const SignedTransactions: FunctionComponent<Props> = memo(({ onClose }) => {
   const { data: transactions, isLoading } = useGetSignedTransactionsQuery();
+  console.log(
+    "🚀 ~ constSignedTransactions:FunctionComponent<Props>=memo ~ transactions:",
+    transactions,
+  );
 
   if (!transactions?.length) {
     onClose();
@@ -67,10 +71,9 @@ export const SignedTransactions: FunctionComponent<Props> = memo(({ onClose }) =
                   <TableCell sx={{ whiteSpace: "nowrap", fontSize: 12 }} size="small">{`${
                     transaction.amount
                   } ${cryptoData.find((c) => c.name === transaction.coin)?.symbol}`}</TableCell>
-                  <TableCell
-                    size="small"
-                    sx={{ whiteSpace: "nowrap", fontSize: 12 }}
-                  >{`${transaction.wallet.address} (${transaction.wallet.user.username})`}</TableCell>
+                  <TableCell size="small" sx={{ whiteSpace: "nowrap", fontSize: 12 }}>{`${
+                    transaction.wallet.address
+                  } (${transaction.wallet.user && transaction.wallet.user.username})`}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
