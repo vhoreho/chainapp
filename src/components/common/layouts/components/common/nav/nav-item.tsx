@@ -15,7 +15,7 @@ type Props = { item: Item & { submenu?: Item[] } };
 export const NavItem = ({ item }: Props) => {
   const pathname = usePathname();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleToggle = () => {
     if (item.submenu) {

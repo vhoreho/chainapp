@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true);
       setAuthData(authData);
       setError(undefined);
-      router.push(ROUTES.DASHBOARD);
+      router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
       return REQUEST_STATUS.FULFILLED;
     } catch (error) {
       handleShow(getAxiosErrorMessage(error), "error");
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true);
       setAuthData(authData);
       setError(undefined);
-      router.push(ROUTES.DASHBOARD);
+      router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
       return REQUEST_STATUS.FULFILLED;
     } catch (error) {
       setError(getAxiosErrorMessage(error));

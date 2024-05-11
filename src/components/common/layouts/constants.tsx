@@ -27,11 +27,6 @@ const icon = (name: string) => (
 
 export const navConfig = [
   {
-    title: "Главная",
-    path: "/dashboard",
-    icon: icon("ic_analytics"),
-  },
-  {
     title: "Блокчейн",
     icon: icon("ic_blockchain"),
     submenu: [
