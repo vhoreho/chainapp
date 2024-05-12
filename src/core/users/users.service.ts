@@ -12,6 +12,8 @@ import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
 import * as bitcoin from 'bitcoinjs-lib';
 import { Wallet } from './entities/wallet.entity';
+import { NewTransaction } from '../blockchain/entities/new-transaction.entity';
+import { SignedTransaction } from '../blockchain/entities/signed-transactions.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,10 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectRepository(Wallet) private walletRepository: Repository<Wallet>,
+    @InjectRepository(NewTransaction)
+    private transactionRepository: Repository<NewTransaction>,
+    @InjectRepository(SignedTransaction)
+    private signedTransactionRepository: Repository<SignedTransaction>,
   ) {}
 
   findUser(username: string): Promise<User> {
@@ -47,6 +53,13 @@ export class UsersService {
 
   async deleteUser(id: number): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
+
+    const transactions = await this.transactionRepository.find();
+
+    const signedTransactions = await this.signedTransactionRepository.find();
+
+    await this.transactionRepository.remove(transactions);
+    await this.signedTransactionRepository.remove(signedTransactions);
 
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
