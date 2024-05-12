@@ -1,0 +1,15 @@
+{
+  "pages": {
+    "auth": {
+      "authorization": {
+        "sign-up": {
+          "user-already-taken": "Пользователь с таким именем уже существует"
+        },
+        "login": {
+          "user-not-found": "Пользователь не найден",
+          "wrong-password": "Неверный пароль"
+        }
+      }
+    }
+  }
+}

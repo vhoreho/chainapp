@@ -4,7 +4,7 @@ export const MENU_OPTIONS = [
   {
     label: "Главная",
     icon: "eva:home-fill",
-    path: ROUTES.DASHBOARD,
+    path: ROUTES.BLOCKCHAIN_DASHBOARD,
   },
   // {
   //   label: "Profile",
@@ -20,7 +20,7 @@ export const ADMIN_MENU_OPTIONS = [
   {
     label: "Главная",
     icon: "eva:home-fill",
-    path: ROUTES.DASHBOARD,
+    path: ROUTES.BLOCKCHAIN_DASHBOARD,
   },
   {
     label: "Пользователи",

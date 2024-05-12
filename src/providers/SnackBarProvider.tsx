@@ -55,23 +55,16 @@ export const SnackBarProvider = ({ children }: SnackBarProviderProps) => {
         message={state.message}
         key={state.Transition.name}
       >
-        <Alert onClose={handleClose} severity={state.severity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleClose}
+          severity={state.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
           {state.message}
         </Alert>
       </Snackbar>
       {children}
     </SnackBarContext.Provider>
-    // <div>
-    //   <Button onClick={handleClick(GrowTransition)}>Grow Transition</Button>
-    //   <Button onClick={handleClick(Fade)}>Fade Transition</Button>
-    //   <Button onClick={handleClick(SlideTransition)}>Slide Transition</Button>
-    //   <Snackbar
-    //     open={state.open}
-    //     onClose={handleClose}
-    //     TransitionComponent={state.Transition}
-    //     message="I love snacks"
-    //     key={state.Transition.name}
-    //   />
-    // </div>
   );
 };

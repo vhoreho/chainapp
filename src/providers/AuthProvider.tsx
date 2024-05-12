@@ -1,7 +1,10 @@
 import React, { ReactNode, useEffect, useState } from "react";
+import {} from "next";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 import { useAuthorizationLogInMutation, useAuthorizationSignUpMutation } from "@/api/auth";
 import { ROUTES } from "@/constants/routes";
+import { NAMESPACES } from "@/constants/translations";
 import { AUTH_DATA } from "@/constants/ui";
 import { AuthContext } from "@/contexts/authContext";
 import { useSnackBarContext } from "@/hooks/context";
@@ -15,6 +18,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const router = useRouter();
+  const t = useTranslations(NAMESPACES.PAGES.AUTH);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authData, setAuthData] = useState<UserDataResM | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
       return REQUEST_STATUS.FULFILLED;
     } catch (error) {
-      handleShow(getAxiosErrorMessage(error), "error");
+      handleShow(t(getAxiosErrorMessage(error)), "error");
       return REQUEST_STATUS.REJECT;
     } finally {
       handleStop();
@@ -53,7 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
       return REQUEST_STATUS.FULFILLED;
     } catch (error) {
-      setError(getAxiosErrorMessage(error));
+      handleShow(t(getAxiosErrorMessage(error)), "error");
       return REQUEST_STATUS.REJECT;
     } finally {
       setIsLoading(false);

@@ -31,11 +31,13 @@ export const UserManagement: FunctionComponent = () => {
 
   const handleDeleteUser = async (userId: number) => {
     await deleteUser(userId, {
+      onSuccess: () => {
+        invalidateUsers();
+      },
       onError: (error) => {
         handleShow(error.message, "error");
       },
     });
-    invalidateUsers();
   };
 
   return (
