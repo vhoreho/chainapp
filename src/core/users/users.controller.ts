@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { USER_ROLE } from 'src/enums/user-role.enum';
+import { UserRole } from 'src/enums/user-role.enum';
 import { RoleGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorator/roles.decorator';
 
@@ -33,7 +33,7 @@ export class UsersController {
       throw new NotFoundException('Пользователь не найден');
     }
 
-    if (requestingUser.role !== USER_ROLE.ADMINISTRATOR) {
+    if (requestingUser.role !== UserRole.ADMINISTRATOR) {
       throw new UnauthorizedException(
         'У вас нет прав для удаления пользователя',
       );
@@ -85,7 +85,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Roles(USER_ROLE.BLOCK_CREATOR)
+  @Roles(UserRole.BLOCK_CREATOR)
   @Get('get-wallets')
   async getWallets(@Req() request) {
     const { username } = request.user;

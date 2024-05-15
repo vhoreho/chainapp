@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Post,
@@ -10,9 +9,7 @@ import {
 } from '@nestjs/common';
 import { BlockchainService } from './blockchain.service';
 import { CreateBlockDto } from './dto/blochchain.dto';
-import { DIFFICULTY_BLOCK } from './constants';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { Transaction } from './entities/transaction.entity';
 import { NewTransaction } from './entities/new-transaction.entity';
 
 @Controller('blockchain')

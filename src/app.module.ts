@@ -11,6 +11,7 @@ import { ProfileModule } from './core/profile/profile.module';
 import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
 import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MaterialsModule } from './core/materials/materials.module';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: () => ({
         type: 'postgres',
         host: 'ec2-34-248-228-53.eu-west-1.compute.amazonaws.com',
         port: 5432,
@@ -36,6 +37,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     BlockchainModule,
     WalletReportModule,
     ProfileModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [],

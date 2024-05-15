@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
-import { USER_ROLE } from 'src/enums/user-role.enum';
+import { UserRole } from 'src/enums/user-role.enum';
 import { ec } from 'elliptic';
 import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
@@ -42,7 +42,7 @@ export class UsersService {
   async registerUser(
     username: string,
     password: string,
-    role: USER_ROLE = USER_ROLE.SIMPLE_USER,
+    role: UserRole = UserRole.SIMPLE_USER,
   ): Promise<User> {
     return await this.usersRepository.save({
       username,
@@ -85,7 +85,7 @@ export class UsersService {
     this.walletRepository.save(wallet);
 
     user.publicKey = keyPair.publicKey;
-    user.role = USER_ROLE.BLOCK_CREATOR;
+    user.role = UserRole.BLOCK_CREATOR;
     this.usersRepository.save(user);
 
     return {
@@ -137,7 +137,7 @@ export class UsersService {
       .address?.toString();
   }
 
-  async changeRole(username: string, role: USER_ROLE) {
+  async changeRole(username: string, role: UserRole) {
     try {
       const user = await this.usersRepository.findOne({ where: { username } });
 
@@ -158,7 +158,7 @@ export class UsersService {
     }
   }
 
-  async createUser(username: string, password: string, role: USER_ROLE) {
+  async createUser(username: string, password: string, role: UserRole) {
     const existingUser = await this.usersRepository.findOne({
       where: { username },
     });
