@@ -30,10 +30,6 @@ export class MaterialsService {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
-    if (user.role !== UserRole.ADMINISTRATOR) {
-      throw new BadRequestException(USERS_ERRORS.WRONG_ROLE);
-    }
-
     const material = new Material();
     material.title = createMaterialDto.title;
     material.summary = createMaterialDto.summary;
