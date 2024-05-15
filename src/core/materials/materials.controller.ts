@@ -16,6 +16,11 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 export class MaterialsController {
   constructor(private readonly materialsService: MaterialsService) {}
 
+  @Get()
+  async findMaterials(): Promise<Material[]> {
+    return this.materialsService.findMaterials();
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   async create(

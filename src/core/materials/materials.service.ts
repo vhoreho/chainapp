@@ -9,7 +9,7 @@ import { CreateMaterialDto } from './dto/create-material.dto';
 import { Material } from './entities/materials.entity';
 import { UserRole } from 'src/enums/user-role.enum';
 import { User } from '../users/entities/users.entity';
-import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
+import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 
 @Injectable()
 export class MaterialsService {
@@ -19,6 +19,14 @@ export class MaterialsService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
+  async findMaterials(): Promise<Material[]> {
+    const materials = await this.materialRepository.find({
+      where: { isApproved: true },
+    });
+
+    return materials;
+  }
 
   async create(
     createMaterialDto: CreateMaterialDto,
