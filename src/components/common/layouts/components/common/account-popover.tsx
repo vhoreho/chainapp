@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useGetProfileQuery } from "@/api/profile";
 import { ADMIN_ROLES } from "@/constants/vars";
 import { useAuthContext } from "@/hooks/context";
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 import { ACCOUNT } from "../../constants";
 import { ChangeRoleModal } from "./change-role-modal/ChangeRoleModal";
 import { ADMIN_MENU_OPTIONS, MENU_OPTIONS } from "./constants";
@@ -22,7 +22,7 @@ export default function AccountPopover() {
   const { logout } = useAuthContext();
   const { data: profile } = useGetProfileQuery();
   const isAdminRole = useMemo(
-    () => ADMIN_ROLES.includes(profile?.role ?? USER_ROLE.SIMPLE_USER),
+    () => ADMIN_ROLES.includes(profile?.role ?? UserRole.SIMPLE_USER),
     [profile?.role],
   );
   const options = useMemo(() => {

@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { NextIntlClientProvider } from "next-intl";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import moment from "moment";
 import { AuthProvider, ModalProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
@@ -33,13 +33,15 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <AppCacheProvider {...pageProps}>
         <ThemeProvider>
           <QueryClientProvider client={query}>
-            <ProgressProvider>
-              <ModalProvider>
+            <HydrationBoundary state={pageProps.dehydratedState}>
+              <ProgressProvider>
                 <SnackBarProvider>
-                  <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+                  <AuthProvider>
+                    <ModalProvider>{getLayout(<Component {...pageProps} />)}</ModalProvider>
+                  </AuthProvider>
                 </SnackBarProvider>
-              </ModalProvider>
-            </ProgressProvider>
+              </ProgressProvider>
+            </HydrationBoundary>
           </QueryClientProvider>
         </ThemeProvider>
       </AppCacheProvider>

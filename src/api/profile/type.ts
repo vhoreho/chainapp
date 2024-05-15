@@ -1,8 +1,8 @@
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 
 export type ProfileResM = {
   id: number;
-  role: USER_ROLE;
+  role: UserRole;
   username: string;
   email: string;
   publicKey: string | null;

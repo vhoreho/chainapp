@@ -1,4 +1,4 @@
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 
 export type KeysResM = {
   wallet: string;
@@ -7,7 +7,7 @@ export type KeysResM = {
 };
 
 export type ChangeRoleReqM = {
-  role: USER_ROLE;
+  role: UserRole;
 };
 
 export type CreateUserReqM = {

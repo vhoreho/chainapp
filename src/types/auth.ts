@@ -1,4 +1,4 @@
-import { USER_ROLE } from "./roles";
+import { UserRole } from "./roles";
 
 export type LogInReqM = {
   username: string;
@@ -17,10 +17,10 @@ export type UserDataResM = {
 export type UserResM = {
   id: number | null;
   username: string;
-  role: USER_ROLE | null;
+  role: UserRole | null;
   email: string;
   isConfirmedUpdateRoleRequest: boolean | null;
-  requestedRole: USER_ROLE | null;
+  requestedRole: UserRole | null;
 };
 
 export type UpdateProfileReqM = {
@@ -35,7 +35,7 @@ export class AuthData {
   public authData!: {
     id: number;
     username: string;
-    role: USER_ROLE;
+    role: UserRole;
     email: string;
   };
 

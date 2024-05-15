@@ -17,7 +17,7 @@ import { AxiosError } from "axios";
 import { useChangeRoleMutation } from "@/api/users";
 import { ROLES_TID } from "@/constants/tid";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 
 type Props = {
   isModalOpen: boolean;
@@ -70,7 +70,7 @@ export const ChangeRoleModal: FunctionComponent<Props> = ({ isModalOpen, handleC
       <DialogTitle>Выберите желаемую роль</DialogTitle>
       <DialogContent sx={{ pt: "8px !important" }}>
         <Autocomplete
-          options={ROLES_TID.filter((role) => role.id !== USER_ROLE.ADMINISTRATOR)}
+          options={ROLES_TID.filter((role) => role.id !== UserRole.ADMINISTRATOR)}
           fullWidth
           size="small"
           value={newUserRole}

@@ -23,6 +23,9 @@ export const SIGN_BLOCK_ROUTE = (id: number) => `${BASE_API_URL}/blockchain/sign
 export const DELETE_USNIGNED_TRANSACTION_BY_ID = (id: number) =>
   `${BASE_API_URL}/blockchain/delete-unsigned-transaction/${id}`;
 
+//Materials API Routes
+export const BASE_MATERIAL_ROUTE = `${BASE_API_URL}/materials`;
+
 //Users API Routes
 export const GET_USERS_ROUTE = `${BASE_API_URL}/users`;
 export const UPDATE_ROLE_ROUTE = `${BASE_API_URL}/users/change-role`;

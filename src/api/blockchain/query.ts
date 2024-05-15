@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
 import { useAuthContext } from "@/hooks/context";
-import { Block, USER_ROLE } from "@/types";
+import { Block, UserRole } from "@/types";
 import {
   createBlockFetcher,
   deleteUnsignedTransaction,
@@ -55,13 +55,13 @@ export const useGetSignedTransactionsQuery = () => {
   });
 };
 
-export const useGetTransactionsForMiningQuery = (role: USER_ROLE) => {
+export const useGetTransactionsForMiningQuery = (role: UserRole) => {
   const { authData } = useAuthContext();
 
   return useQuery({
     queryKey: [USE_QUERY_KEYS.BLOCKCHAIN.QUERY.GET_TRANSACTIONS_FOR_MINING],
     queryFn: () => getTransactionsForMining(authData?.access_token!),
-    enabled: !!authData?.access_token && role === USER_ROLE.BLOCK_CONFIRMER,
+    enabled: !!authData?.access_token && role === UserRole.BLOCK_CONFIRMER,
   });
 };
 

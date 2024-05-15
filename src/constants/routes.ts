@@ -6,7 +6,7 @@ export const ROUTES = {
   DASHBOARD: "/dashboard",
   BLOCKCHAIN: "/blockchain",
   BLOCKCHAIN_DASHBOARD: "/blockchain/dashboard",
-  BLOCKCHAIN_DOCS: "/blockchain-docs",
+  BLOCKCHAIN_UTILITIES: "/blockchain/utilities",
   BLOCKCHAIN_EXPLORER: {
     INDEX: "/blockchain-explorer",
     BITCOIN: "/blockchain-explorer/bitcoin",

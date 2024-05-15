@@ -33,6 +33,11 @@ export const navConfig = [
       { title: "Главная", path: "/blockchain/dashboard", icon: icon("ic_analytics") },
       { title: "Эмулятор", path: "/blockchain/emulator", icon: icon("ic_emulator") },
       { title: "Обозреватель", path: "/blockchain/explorer", icon: icon("ic_explorer") },
+      {
+        title: "Полезности",
+        path: "/blockchain/utilities",
+        icon: icon("utilities-terminal-svgrepo-com"),
+      },
     ],
   },
 ];

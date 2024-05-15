@@ -9,7 +9,7 @@ import {
 import { ProfileResM } from "@/api/profile/type";
 import { Iconify } from "@/components/common/design-system/iconify/Iconify";
 import { useModalContext } from "@/hooks/context";
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 import { TransactionsList } from "../transactions-list/TransactionsList";
 import { CreateTransactionModal } from "./components/create-transaction-modal/CreateTransactionModal";
 import { LoadingComponent } from "./components/loading-component/LoadingComponent";
@@ -56,7 +56,7 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
           </Typography>
         </Grid>
         <Grid md={6} display="flex" justifyContent="flex-end" gap={2}>
-          {profile.role === USER_ROLE.BLOCK_CONFIRMER ? (
+          {profile.role === UserRole.BLOCK_CONFIRMER ? (
             signedTransactions.length ? (
               <TransactionMining
                 title="Подтвердить блоки"
@@ -65,21 +65,21 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
               />
             ) : null
           ) : null}
-          {profile.role === USER_ROLE.BLOCK_CREATOR && signedTransactions.length ? (
+          {profile.role === UserRole.BLOCK_CREATOR && signedTransactions.length ? (
             <TransactionsInProgress
               title="Транзакции в процессе создания"
               count={signedTransactions.length}
               onClick={() => openModal(<SignedTransactions onClose={closeModal} />)}
             />
           ) : null}
-          {profile.role === USER_ROLE.BLOCK_CREATOR && unsignedTransactions.length ? (
+          {profile.role === UserRole.BLOCK_CREATOR && unsignedTransactions.length ? (
             <TransactionSigning
               title="Подписать транзакции"
               count={unsignedTransactions.length}
               onClick={() => openModal(<UnsignedTransactionsModal onClose={closeModal} />)}
             />
           ) : null}
-          {profile.role === USER_ROLE.BLOCK_CREATOR && (
+          {profile.role === UserRole.BLOCK_CREATOR && (
             <Button
               variant="contained"
               sx={{ display: "flex", gap: 1 }}
@@ -89,7 +89,7 @@ export const EmulatorContent: FunctionComponent<Props> = ({ profile }) => {
               Создать блок
             </Button>
           )}
-          {profile.role === USER_ROLE.ADMINISTRATOR && (
+          {profile.role === UserRole.ADMINISTRATOR && (
             <Button
               color="error"
               variant="contained"

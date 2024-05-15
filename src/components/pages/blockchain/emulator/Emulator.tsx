@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetProfileQuery } from "@/api/profile";
 import { KeysResM, useGenerateKeysMutation } from "@/api/users";
 import { USE_QUERY_KEYS } from "@/constants/useQueryKeys";
-import { USER_ROLE } from "@/types";
+import { UserRole } from "@/types";
 import { EmulatorContent } from "./components/emulator-content/EmulatorContent";
 
 export const Emulator = () => {
@@ -34,7 +34,7 @@ export const Emulator = () => {
     return <Container>Error: Unable to fetch profile data</Container>;
   }
 
-  if (profile.role === USER_ROLE.BLOCK_CREATOR && !profile.publicKey) {
+  if (profile.role === UserRole.BLOCK_CREATOR && !profile.publicKey) {
     return (
       <Container
         sx={{
