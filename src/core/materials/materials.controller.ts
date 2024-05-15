@@ -6,7 +6,6 @@ import {
   Param,
   UseGuards,
   Req,
-  BadRequestException,
 } from '@nestjs/common';
 import { MaterialsService } from './materials.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
