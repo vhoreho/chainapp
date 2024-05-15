@@ -1,5 +1,4 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "@/constants/query-client";
 import { useAuthContext } from "@/hooks/context";
 import { createMaterialFetcher, getMaterials } from "./module";
 import { CreateMaterialReqM } from "./types";
@@ -8,6 +7,8 @@ enum QueryKeys {
   MATERIALS = "materials",
   CREATE_MATERIAL = "create-material",
 }
+
+const queryClient = new QueryClient();
 
 export const useCreateMaterial = () => {
   const { authData } = useAuthContext();

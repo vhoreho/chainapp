@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import { invalidateMaterials, useCreateMaterial } from "@/api/material";
@@ -16,16 +17,18 @@ type Props = {
 
 export const AddMaterialModal: FunctionComponent<Props> = ({ profile, onClose }) => {
   const { register, handleSubmit } = useForm<IFormInput>();
+  const router = useRouter();
   const { mutate, isPending } = useCreateMaterial();
   const { handleShow } = useSnackBarContext();
 
-  const handleSubmitTransaction: SubmitHandler<IFormInput> = async (data) => {
-    await mutate(
+  const handleSubmitTransaction: SubmitHandler<IFormInput> = (data) => {
+    mutate(
       { ...data, category: MaterialCategory.Blockchain },
       {
-        onSuccess: async () => {
-          await invalidateMaterials();
+        onSuccess: () => {
+          invalidateMaterials();
           onClose();
+          router.reload();
         },
         onError: (error) => {
           handleShow(error.message, "error");

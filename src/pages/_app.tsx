@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import moment from "moment";
+import { StyledComponentsRegistry } from "@/components/common/registry/Registry";
 import { AuthProvider, ModalProvider, ProgressProvider } from "@/providers";
 import { SnackBarProvider } from "@/providers/SnackBarProvider";
 import ThemeProvider from "@/theme";
@@ -31,19 +32,21 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <title>OSINT Insight Hub</title>
       </Head>
       <AppCacheProvider {...pageProps}>
-        <ThemeProvider>
-          <QueryClientProvider client={query}>
-            <HydrationBoundary state={pageProps.dehydratedState}>
-              <ProgressProvider>
-                <SnackBarProvider>
-                  <AuthProvider>
-                    <ModalProvider>{getLayout(<Component {...pageProps} />)}</ModalProvider>
-                  </AuthProvider>
-                </SnackBarProvider>
-              </ProgressProvider>
-            </HydrationBoundary>
-          </QueryClientProvider>
-        </ThemeProvider>
+        <StyledComponentsRegistry>
+          <ThemeProvider>
+            <QueryClientProvider client={query}>
+              <HydrationBoundary state={pageProps.dehydratedState}>
+                <ProgressProvider>
+                  <SnackBarProvider>
+                    <AuthProvider>
+                      <ModalProvider>{getLayout(<Component {...pageProps} />)}</ModalProvider>
+                    </AuthProvider>
+                  </SnackBarProvider>
+                </ProgressProvider>
+              </HydrationBoundary>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
       </AppCacheProvider>
     </NextIntlClientProvider>
   );
