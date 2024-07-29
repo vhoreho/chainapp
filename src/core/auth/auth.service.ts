@@ -1,3 +1,4 @@
+import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/core/users/entities/users.entity';
@@ -6,12 +7,16 @@ import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS } from 'src/constants/errors';
 import { SignUpDto } from './dto/sign-up-dto';
 import { LogInDto } from './dto/login-dto';
+import { Transaction } from '../blockchain/entities/transaction.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    @InjectRepository(Transaction)
+    private transactionRepository: Repository<Transaction>,
   ) {}
 
   async login(logInDto: LogInDto) {

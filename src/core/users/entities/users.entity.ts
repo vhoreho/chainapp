@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { WalletReport } from 'src/core/wallet-report/wallet-report.entity';
-import { USER_ROLE } from 'src/enums/user-role.enum';
+import { UserRole } from 'src/enums/user-role.enum';
 import { Wallet } from './wallet.entity';
 
 @Entity()
@@ -34,11 +34,11 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: USER_ROLE,
-    default: USER_ROLE.SIMPLE_USER,
+    enum: UserRole,
+    default: UserRole.SIMPLE_USER,
     nullable: true,
   })
-  role: USER_ROLE;
+  role: UserRole;
 
   @OneToMany(() => WalletReport, (report) => report.user)
   reports: WalletReport[];

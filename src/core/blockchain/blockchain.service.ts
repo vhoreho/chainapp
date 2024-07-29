@@ -21,7 +21,7 @@ import { ec } from 'elliptic';
 import { NewTransaction } from './entities/new-transaction.entity';
 import { createHash } from 'crypto';
 import { SignedTransaction } from './entities/signed-transactions.entity';
-import { USER_ROLE } from 'src/enums/user-role.enum';
+import { UserRole } from 'src/enums/user-role.enum';
 import { ZERO_BLOCK_HASH } from 'src/constants/vars';
 import { Wallet } from '../users/entities/wallet.entity';
 
@@ -63,7 +63,7 @@ export class BlockchainService {
       throw new BadRequestException(AUTHORIZATION_ERRORS.LOGIN.USER_NOT_FOUND);
     }
 
-    if (user.role !== USER_ROLE.BLOCK_CONFIRMER) {
+    if (user.role !== UserRole.BLOCK_CONFIRMER) {
       throw new BadRequestException(USERS_ERRORS.WRONG_ROLE);
     }
 

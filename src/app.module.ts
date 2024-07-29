@@ -11,6 +11,7 @@ import { ProfileModule } from './core/profile/profile.module';
 import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
 import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MaterialsModule } from './core/materials/materials.module';
 import { Wallet } from './core/users/entities/wallet.entity';
 
 @Module({
@@ -20,7 +21,7 @@ import { Wallet } from './core/users/entities/wallet.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: () => ({
         type: 'postgres',
         host: 'ep-still-term-a4l66eob-pooler.us-east-1.aws.neon.tech',
         port: 5432,
@@ -42,6 +43,7 @@ import { Wallet } from './core/users/entities/wallet.entity';
     BlockchainModule,
     WalletReportModule,
     ProfileModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [],

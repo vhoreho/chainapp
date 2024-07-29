@@ -6,12 +6,14 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
-import { USER_ROLE } from 'src/enums/user-role.enum';
+import { UserRole } from 'src/enums/user-role.enum';
 import { ec } from 'elliptic';
 import * as bcrypt from 'bcrypt';
 import { AUTHORIZATION_ERRORS, USERS_ERRORS } from 'src/constants/errors';
 import * as bitcoin from 'bitcoinjs-lib';
 import { Wallet } from './entities/wallet.entity';
+import { NewTransaction } from '../blockchain/entities/new-transaction.entity';
+import { SignedTransaction } from '../blockchain/entities/signed-transactions.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,10 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectRepository(Wallet) private walletRepository: Repository<Wallet>,
+    @InjectRepository(NewTransaction)
+    private transactionRepository: Repository<NewTransaction>,
+    @InjectRepository(SignedTransaction)
+    private signedTransactionRepository: Repository<SignedTransaction>,
   ) {}
 
   findUser(username: string): Promise<User> {
@@ -36,7 +42,7 @@ export class UsersService {
   async registerUser(
     username: string,
     password: string,
-    role: USER_ROLE = USER_ROLE.SIMPLE_USER,
+    role: UserRole = UserRole.SIMPLE_USER,
   ): Promise<User> {
     return await this.usersRepository.save({
       username,
@@ -47,6 +53,13 @@ export class UsersService {
 
   async deleteUser(id: number): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
+
+    const transactions = await this.transactionRepository.find();
+
+    const signedTransactions = await this.signedTransactionRepository.find();
+
+    await this.transactionRepository.remove(transactions);
+    await this.signedTransactionRepository.remove(signedTransactions);
 
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
@@ -72,7 +85,7 @@ export class UsersService {
     this.walletRepository.save(wallet);
 
     user.publicKey = keyPair.publicKey;
-    user.role = USER_ROLE.BLOCK_CREATOR;
+    user.role = UserRole.BLOCK_CREATOR;
     this.usersRepository.save(user);
 
     return {
@@ -124,7 +137,7 @@ export class UsersService {
       .address?.toString();
   }
 
-  async changeRole(username: string, role: USER_ROLE) {
+  async changeRole(username: string, role: UserRole) {
     try {
       const user = await this.usersRepository.findOne({ where: { username } });
 
@@ -145,7 +158,7 @@ export class UsersService {
     }
   }
 
-  async createUser(username: string, password: string, role: USER_ROLE) {
+  async createUser(username: string, password: string, role: UserRole) {
     const existingUser = await this.usersRepository.findOne({
       where: { username },
     });
