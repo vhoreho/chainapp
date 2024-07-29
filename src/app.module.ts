@@ -11,6 +11,7 @@ import { ProfileModule } from './core/profile/profile.module';
 import { NewTransaction } from './core/blockchain/entities/new-transaction.entity';
 import { SignedTransaction } from './core/blockchain/entities/signed-transactions.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Wallet } from './core/users/entities/wallet.entity';
 
 @Module({
   imports: [
@@ -21,16 +22,21 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'ec2-34-248-228-53.eu-west-1.compute.amazonaws.com',
+        host: 'ep-still-term-a4l66eob-pooler.us-east-1.aws.neon.tech',
         port: 5432,
-        username: 'agjnaxebdiudbl',
-        password:
-          '3422595441cb01d6cf6e0c978bf65ec8194a163b99a187e28c9b5160a9389ff0',
-        database: 'd1ubp68n1ktqul',
-        entities: [User, Transaction, NewTransaction, SignedTransaction],
+        username: 'default',
+        password: 'PL4VU0yMSNsb',
+        database: 'verceldb',
+        entities: [
+          User,
+          Wallet,
+          Transaction,
+          NewTransaction,
+          SignedTransaction,
+        ],
         autoLoadEntities: true,
         synchronize: true,
-        ssl: { rejectUnauthorized: false },
+        ssl: true,
       }),
     }),
     BlockchainModule,

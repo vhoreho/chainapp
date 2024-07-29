@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { WalletReport } from 'src/core/wallet-report/wallet-report.entity';
 import { USER_ROLE } from 'src/enums/user-role.enum';
-import { Transaction } from '../../blockchain/entities/transaction.entity';
 import { Wallet } from './wallet.entity';
 
 @Entity()
