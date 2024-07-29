@@ -1,7 +1,7 @@
 const ETHEREUM_API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY;
 const CRYPTO_COMPARE_KEY = process.env.NEXT_PUBLIC_CRYPTO_COMPARE_API_KEY;
 
-export const BASE_API_URL = "https://chainapp-uh-c9c2ecac19f5.herokuapp.com";
+export const BASE_API_URL = "https://chainapp-backend-ed11080370d9.herokuapp.com";
 export const BITCOIN_EXPLORER_API_URL = "https://blockchain.info/rawaddr";
 export const ETHEREUM_EXPLORER_API_URL = "https://api.etherscan.io/api";
 export const COIN_STATS_API_BASE_URL = "https://openapiv1.coinstats.app";
