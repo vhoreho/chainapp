@@ -1,91 +1,36 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import {} from "next";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useTranslations } from "next-intl";
-import { useAuthorizationLogInMutation, useAuthorizationSignUpMutation } from "@/api/auth";
 import { ROUTES } from "@/constants/routes";
-import { NAMESPACES } from "@/constants/translations";
-import { AUTH_DATA } from "@/constants/ui";
-import { AuthContext } from "@/contexts/authContext";
-import { useSnackBarContext } from "@/hooks/context";
-import { useProgressContext } from "@/hooks/context/useProgressContext";
-import { LogInReqM, RegisterReqM, REQUEST_STATUS, UserDataResM } from "@/types";
-import { getAxiosErrorMessage } from "@/utils/get-axios-error-message";
+import { AuthContext } from "@/context/AuthContext";
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<any>(null);
+  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
-  const t = useTranslations(NAMESPACES.PAGES.AUTH);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authData, setAuthData] = useState<UserDataResM | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { handleStart, handleStop } = useProgressContext();
-  const [error, setError] = useState();
-  const logInMutation = useAuthorizationLogInMutation();
-  const signUpMutation = useAuthorizationSignUpMutation();
-  const { handleShow } = useSnackBarContext();
 
-  const logIn = async (logInReqM: LogInReqM) => {
-    try {
-      handleStart();
-      const authData = await logInMutation.mutateAsync(logInReqM);
-      localStorage.setItem(AUTH_DATA, JSON.stringify(authData));
-      setIsAuthenticated(true);
-      setAuthData(authData);
-      setError(undefined);
-      router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
-      return REQUEST_STATUS.FULFILLED;
-    } catch (error) {
-      handleShow(t(getAxiosErrorMessage(error)), "error");
-      return REQUEST_STATUS.REJECT;
-    } finally {
-      handleStop();
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+      router.push(ROUTES.DASHBOARD);
     }
-  };
+  }, [router]);
 
-  const signUp = async (signUpReqM: RegisterReqM) => {
-    try {
-      setIsLoading(true);
-      const authData = await signUpMutation.mutateAsync(signUpReqM);
-      localStorage.setItem(AUTH_DATA, JSON.stringify(authData));
-      setIsAuthenticated(true);
-      setAuthData(authData);
-      setError(undefined);
-      router.push(ROUTES.BLOCKCHAIN_DASHBOARD);
-      return REQUEST_STATUS.FULFILLED;
-    } catch (error) {
-      handleShow(t(getAxiosErrorMessage(error)), "error");
-      return REQUEST_STATUS.REJECT;
-    } finally {
-      setIsLoading(false);
-    }
+  const login = (token: string, user: any) => {
+    localStorage.setItem("token", token);
+    setToken(token);
+    setUser(user);
+    router.push(ROUTES.DASHBOARD);
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem(AUTH_DATA);
-    setAuthData(null);
-    router.push("/");
+    localStorage.removeItem("token");
+    setToken(null);
+    setUser(null);
+    router.push(ROUTES.LOGIN);
   };
 
-  useEffect(() => {
-    const storedAuthData = localStorage.getItem(AUTH_DATA);
-    setIsAuthenticated(!!storedAuthData);
-    storedAuthData && setAuthData(JSON.parse(storedAuthData) as UserDataResM);
-    if (storedAuthData === null) {
-      router.push(ROUTES.AUTH);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, logIn, error, signUp, logout, authData }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, token, login, logout }}>{children}</AuthContext.Provider>
   );
 };

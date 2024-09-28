@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode, useState } from "react";
 import { Backdrop, Box, Button, Fade, Modal } from "@mui/material";
 import { Iconify } from "@/components/common/design-system/iconify/Iconify";
-import { ModalContext } from "@/contexts/modalContext";
+import { ModalContext } from "@/context/modalContext";
 
 type Props = {
   children: ReactNode;

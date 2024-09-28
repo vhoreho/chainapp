@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { styled } from "@mui/material";
-import { useAuthContext } from "@/hooks/context";
+import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/hooks/context/useAuth";
 import { LogIn, Register } from "./components";
 
 export const Auth = () => {
@@ -12,40 +12,15 @@ export const Auth = () => {
   };
 
   return (
-    <Wrapper>
+    <div className="relative flex flex-col items-center justify-center max-w-full h-screen bg-[#F4F5FA] px-[10px]">
       {isRegistering ? (
         <Register onRegister={signUp} loading={isLoading} />
       ) : (
         <LogIn onLogIn={logIn} loading={isLoading} />
       )}
-      <ToggleModeButton onClick={handleToggleMode}>
+      <Button variant="link" onClick={handleToggleMode}>
         {isRegistering ? "Уже есть аккаунт? Войти" : "Нет аккаунта? Зарегистрироваться"}
-      </ToggleModeButton>
-    </Wrapper>
+      </Button>
+    </div>
   );
 };
-
-const Wrapper = styled("div")(() => ({
-  position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  flexDirection: "column",
-  maxWidth: "100%",
-  height: "100vh",
-  background: "#F4F5FA",
-  paddingInline: "10px",
-}));
-
-const ToggleModeButton = styled("button")(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  cursor: "pointer",
-  border: "none",
-  background: "none",
-  fontFamily: "Play",
-  color: theme.palette.primary.main,
-  textDecoration: "underline",
-  "&:hover": {
-    opacity: 0.8,
-  },
-}));

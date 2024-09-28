@@ -3,7 +3,7 @@ import { Alert, AlertColor, Snackbar } from "@mui/material";
 import Fade from "@mui/material/Fade";
 import Slide, { SlideProps } from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { SnackBarContext } from "@/contexts/snackBarContext";
+import { SnackBarContext } from "@/context/snackBarContext";
 
 function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="up" />;

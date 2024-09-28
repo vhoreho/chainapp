@@ -1,34 +1,27 @@
-import { DocumentContext, DocumentProps, Head, Html, Main, NextScript } from "next/document";
-import { CssBaseline } from "@mui/material";
-import {
-  documentGetInitialProps,
-  DocumentHeadTags,
-  DocumentHeadTagsProps,
-} from "@mui/material-nextjs/v14-pagesRouter";
+import { Head, Html, Main, NextScript } from "next/document";
 
-export default function Document(props: DocumentProps & DocumentHeadTagsProps) {
+export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="ru">
       <Head>
-        <DocumentHeadTags {...props} />
+        <meta name="description" content="   OSInt   .    ,   ." />
+        <meta name="keywords" content="OSInt,  ,  ,  ,  " />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Play:wght@400;700&display=swap"
           rel="stylesheet"
         />
-        <meta name="description" content="OSInt tools page" />
+        <meta property="og:title" content="   OSInt   " />
+        <meta property="og:description" content="   OSInt   .    ,   ." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:url" content="https://osint.tools" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
-        <CssBaseline />
         <Main />
         <NextScript />
       </body>
     </Html>
   );
 }
-
-Document.getInitialProps = async (ctx: DocumentContext) => {
-  const finalProps = await documentGetInitialProps(ctx);
-  return finalProps;
-};

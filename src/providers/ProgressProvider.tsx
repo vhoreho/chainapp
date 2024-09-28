@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, LinearProgress } from "@mui/material";
-import { ProgressContext } from "@/contexts/progressContext";
+import { ProgressContext } from "@/context/progressContext";
 
 interface ProgressProviderProps {
   children: React.ReactNode;

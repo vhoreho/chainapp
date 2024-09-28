@@ -11,7 +11,8 @@ export type RegisterReqM = {
 };
 
 export type UserDataResM = {
-  access_token: string;
+  token: string;
+  user: any;
 };
 
 export type UserResM = {
@@ -29,24 +30,3 @@ export type UpdateProfileReqM = {
   email: string;
   password: string;
 };
-
-export class AuthData {
-  public token!: string;
-  public authData!: {
-    id: number;
-    username: string;
-    role: UserRole;
-    email: string;
-  };
-
-  public constructor(init?: AuthData) {
-    Object.assign(this, init);
-  }
-
-  static mapFromReqM({ access_token }: UserDataResM) {
-    const authData = new AuthData();
-    authData.token = access_token;
-
-    return authData;
-  }
-}

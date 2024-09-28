@@ -1,6 +1,8 @@
 import { BASE_API_URL } from "./API";
 
 export const ROUTES = {
+  LOGIN: "/login",
+  REGISTER: "/register",
   AUTH: "/",
   HOME: "/home",
   DASHBOARD: "/dashboard",
